@@ -82,6 +82,8 @@ print("Performing RabbitMQ tests...")
 for ip in active_hosts:
     if 'RabbitMQ' in active_hosts[ip]:
 
+        print(f"> {ip}")
+
         print("> Checking for ports that shouldn't be open...")
         valid_ports = [4369, 5672, 15672]
         portscan = {}
