@@ -7,6 +7,9 @@ from pprint import pp
 import time
 import pika
 import requests
+import sys
+import mysql.connector as mysql
+import psycopg2
 
 # Source: https:///stackoverflow.com/questions/26174743/making-a-fast-port-scanner
 def tcp_connect(ip, port_number):
@@ -20,9 +23,12 @@ def tcp_connect(ip, port_number):
         return False
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description="Tests containers found on the network")
-parser.add_argument('-i', help="interface to scan", metavar="INTERFACE", default='eth0')
-parser.add_argument('-t', help="maximum threads to use", metavar="THREADS", default=1000)
+parser = argparse.ArgumentParser(
+        description="Tests containers found on the network")
+parser.add_argument('-i', help="interface to scan", metavar="INTERFACE",
+        default='eth0')
+parser.add_argument('-t', help="maximum threads to use", metavar="THREADS",
+        default=1000)
 args = parser.parse_args()
 interface = args.i
 threads = args.t
@@ -32,10 +38,15 @@ pool = ThreadPoolExecutor(threads)
 ###############################################################################
 ########################### Host Discovery ####################################
 ###############################################################################
+
 print(f"Discovering hosts on {interface}...")
 
 hosts = {}
-ports = { 5672 : 'RabbitMQ' }
+ports = {
+    3306 : 'MySQL/MariaDB',
+    5432 : 'PostgreSQL',
+    5672 : 'RabbitMQ',
+}
 
 # create a network of all valid IPs
 ipv4if = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]
@@ -74,15 +85,18 @@ for ip in hosts:
 # print the output
 pp(active_hosts)
 
+# quit if we have nothing to test
+if len(active_hosts) == 0:
+    print("No active hosts! Is this running on the correct network?")
+    sys.exit(1)
+
 ###############################################################################
-############################## RabittMQ Tests #################################
+############################## Service Tests ##################################
 ###############################################################################
-print("Performing RabbitMQ tests...")
 
 for ip in active_hosts:
     if 'RabbitMQ' in active_hosts[ip]:
-
-        print(f"> {ip}")
+        print(f"Performing RabbitMQ tests on {ip}...")
 
         print("> Checking for ports that shouldn't be open...")
         valid_ports = [4369, 5672, 15672]
@@ -118,3 +132,33 @@ for ip in active_hosts:
                     auth=('guest', 'guest'))
             if response.status_code != 401:
                 print("> [FAILED] Default credentials (guest / guest) work")
+
+    if 'MySQL/MariaDB' in active_hosts[ip]:
+        print(f"Performing MySQL/MariaDB tests on {ip}...")
+
+        print("> Connecting as 'test' with password 'test' to database 'test'") 
+        try:
+            db = mysql.connect(
+                host     = ip,
+                user     = 'test',
+                passwd   = 'test',
+                database = 'test',
+            )
+            db.close()
+        except mysql.Error as err:
+            print(f"> [FAILED] {err}")
+
+    if 'PostgreSQL' in active_hosts[ip]:
+        print(f"Performing PostgreSQL tests on {ip}...")
+
+        print("> Connecting as 'test' with password 'test' to database 'test'")
+        try:
+            conn = psycopg2.connect(
+                host     = ip,
+                user     = 'test',
+                password = 'test',
+                dbname   = 'test',
+            )
+            conn.close()
+        except psycopg2.Error as err:
+            print(f"> [FAILED] {err}")
