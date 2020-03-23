@@ -1,0 +1,189 @@
+= Systems Integration - Midterm Status
+
+At this point you should have a working system that can be pulled from a git
+repository and brought up with `docker-compose up`. The midterm deliverables
+used to assess your project are:
+
+* A *Front End* service that interacts with the user via HTTP and communicates
+  with the messaging container.
+* A *Messaging* service (RabbitMQ) that brokers the exchange of information
+  between the front end and the back end.
+* A *Database* service (PostgreSQL, MariaDB, MySQL) that the back end uses for
+  the storage of information. All stateful information should be stored in a
+  volume.
+* A *Back End* service that gathers information from your data sources,
+  populates the database, and interacts with the messaging container.
+* These four services work with each other to provide a registration and
+  authentication system.
+
+Project structure information here
+
+[plantuml, "overview_compose", svg]
+....
+@startuml
+
+actor Users
+
+node frontend [
+    Front End
+]
+
+node backend [
+    Back End
+]
+
+node Messaging
+
+database Database
+
+Users <-> frontend
+frontend <-> Messaging
+Messaging <-> backend
+backend <-> Database
+
+@enduml
+....
+
+== Group Challenges
+
+== Messaging
+
+For most groups, the messaging service can typically be run straight from the
+https://hub.docker.com/_/rabbitmq[RabbitMQ Docker Hub image] in their
+docker-compose.yml file. The image allows for sufficient configuration in its
+environment variables. It is recommended that you run the management interface
+so that you can see how the queues are being used. Most groups followed the
+recommended
+https://www.rabbitmq.com/tutorials/tutorial-six-python.html[request / reply pattern]
+detailed in the diagram below:
+
+[plantuml, "messaging", svg]
+....
+@startuml
+
+node frontend [
+    Front End
+]
+
+node backend [
+    Back End
+]
+
+node Messaging {
+    queue requests [
+        Requests Queue
+    ]
+    queue replies [
+        Reply Queues
+        ----
+        Client 1
+        ....
+        Client 2
+        ....
+        . . .
+    ]
+}
+
+frontend --> requests : AMQP
+frontend <-- replies : AMQP
+backend <-- requests : AMQP
+backend --> replies : AMQP
+
+@enduml
+....
+
+Docker compose info and code here
+
+Moving forward, you will need to migrate from a single RabbitMQ instance to a
+cluster. Familiarize yourself with the
+https://www.rabbitmq.com/clustering.html[RabbitMQ Clustering Guide] and then
+see if you can create a three node cluster with docker-compose.footnote:[
+Eventually we will want things to be more scalable than just a static, three
+node cluster.] You may still
+be able to do this with just environment variables in the docker-compose.yml
+file. If you need to, feel free to create new container images in separate
+directories with their own Dockerfiles. There are also plenty of good
+https://github.com/harbur/docker-rabbitmq-cluster[web resources] if you do a
+little digging.
+
+== Front End
+
+[plantuml, "frontend", svg]
+....
+@startuml
+
+actor Users
+
+node "Front End" {
+    rectangle messaginglib [
+        pika / php-amqplib
+    ]
+    rectangle webframework [
+        flask / php
+    ]
+}
+
+node Messaging 
+
+Users --> webframework : HTTP
+messaginglib <-> Messaging : AMQP 
+
+@enduml
+....
+
+== Back End
+
+[plantuml, "backend", svg]
+....
+@startuml
+
+node "Back End" {
+    rectangle dblib [
+        mysql.connector / psycopg2 / mysqli
+    ]
+    rectangle messaginglib [
+        pika / php-amqplib
+    ]
+}
+
+node Messaging
+database Database
+
+messaginglib <--> Messaging : AMQP
+dblib <-> Database : DB proto over TCP
+
+@enduml
+....
+
+== Database
+
+[plantuml, "database", svg]
+....
+@startuml
+
+node backend [
+    Back End
+]
+
+database db [
+    Database
+    ----
+    USERS
+    ....
+    SESSIONS
+    ....
+    . . .
+]
+
+backend <-> db
+
+@enduml
+....
+
+== Registration
+
+== Authentication
+
+== Authorization
+
+== Accounting

@@ -2,19 +2,29 @@ version: '3'
 services:
     messaging:
         image: 'rabbitmq:3-management'
-    mysql:
-        image: 'mysql'
         environment:
-            MYSQL_ROOT_PASSWORD: changeme
-    mariadb:
-        image: 'mariadb'
+            RABBITMQ_DEFAULT_USER: example
+            RABBITMQ_DEFAULT_PASS: meJvpzPsMkmTrc3g
+            RABBITMQ_ERLANG_COOKIE: uDFReJY9e35DZZXL
+    adminer:
+        image: 'adminer'
+        ports:
+            - 8080:8080       
+    db:
+        build: ./db
         environment:
-            MYSQL_ROOT_PASSWORD: changeme
-    postgres:
-        image: 'postgres'
-        environment:
-            POSTGRES_PASSWORD: changeme
+            POSTGRES_PASSWORD: aSxBfC46ZAj9CLE4
     front_end:
         build: ./front_end
         ports:
             - 5000:5000
+        environment:
+            RABBITMQ_DEFAULT_USER: example
+            RABBITMQ_DEFAULT_PASS: meJvpzPsMkmTrc3g
+            FLASK_ENV: development
+    back_end:
+        build: ./back_end
+        environment:
+            RABBITMQ_DEFAULT_USER: example
+            RABBITMQ_DEFAULT_PASS: meJvpzPsMkmTrc3g
+            POSTGRES_PASSWORD: aSxBfC46ZAj9CLE4
