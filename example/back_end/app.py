@@ -5,6 +5,7 @@ import time
 import logging
 import json
 
+# tag::process_request[]
 def process_request(ch, method, properties, body):
     """
     Gets a request from the queue, acts on it, and returns a response to the
@@ -48,33 +49,50 @@ def process_request(ch, method, properties, body):
         routing_key=properties.reply_to,
         body=json.dumps(response)
     )
+# end::process_request[]
 
 logging.basicConfig(level=logging.INFO)
 
-logging.info("Waiting 30 seconds for db and messaging services to start...")
-time.sleep(30)
+# repeatedly try to connect to db and messaging, waiting up to 60s, doubling
+# backoff
+wait_time = 1
+while True:
+    logging.info(f"Waiting {wait_time}s...")
+    time.sleep(wait_time)
+    if wait_time < 60:
+        wait_time = wait_time * 2
+    else:
+        wait_time = 60
+    try:
+        logging.info("Connecting to the database...")
+        postgres_password = os.environ['POSTGRES_PASSWORD']
+        conn = psycopg2.connect(
+            host='db',
+            database='example',
+            user='postgres',
+            password=postgres_password
+        )
 
-logging.info("Connecting to the database...")
-postgres_password = os.environ['POSTGRES_PASSWORD']
-conn = psycopg2.connect(
-    host='db',
-    database='example',
-    user='postgres',
-    password=postgres_password
-)
+        logging.info("Connecting to messaging service...")
+        credentials = pika.PlainCredentials(
+            os.environ['RABBITMQ_DEFAULT_USER'],
+            os.environ['RABBITMQ_DEFAULT_PASS']
+        )
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                host='messaging',
+                credentials=credentials
+            )
+        )
+
+        break
+    except psycopg2.OperationalError:
+        print(f"Unable to connect to database.")
+        continue
+    except pika.exceptions.AMQPConnectionError:
+        print("Unable to connect to messaging.")
+        continue
 curr = conn.cursor()
-
-logging.info("Connecting to messaging service...")
-credentials = pika.PlainCredentials(
-    os.environ['RABBITMQ_DEFAULT_USER'],
-    os.environ['RABBITMQ_DEFAULT_PASS']
-)
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(
-        host='messaging',
-        credentials=credentials
-    )
-)
 channel = connection.channel()
 
 # create the request queue if it doesn't exist

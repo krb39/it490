@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="311px" preserveAspectRatio="none" style="width:510px;height:311px;" version="1.1" viewBox="0 0 510 311" width="510px" zoomAndPan="magnify"><defs><filter height="300%" id="f1jxravm6kq1ri" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[815249f79c2c08157ac02b3106e03757]
+cluster Database--><polygon fill="#FFFFFF" filter="url(#f1jxravm6kq1ri)" points="63,42,73,32,488,32,488,142,478,152,63,152,63,42" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="478" x2="487" y1="42" y2="33"/><line style="stroke: #000000; stroke-width: 1.5;" x1="63" x2="478" y1="42" y2="42"/><line style="stroke: #000000; stroke-width: 1.5;" x1="478" x2="478" y1="42" y2="152"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="65" x="239" y="59.5332">Database</text><!--MD5=[1c248c30e00df2d3cbb6d9ecdb3a305b]
+cluster Volumes--><polygon fill="#FFFFFF" filter="url(#f1jxravm6kq1ri)" points="193,204,203,194,412,194,412,289,402,299,193,299,193,204" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="402" x2="411" y1="204" y2="195"/><line style="stroke: #000000; stroke-width: 1.5;" x1="193" x2="402" y1="204" y2="204"/><line style="stroke: #000000; stroke-width: 1.5;" x1="402" x2="402" y1="204" y2="299"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="60" x="268.5" y="221.5332">Volumes</text><!--MD5=[2331507006b4b8bee4c616015350b23c]
+entity db2--><path d="M340,91 C340,81 402,81 402,81 C402,81 464,81 464,91 L464,117.6094 C464,127.6094 402,127.6094 402,127.6094 C402,127.6094 340,127.6094 340,117.6094 L340,91 " fill="#FEFECE" filter="url(#f1jxravm6kq1ri)" style="stroke: #000000; stroke-width: 1.5;"/><path d="M340,91 C340,101 402,101 402,101 C402,101 464,101 464,91 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="104" x="350" y="119.5332">db2 (Standby R)</text><!--MD5=[7aa9c583cf047545838c264d3047b712]
+entity db1--><path d="M106.5,91 C106.5,81 173,81 173,81 C173,81 239.5,81 239.5,91 L239.5,117.6094 C239.5,127.6094 173,127.6094 173,127.6094 C173,127.6094 106.5,127.6094 106.5,117.6094 L106.5,91 " fill="#FEFECE" filter="url(#f1jxravm6kq1ri)" style="stroke: #000000; stroke-width: 1.5;"/><path d="M106.5,91 C106.5,101 173,101 173,101 C173,101 239.5,101 239.5,91 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="113" x="116.5" y="119.5332">db1 (Primary RW)</text><!--MD5=[97b570fd265072269a49d331e6362b0b]
+entity data1--><polygon fill="#FEFECE" filter="url(#f1jxravm6kq1ri)" points="209,245,219,235,285,235,285,272.6094,275,282.6094,209,282.6094,209,245" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="275" x2="284" y1="245" y2="236"/><line style="stroke: #000000; stroke-width: 1.5;" x1="209" x2="275" y1="245" y2="245"/><line style="stroke: #000000; stroke-width: 1.5;" x1="275" x2="275" y1="245" y2="282.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36" x="224" y="269.5332">data1</text><!--MD5=[89fd23d2a013fdeee6d742764df4b3ce]
+entity data2--><polygon fill="#FEFECE" filter="url(#f1jxravm6kq1ri)" points="320,245,330,235,396,235,396,272.6094,386,282.6094,320,282.6094,320,245" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="386" x2="395" y1="245" y2="236"/><line style="stroke: #000000; stroke-width: 1.5;" x1="320" x2="386" y1="245" y2="245"/><line style="stroke: #000000; stroke-width: 1.5;" x1="386" x2="386" y1="245" y2="282.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36" x="335" y="269.5332">data2</text><!--MD5=[fee662a292a0353a69bd162820bae93b]
+entity User--><ellipse cx="21" cy="72" fill="#FEFECE" filter="url(#f1jxravm6kq1ri)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;"/><path d="M21,80 L21,107 M8,88 L34,88 M21,107 L8,122 M21,107 L34,122 " fill="none" filter="url(#f1jxravm6kq1ri)" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="6.5" y="143.5332">User</text><!--MD5=[e0247bad07c2352f09a524bc9fa53a38]
+link User to Database--><path d="M36.2344,104.5 C41.9381,104.5 47.6418,104.5 53.3456,104.5 C56.1974,104.5 59.0493,104.5 61.9012,104.5 C62.2577,104.5 62.6141,104.5 62.9706,104.5 " fill="none" id="User-&gt;Database" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="62.9706,104.5,53.9706,100.5,57.9706,104.5,53.9706,108.5,62.9706,104.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[91db4987599a19b73dbf04748f286dff]
+link db1 to db2--><path d="M239.544,104.5 C269.379,104.5 304.517,104.5 334.468,104.5 " fill="none" id="db1-&gt;db2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="339.612,104.5,330.612,100.5,334.612,104.5,330.612,108.5,339.612,104.5" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="64" x="257.75" y="97.9951">log records</text><!--MD5=[8f38b9b1ec424ebca695a5e658a42955]
+link db1 to data1--><path d="M183.919,128.002 C197.123,155.213 219.344,201.005 233.58,230.3438 " fill="none" id="db1-&gt;data1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="235.794,234.9058,235.4637,225.0625,233.6112,230.4074,228.2663,228.5549,235.794,234.9058" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[2fbcef30744376a416e0c8c45be9f6d7]
+link db2 to data2--><path d="M395.508,128.002 C387.689,155.101 374.553,200.629 366.084,229.9808 " fill="none" id="db2-&gt;data2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="364.663,234.9058,371.0012,227.3674,366.0491,230.1018,363.3147,225.1497,364.663,234.9058" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[2ed93bb834f5160224aac4eeee6e22db]
+@startuml
+
+actor User
+node Database {
+    database db2 [
+        db2 (Standby R)
+    ]
+    database db1 [
+        db1 (Primary RW)
+    ]
+}
+node Volumes {
+    node data1
+    node data2
+}
+
+User -> Database
+db1 -> db2: log records
+db1 - -> data1
+db2 - -> data2
+
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 13.0.1+9
+Operating System: Windows 10
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

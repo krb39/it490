@@ -1,0 +1,645 @@
+= Kubernetes
+
+image::https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg[alt="Kubernetes Logo",width=25%]
+
+== Introduction
+
+Kubernetes is a container orchestration system originally designed by Google.
+It is currently the most popular orchestration system and is notorious for
+being difficult to learn. Fortunately, most of the concepts we will be using
+have already been covered and the command syntax is similar to Docker, which
+we have been working with.
+
+A Kubernetes cluster is made up of nodes. Each node is capable of running
+pods, which in turn are made up of containers:
+
+.Kubernetes Cluster
+[plantuml, k8s_cluster, svg]
+....
+@startuml
+
+node node1
+node node2
+
+rectangle pod1
+rectangle pod2
+rectangle pod3
+rectangle pod4
+rectangle pod5
+
+rectangle container1
+rectangle container2
+rectangle container3
+rectangle container4
+rectangle container5
+rectangle container6
+
+node1 -- pod1
+node1 -- pod2
+node1 -- pod3
+
+node2 -- pod4
+node2 -- pod5
+
+pod1 -- container1
+pod1 -- container2
+pod2 -- container3
+pod3 -- container4
+pod4 -- container5
+pod5 -- container6
+
+node1 - node2
+
+@enduml
+....
+
+Kubernetes is designed to solve the hard problems of multi-node deployment,
+replication, volume sharing, container communication, updates, roll-backs, and
+monitoring. It does this by defining objects in YAML files. The objects we will
+be working with are *Deployment*, *Service*, and *PersistentVolumeClaim*:
+
+* A *PersistentVolumeClaim* defines what storage our application will need
+* A *Service* defines how pods can access each other
+* A *Deployment* defines how to handle the creation / maintenance of pods
+
+== The Development Environment
+
+For our purposes we will be using a single-node, local version of Kubernetes
+called https://kubernetes.io/docs/tasks/tools/install-minikube/[minikube].
+minikube acts as a single-node cluster by running Linux in a virtual machine on
+the host. It provides a several options for how the VM is run:
+
+.Minikube Architecture
+[plantuml, minikube_arch, svg]
+....
+@startuml
+
+rectangle "Operating System" {
+    rectangle Windows
+    rectangle MacOS
+    rectangle Linux
+}
+
+rectangle "Driver" {
+    rectangle hyperv [
+        Hyper-V
+    ]
+    rectangle VirtualBox
+    rectangle docker_h [
+        Docker (on host, experimental)
+    ]
+    rectangle none [
+        None (native)
+    ]
+}
+
+rectangle "Minikube Node" {
+    rectangle linux [
+        Linux VM
+    ]
+    rectangle docker_vm [
+        Docker (on VM)
+    ]
+    rectangle Kubernetes
+}
+
+docker_vm -> Kubernetes
+Kubernetes -> docker_vm
+Kubernetes --> linux
+docker_vm --> linux
+linux --> hyperv
+linux --> VirtualBox
+linux --> docker_h
+linux --> none
+hyperv --> Windows
+VirtualBox --> Windows
+docker_h --> Windows
+VirtualBox --> MacOS
+docker_h --> MacOS
+VirtualBox --> Linux
+docker_h --> Linux
+none --> Linux
+
+@enduml
+....
+
+https://kubernetes.io/docs/tasks/tools/install-minikube/[Follow these directions
+to install minikube.] There are a few virtualization options depending on the
+OS that you are running.
+
+WARNING: If you have Docker Desktop running, minikube defaults to the Docker
+driver. This driver is still experimental and may not work well. You can
+explicitly specify another driver when you start minikube with the `--driver=`
+option.
+
+WARNING: Hyper-V and VirtualBox were still mutually exclusive in Windows at the
+time of this writing. You will need to choose one or the other.
+
+WARNING: Hyper-V will require you to run your commands as an Administrator.
+
+When you start minikube, you should see output similar to the following:
+
+[source,shell]
+----
+PS minikube-demo> minikube start --driver=hyperv
+* minikube v1.9.0 on Microsoft Windows 10 Enterprise 10.0.18362 Build 18362
+* Using the hyperv driver based on existing profile
+* Retarting existing hyperv VM for "minikube" ...
+* Preparing Kubernetes v1.18.0 on Docker 19.03.8 ...
+* Enabling addons: default-storageclass, storage-provisioner
+* Done! kubectl is now configured to use "minikube"
+----
+
+TIP: If you get errors due to low memory, close a few applications and try
+again. Typically you can restart the applications after minikube is running.
+
+Kubernetes will attempt to pull all container images from a container
+repository by default. To avoid having to upload our images to a repository, we
+can set environment variables in our terminal so that we interact with the
+Docker daemon _inside_ our minikube virtual
+machine.footnote:[
+https://medium.com/@maumribeiro/running-your-own-docker-images-in-minikube-for-windows-ea7383d931f6[
+See this great blog post for more details]] Fortunately, minikube has the
+`docker-env` command to make this easier:
+
+[source,shell]
+----
+PS minikube-demo> minikube docker-env | Invoke-Expression
+PS minikube-demo> docker ps
+CONTAINER ID        IMAGE                  COMMAND                  CREATED    
+1bf91c2ca7df        4689081edb10           "/storage-provisioner"   7 minutes ago
+a9866f5f5838        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+03a4f7f5e320        67da37a9a360           "/coredns -conf /etc…"   7 minutes ago
+05061b993702        67da37a9a360           "/coredns -conf /etc…"   7 minutes ago
+78977b068886        43940c34f24f           "/usr/local/bin/kube…"   7 minutes ago
+b5312ba91086        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+968acc692934        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+0a72059bbe5f        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+d9c5aa3d43d0        303ce5db0e90           "etcd --advertise-cl…"   7 minutes ago
+21b09398206f        74060cea7f70           "kube-apiserver --ad…"   7 minutes ago
+313982f14a1c        d3e55153f52f           "kube-controller-man…"   7 minutes ago
+35813d25f0bf        a31f78c7c8ce           "kube-scheduler --au…"   7 minutes ago
+e6cdb564a306        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+b6bfe0e6f093        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+da47e560edab        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+3c599f97ecec        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+----
+
+As can be seen from the output of the `docker ps` command, our Kubernetes
+cluster is made up of many containers running in a VM. If you ran `docker ps`
+without setting up the environment first, you would only see the containers you
+had running on your local Docker daemon (which may actually be
+https://inception.davepedu.com/[running on a VM itself] if you are using Docker
+Toolbox).
+
+TIP: `minikube` commands will work in a new terminal, but if you want to build
+docker images and have them available on your Kubernetes cluster, you will need
+to use minikube's docker-env command for each new terminal you open.
+
+TIP: If you are experiencing errors with minikube, the first thing you should
+try is running `minikube delete` and `minikube start --driver=<your driver>`.
+This addresses the vast majority of issues by wiping all traces of the old VM,
+creating a new one, and starting fresh.
+
+minikube includes a popular command line tool called kubectl. This is the
+command that we will be using for interacting with our Kubernetes cluster. To
+show that everything is working, lets create and build a basic Dockerfile that
+should print some output to standard out:
+
+.minikube-demo/Dockerfile
+[source, Dockerfile]
+----
+include::../minikube-demo/Dockerfile[]
+----
+
+[source, shell]
+----
+PS minikube-demo> docker build -t k8s-example:v1 .
+Sending build context to Docker daemon  2.048kB
+Step 1/2 : FROM alpine
+latest: Pulling from library/alpine
+aad63a933944: Pull complete
+Digest: sha256:b276d875eeed9c7d3f1cfa7edb06b22ed22b14219a7d67c52c56612330348239
+Status: Downloaded newer image for alpine:latest
+ ---> a187dde48cd2
+Step 2/2 : ENTRYPOINT ["/bin/sh", "-c", "echo 'Hello from a Kubernetes log!'; sleep 30"]
+ ---> Running in 96c1739d805e
+Removing intermediate container 96c1739d805e
+ ---> 7b9898952ce0
+Successfully built 7b9898952ce0
+Successfully tagged k8s-example:v1
+----
+
+WARNING: We built our image with a tag _and_ a version. You need the tag so you
+can reference it from Kubernetes. If you don't specify a version Kubernetes
+will try to pull the `latest` from a repository.
+
+Now we'll create a deployment, which by default will make one pod that runs
+your image. We also run the `get deployment` and `get pod` commands so we can
+see the outcome. Lastly, we will inspect the logs for the pod that was created.
+
+[source, shell]
+----
+PS minikube-demo> kubectl create deployment k8s-example --image=k8s-example:v1
+deployment.apps/k8s-example created
+PS minikube-demo> kubectl get deployment
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+k8s-example   1/1     1            1           7s
+PS minikube-demo> kubectl get pod
+NAME                           READY   STATUS    RESTARTS   AGE
+k8s-example-5787cd97dc-ft2cr   1/1     Running   0          12s
+PS minikube-demo> kubectl logs k8s-example-5787cd97dc-ft2cr
+Hello from a Kubernetes log!
+----
+
+Our image is up and running, but remember that after 30 seconds it should exit.
+As an orchestration system, Kubernetes defaults to restarting pods that have
+stopped. Lets wait a while (14 minutes to be exact) and then execute the `get
+pod` command again:
+
+[source, shell]
+----
+PS minikube-demo> kubectl get pod
+NAME                           READY   STATUS             RESTARTS   AGE
+k8s-example-5787cd97dc-ft2cr   0/1     CrashLoopBackOff   6          14m
+----
+
+Kubernetes has restarted our pod six times now. In fact, it restarted it so
+much that it is now waiting before trying again (`CrashLoopBackOff`). You now
+have a minikube single-node Kubernetes cluster running on your local machine.
+You can build custom Docker images and have them run on your cluster.
+
+To bring everything down, use the `delete deployment` command:
+
+[source, shell]
+----
+PS minikube-demo> kubectl delete deployment k8s-example
+deployment.apps "k8s-example" deleted
+PS minikube-demo> kubectl get pod
+No resources found in default namespace.
+----
+
+== Database Replication Example
+
+In this example we implement a primary / standby replication setup for
+PostgreSQL. Two *Services* will be provided: one for read/write requests and
+another exclusively for read requests. We will try to use Kubernetes to handle
+the most of the initialization and monitoring functions that had to be done by
+hand in the <<Replication, previously>>.
+
+Rather than passing command line options to the `kubectl` command, we will be
+defining what we create in a YAML file: `example-final/db-k8s.yml`. kubectl can
+load object definitions from YAML files with the `apply` command.
+
+=== PersistentVolumeClaims
+
+A *PersistentVolumeClaim* lets the cluster know that you are expecting certain
+storage resources. In this case, we are looking for a place to store our
+primary database files. This claim will be fulfilled by a
+https://kubernetes.io/docs/concepts/storage/storage-classes/[*StorageClass*]
+that is built into minikube. As far as we are concerned, we just have to tell
+it what we want and it will make it happen.footnote:[
+https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-in-kubernetes-with-minikube[
+The fascinating details of how this works are revealed in this blog post.]].
+
+.example-final/db-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/db-k8s.yml[tags=pv-claims]
+----
+
+This claim will be used by our _one_ `db-rw` pod, so we don't have to worry
+about shared access. The supported accessModes are:
+
+* *ReadWriteOnce* - can be mounted read / write by only one pod
+* *ReadOnlyMany* – can be mounted read-only by many pods
+* *ReadWriteMany* – can be mounted as read-write by many pods
+
+=== Services
+
+A *Service* exposes an application on a group of pods. In our case we will be
+providing two *Services*: a `db-rw` *Service* which connects to our primary
+PostgreSQL instance and a `db-r` *Service* which connects to our standby
+PostgreSQL instances. Unlike Docker Compose, even on our internal network we
+have to explicitly state which ports we make available.
+
+.example-final/db-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/db-k8s.yml[tag=services]
+----
+
+The `selector` field above defines how a *Service* knows which pods to utilize.
+In our case all pods with the app label `db-r` are used by the `db-r` *Service*
+and a similar rule is applied to the `db-rw` *Service*. Both services accept
+incoming connections on port 5432 and route those connections to 5432. In the
+case where there are multiple pods supporting a *Service* a load-balancing
+proxy is used by default.
+
+From a development perspective, Kubernetes *Services* make things really easy.
+If you want to connect to a read-only database instance all you have to do is
+use the hostname `db-r`. Similarly, if you want to connect to a read-write
+database use the hostname `db-rw`. The DNS resolution, load-balancing proxy,
+and routing are set up for you automatically.
+
+=== Deployments
+
+A *Deployment* tells Kubernetes how to create and monitor pods. The bulk of our
+work will be done in the `db-r` and `db-rw` *Deployments*. Fortunately we have
+already covered the logic of what needs to happen <<Replication,previously>>, so
+let's jump right in and take a look at the *Deployment* for our primary
+PostgreSQL instance:
+
+.example-final/db-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/db-k8s.yml[tags=db-rw-deployment]
+----
+
+The *Deployment* tells Kubernetes to maintain one `replica` of the pod defined
+in the `template` section. The `containers` section is a list of one container
+that uses the `postgres` image from Docker Hub and overrides the ENTRYPOINT of
+that Dockerfile (this is `command` in Kubernetespeak). Our script is taken
+almost line-for-line from our <<Replication,previous example>>. Lastly, this
+deployment makes use of our *PersistentVolumeClaim* defined previously and
+mounts it in `/var/lib/postgresql/data`.
+
+Let's take a look at the *Deployment* for our standby PostgreSQL instances:
+
+.example-final/db-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/db-k8s.yml[tags=db-r-deployment]
+----
+
+This *Deployment* stands up two replicas. Each replica clones the primary
+database (using the hostname `db-rw` provided by our `db-rw` *Service*) and then
+acts as a hot standby. A *PersistentVolumeClaim* is _not_ used, meaning if push
+came to shove, we may not be able to easily recover the database from one of
+these containers.
+
+Notice that neither *Deployment* has to search for the primary or monitor the
+other instances. Kubernetes handles this for us. In fact, the standbys don't
+even have to wait for the primary to be up. If they can't clone the database,
+they will fail and Kubernetes will restart them until they work.
+
+Much of the hard work of our <<Replication, earlier example>> is now handled for
+us by a _proper_ orchestration framework.
+
+=== Running the Example
+
+Let's take a look at the example in action:
+
+[source, shell]
+----
+PS example-final> kubectl apply -f .\db-k8s.yml
+persistentvolumeclaim/db-primary-pv-claim created
+service/db-rw created
+service/db-r created
+deployment.apps/db-rw created
+deployment.apps/db-r created
+----
+
+The `kubectl apply -f` command can be used to bring up all of the objects
+defined in a file. It should also be noted that it can work with an entire
+directory of files, allowing for separation of logical segments, unlike a
+`docker-compose.yml` file.
+
+[source, shell]
+----
+PS example-final> kubectl get pod
+NAME                     READY   STATUS    RESTARTS   AGE
+db-r-54d9bc6496-cjhn8    1/1     Running   1          2m31s
+db-r-54d9bc6496-pg8b2    1/1     Running   0          2m31s
+db-rw-6fd7767ddd-g6kvj   1/1     Running   0          2m31s
+----
+
+`kubectl get pod` show you all of the pods that are currently running. All of
+the pods in our deployment are now up. They are given hash codes for the second
+part of their name to keep them unique. You may notice that
+`db-r-54d9bc6496-cjhn8` had to be restarted once. It probably came up before
+`db-rw-6fd7767ddd-g6kvj` was ready to have its database cloned.
+
+Using the command `kubectl logs` we can get the logs for a pod. Let's take a
+look at our primary PostgreSQL instance:
+
+[source, shell]
+----
+PS example-final> kubectl logs db-rw-6fd7767ddd-g6kvj
++ '[' -s /var/lib/postgresql/PG_VERSION ']'
++ rm -rf '/var/lib/postgresql/data/*'
++ chown postgres /var/lib/postgresql/data
++ su -c 'initdb --username=postgres --pwfile=<(echo "changeme")' postgres
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Etc/UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+initdb: warning: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
++ su -c 'pg_ctl -D /var/lib/postgresql/data -w start' postgres
+waiting for server to start....2020-04-06 01:34:45.086 UTC [27] LOG:  starting PostgreSQL 12.2 (Debian 12.2-2.pgdg100+1) on x86_64
+-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+2020-04-06 01:34:45.086 UTC [27] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2020-04-06 01:34:45.086 UTC [27] LOG:  listening on IPv6 address "::", port 5432
+2020-04-06 01:34:45.091 UTC [27] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2020-04-06 01:34:45.104 UTC [28] LOG:  database system was shut down at 2020-04-06 01:34:44 UTC
+2020-04-06 01:34:45.109 UTC [27] LOG:  database system is ready to accept connections
+ done
+server started
++ psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres
+CREATE ROLE
++ su -c 'pg_ctl -D /var/lib/postgresql/data -m fast -w stop' postgres
+waiting for server to shut down....2020-04-06 01:34:45.238 UTC [27] LOG:  received fast shutdown request
+2020-04-06 01:34:45.242 UTC [27] LOG:  aborting any active transactions
+2020-04-06 01:34:45.244 UTC [27] LOG:  background worker "logical replication launcher" (PID 34) exited with exit code 1
+2020-04-06 01:34:45.244 UTC [29] LOG:  shutting down
+2020-04-06 01:34:45.275 UTC [27] LOG:  database system is shut down
+ done
+server stopped
++ echo 'host replication all all md5'
++ echo 'host all all all md5'
++ su -c postgres postgres
+2020-04-06 01:34:45.362 UTC [46] LOG:  starting PostgreSQL 12.2 (Debian 12.2-2.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc
+(Debian 8.3.0-6) 8.3.0, 64-bit
+2020-04-06 01:34:45.363 UTC [46] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2020-04-06 01:34:45.363 UTC [46] LOG:  listening on IPv6 address "::", port 5432
+2020-04-06 01:34:45.368 UTC [46] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2020-04-06 01:34:45.383 UTC [47] LOG:  database system was shut down at 2020-04-06 01:34:45 UTC
+2020-04-06 01:34:45.388 UTC [46] LOG:  database system is ready to accept connections
+----
+
+Just as <<Replication, before>>, the primary node initialized a database, set
+up a replication user, and started `postgres`.
+
+Let's take a look at one of the standby nodes:
+
+[source, shell]
+----
+PS example-final> kubectl logs db-r-54d9bc6496-cjhn8
++ echo db-rw:5432:replication:repuser:changeme
++ chown postgres /var/lib/postgresql/.pgpass
++ chmod 600 /var/lib/postgresql/.pgpass
++ mkdir -p /var/lib/postgresql/data/pg_wal
++ chown postgres /var/lib/postgresql/data/pg_wal
++ rm -rf /var/lib/postgresql/data/pg_wal
++ chown postgres /var/lib/postgresql/data
++ chmod -R 700 /var/lib/postgresql/data
++ su -c 'pg_basebackup -h db-rw -D /var/lib/postgresql/data -U repuser -w -v -P -X stream' postgres
+pg_basebackup: initiating base backup, waiting for checkpoint to complete
+pg_basebackup: checkpoint completed
+pg_basebackup: write-ahead log start point: 0/3000028 on timeline 1
+pg_basebackup: starting background WAL receiver
+pg_basebackup: created temporary replication slot "pg_basebackup_57"
+    0/24554 kB (0%), 0/1 tablespace (...lib/postgresql/data/backup_label)
+24564/24564 kB (100%), 0/1 tablespace (...ostgresql/data/global/pg_control)
+24564/24564 kB (100%), 1/1 tablespace
+pg_basebackup: write-ahead log end point: 0/3000100
+pg_basebackup: waiting for background process to finish streaming ...
+pg_basebackup: syncing data to disk ...
+pg_basebackup: base backup completed
++ cat
++ touch /var/lib/postgresql/data/standby.signal
++ su -c postgres postgres
+2020-04-06 01:34:47.283 UTC [18] LOG:  starting PostgreSQL 12.2 (Debian 12.2-2.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc
+(Debian 8.3.0-6) 8.3.0, 64-bit
+2020-04-06 01:34:47.283 UTC [18] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2020-04-06 01:34:47.283 UTC [18] LOG:  listening on IPv6 address "::", port 5432
+2020-04-06 01:34:47.289 UTC [18] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2020-04-06 01:34:47.304 UTC [19] LOG:  database system was interrupted; last known up at 2020-04-06 01:34:46 UTC
+2020-04-06 01:34:47.442 UTC [19] LOG:  entering standby mode
+2020-04-06 01:34:47.446 UTC [19] LOG:  redo starts at 0/3000028
+2020-04-06 01:34:47.449 UTC [19] LOG:  consistent recovery state reached at 0/3000100
+2020-04-06 01:34:47.449 UTC [18] LOG:  database system is ready to accept read only connections
+2020-04-06 01:34:47.455 UTC [23] LOG:  started streaming WAL from primary at 0/4000000 on timeline 1
+----
+
+This standby backed up the primary database and started streaming logs from the
+primary.
+
+The `kubectl exec` command lets you execute a command on a running pod. Lets
+use this to run psql on one of the standbys, connect to the primary, create
+a table, and then check to see if it shows up on the standbys:
+
+[source, shell]
+----
+PS example-final> kubectl exec -it db-r-54d9bc6496-pg8b2 -- bash
+root@db-r-54d9bc6496-pg8b2:/# psql -h db-rw -U postgres
+Password for user postgres:
+psql (12.2 (Debian 12.2-2.pgdg100+1))
+Type "help" for help.
+
+postgres=# \dt
+Did not find any relations.
+postgres=# CREATE TABLE test(test_column INTEGER);
+CREATE TABLE
+postgres=# \dt
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | test | table | postgres
+(1 row)
+
+postgres=# \q
+root@db-r-54d9bc6496-pg8b2:/# psql -h db-r -U postgres
+Password for user postgres:
+psql (12.2 (Debian 12.2-2.pgdg100+1))
+Type "help" for help.
+
+postgres=# \dt
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | test | table | postgres
+(1 row)
+
+postgres=# \q
+----
+
+Sure enough, anything we create on the primary (which we access by resolving
+the name `db-rw` shows up on the standby. Now lets try performing a write
+operation on a standby:
+
+[source, shell]
+----
+root@db-r-54d9bc6496-pg8b2:/# psql -h db-r -U postgres
+Password for user postgres:
+psql (12.2 (Debian 12.2-2.pgdg100+1))
+Type "help" for help.
+
+postgres=# CREATE TABLE test2(test_column INTEGER);
+ERROR:  cannot execute CREATE TABLE in a read-only transaction
+----
+
+It fails, as it should. Lets take a look at how *Services* glue all of this
+together with the `kubectl get service` command:
+
+[source, shell]
+----
+PS example-final> kubectl get service
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+db-r         ClusterIP   10.106.33.23    <none>        5432/TCP   41m
+db-rw        ClusterIP   10.99.113.228   <none>        5432/TCP   41m
+kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP    35h
+----
+
+`db-r` and `db-rw` are *Services*, so if a pod tries to resolve on of those
+names, they will get the CLUSTER-IP (10.106.33.23 and 10.99.113.228
+respectively). That ClusterIP is a proxy that will forward their request to
+a pod that can handle it. This allows for load-balancing and high availability.
+
+On the subject of HA, the last thing we have to check is that pods will be
+automatically restarted. Let's do something bad to one of our pods with the
+`kubectl exec` command:
+
+[source, shell]
+----
+PS example-final> kubectl exec -it db-rw-6fd7767ddd-g6kvj -- bash
+root@db-rw-6fd7767ddd-g6kvj:/# killall5 -9
+command terminated with exit code 137
+PS C:\Users\rxt1077\it490\example-final> kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+db-r-54d9bc6496-cjhn8    1/1     Running   1          48m
+db-r-54d9bc6496-pg8b2    1/1     Running   0          48m
+db-rw-6fd7767ddd-g6kvj   1/1     Running   1          48m
+----
+
+`killall5 -9` will send a kill signal to all processes on the pod, causing it
+to shut down. Kubernetes brought it back up again as evidenced by RESTARTS
+being equal to one. While the primary is restarting you will lose write
+access, but the standbys will continue to provide read access. Once it is back
+up (a matter of seconds), everything should be functioning as normal.
+
+=== Conclusion
+
+Using Kubernetes we were able to build a HA PostgreSQL cluster that scales at
+the limits of the database itself. Further improvements in scalability would
+require changing how the database management system functions at a core level.
+
+Hopefully you can see the benefit of working with an orchestration framework.
+While it may be daunting at first to learn all of the objects and to use new,
+unfamiliar commands, Kubernetes does provide a lot of options for someone
+looking to deploy scalable applications. Kubernetes has emerged as the
+https://www.forbes.com/sites/udinachmany/2018/11/01/kubernetes-evolution-of-an-it-revolution/#67e70c2454e1[
+de facto standard] and knowledge of how to use it is a _very_ marketable skill.

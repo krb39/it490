@@ -1,115 +1,80 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect
+from functools import wraps
 from werkzeug.security import check_password_hash, generate_password_hash
-import pika
-import os
-import json
 import logging
-import time
+import messaging
+import os
 
 app = Flask(__name__)
+app.secret_key = os.environ['FLASK_SECRET_KEY'] 
 
 logging.basicConfig(level=logging.INFO)
 
-class Messaging:
+# tag::login_required[]
+def login_required(f):
     """
-    Helper class for dealing with the messaging service
+    Decorator that returns a redirect if session['email'] is not set
     """
-    request_queue_name = 'request'
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'email' not in session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
+# end::login_required[]
 
-    # Get credentials from the environment
-    credentials = pika.PlainCredentials(os.environ['RABBITMQ_DEFAULT_USER'],
-                                        os.environ['RABBITMQ_DEFAULT_PASS'])
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-    # docker-compose will resolve this host to our messaging service
-    host = 'messaging'
-
-    def __init__(self):
-        """
-        Establishes connection and creates queues as needed
-        """
-        logging.info("Messaging: Establishing connection")
-        self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self.host, credentials=self.credentials))
-        self.channel = self.connection.channel()
-        logging.info("Messaging: Creating queues")
-        self.channel.queue_declare(queue=self.request_queue_name)
-        self.result_queue = self.channel.queue_declare(queue='', exclusive=True).method.queue
-
-    def __del__(self):
-        """
-        Closes down the connection
-        """
-        logging.info("Messaging: Closing down connection")
-        self.connection.close()
-
-    def send(self, action, data):
-        """
-        Sends an action and data to the request queue in JSON. Sets the
-        reply_to property to the custom result queue.
-        """
-        logging.info(f"Messaging: send(action={action}, data={data})")
-
-        self.channel.basic_publish(
-            exchange='',
-            routing_key=self.request_queue_name,
-            properties=pika.BasicProperties(
-                reply_to=self.result_queue),
-                body=json.dumps({'action': action, 'data': data}
-            )
-        )
-
-    def receive(self):
-        """
-        Waits for a single message and returns it. Waits up to 1s, checking
-        every 0.1s.
-        """
-        attempts = 0
-        while True:
-            method_frame, properties, body = self.channel.basic_get(
-                self.result_queue, auto_ack=True)
-            if method_frame:
-                received = json.loads(body)
-                logging.info(f"Messaging: received={received}")
-                return received
-            elif attempts > 10:
-                logging.info("Messaging: receive did not get message") 
-                return None 
-            else:
-                time.sleep(0.1)
-                attempts += 1
-
+@app.route('/secret')
+@login_required
+def secret():
+    return render_template('secret.html')
+    
+# tag::register[] 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        messaging = Messaging()
-        messaging.send(
+        msg = messaging.Messaging()
+        msg.send(
             'REGISTER',
             {
                 'email': email,
                 'hash': generate_password_hash(password)
             }
         )
-        response = messaging.receive()
+        response = msg.receive()
         if response['success']:
-            return "Thanks for registering!"
+            session['email'] = email
+            return redirect('/')
         else:
             return f"{response['message']}"
     return render_template('register.html')
+# end::register[] 
 
+# tag::login[] 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        messaging = Messaging()
-        messaging.send('GETHASH', { 'email': email })
-        response = messaging.receive()
+        msg = messaging.Messaging()
+        msg.send('GETHASH', { 'email': email })
+        response = msg.receive()
         if response['success'] != True:
             return "Login failed."
         if check_password_hash(response['hash'], password):
-            return "Login succeeded."
+            session['email'] = email
+            return redirect('/')
         else:
             return "Login failed."
     return render_template('login.html')
+# end::login[] 
+
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    return redirect('/')

@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Ryan Tolboom">
+<title>Systems Integration: A Project Based Approach</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Systems Integration: A Project Based Approach</h1>
+<div class="details">
+<span id="author" class="author">Ryan Tolboom</span><br>
+<span id="email" class="email"><a href="mailto:Ryan.Tolboom@njit.edu">Ryan.Tolboom@njit.edu</a></span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_legal">Legal</a></li>
+<li><a href="#_midterm_check_in">1. Midterm Check In</a>
+<ul class="sectlevel2">
+<li><a href="#_overview">1.1. Overview</a></li>
+<li><a href="#_messaging">1.2. Messaging</a></li>
+<li><a href="#_database">1.3. Database</a></li>
+<li><a href="#_back_end">1.4. Back End</a></li>
+<li><a href="#_front_end">1.5. Front End</a></li>
+</ul>
+</li>
+<li><a href="#_replication">2. Replication</a>
+<ul class="sectlevel2">
+<li><a href="#_background">2.1. Background</a></li>
+<li><a href="#_implementation">2.2. Implementation</a></li>
+<li><a href="#_high_availability">2.3. High Availability</a></li>
+<li><a href="#_load_balancing">2.4. Load Balancing</a></li>
+</ul>
+</li>
+<li><a href="#_kubernetes">3. Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction">3.1. Introduction</a></li>
+<li><a href="#_the_development_environment">3.2. The Development Environment</a></li>
+<li><a href="#_database_replication_example">3.3. Database Replication Example</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_legal">Legal</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This work is licensed under a
+<a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+Attribution-ShareAlike 4.0 International License.</a></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Creative Commons License"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_midterm_check_in">1. Midterm Check In</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section summarizes the content of the class so far and provides an example
+of a system that meets the midterm goals. This example is just one way to solve
+the problem. It&#8217;s not the only way, in fact it&#8217;s not even the best way. The
+example&#8217;s purpose is to show you a solution that avoids common pitfalls.
+Hopefully you can integrate some of the lessons of this example into your
+project.</p>
+</div>
+<div class="sect2">
+<h3 id="_overview">1.1. Overview</h3>
+<div class="paragraph">
+<p>At this point you should have a working system that can be pulled from a git
+repository and brought up with <code>docker-compose up</code>. As a reminder, the midterm
+deliverables used to the project are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <strong>Front End</strong> that interacts with the user via HTTP and communicates
+with the messaging container.</p>
+</li>
+<li>
+<p><strong>Messaging</strong> (RabbitMQ) that brokers the exchange of information
+between the front end and the back end.</p>
+</li>
+<li>
+<p><strong>Database</strong> (PostgreSQL, MariaDB, MySQL) that only <strong>Back End</strong> uses for storage
+of persistent information. All stateful information should be stored in a
+volume.</p>
+</li>
+<li>
+<p>A <strong>Back End</strong> that gathers information from your data sources, reads and
+writes from the database, and interacts with the messaging container.</p>
+</li>
+<li>
+<p>These four services work with each other to provide a web-based registration
+and authentication system.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The project is structured in such a way that <strong>Front End</strong> and <strong>Back End</strong>
+never communicate directly and <strong>Back End</strong> is the only service that can
+write to the <strong>Database</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="overview_compose.svg" alt="overview compose" width="587" height="103">
+</div>
+</div>
+<div class="paragraph">
+<p>This allows for more scalability when we introduce replication in the second
+half of the semester.</p>
+</div>
+<div class="paragraph">
+<p>An example directory structure is shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>│   .env
+│   docker-compose.yml
+│
+├───back_end
+│       app.py
+│       Dockerfile
+│       requirements.txt
+│
+├───db
+│       Dockerfile
+│       setup.sql
+│
+└───front_end
+    │   app.py
+    │   Dockerfile
+    │   requirements.txt
+    │   wait-for-it.sh
+    │
+    └───templates
+            base.html
+            login.html
+            register.html</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Notice the <code>.env</code> file in the directory structure. docker-compose will
+load environment variables from this file that you can then use in the
+<code>docker-compose.yml</code> file. This keeps you from having to repeat yourself when
+multiple services need the same information. For example, both <strong>Database</strong> and
+<strong>Back End</strong> need to know the <code>POSTGRES_PASSWORD</code>. It also allows you to have a
+single secret file that you can put in <code>.gitignore</code> to keep out of your
+repository.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_messaging">1.2. Messaging</h3>
+<div class="paragraph">
+<p>In our example, the <strong>Messaging</strong> can be run straight from the
+<a href="https://hub.docker.com/_/rabbitmq">RabbitMQ Docker Hub image</a> via the
+<code>docker-compose.yml</code> file, hence the absence of a <code>messaging</code> directory with a
+<code>Dockerfile</code> in the directory structure. The image allows for sufficient
+configuration via its environment variables. At this point it is recommended
+that you still run the management interface and forward the management interface
+port, 15672, so that you can see how the queues are being used. The messaging
+service will be used in the
+<a href="https://www.rabbitmq.com/tutorials/tutorial-six-python.html">request / reply pattern</a>
+detailed in the diagram below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="messaging.svg" alt="messaging" width="349" height="293">
+</div>
+</div>
+<div class="paragraph">
+<p>Fortunately this works out-of-the-box since queue creation is handled by the
+by the clients. The service simply has to be up and running to function.</p>
+</div>
+<div class="paragraph">
+<p>The service definition in <code>docker-compose.yml</code> can be seen here:</p>
+</div>
+<div class="listingblock">
+<div class="title">docker-compose.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="yaml" class="language-yaml hljs">    messaging:
+        image: 'rabbitmq:3-management'
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+        ports:
+            - 15672:15672</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Moving forward, we will migrate from a single RabbitMQ instance to a
+cluster. Familiarize yourself with the
+<a href="https://www.rabbitmq.com/clustering.html">RabbitMQ Clustering Guide</a> and then
+see if you can create a three node cluster with docker-compose.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> You may still be able to do this with just environment variables
+in the <code>docker-compose.yml</code> file. If you need to, feel free to create new
+container images in separate directories with their own Dockerfiles. There are
+also plenty of good
+<a href="https://github.com/harbur/docker-rabbitmq-cluster">web resources</a> to explore.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database">1.3. Database</h3>
+<div class="paragraph">
+<p><strong>Database</strong> is responsible for storing the persistent information the system
+uses. It only communicates with <strong>Back End</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="database.svg" alt="database" width="234" height="117">
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, <strong>Database</strong> creates a database and the appropriate tables <em>if</em>
+the database is currently empty. This can be done by placing the SQL file that
+we want executed in <code>/docker-entrypoint-initdb.d/</code> of the image. Our
+<code>db/Dockerfile</code> handles copying our initialization SQL appropriately:</p>
+</div>
+<div class="listingblock">
+<div class="title">db/Dockerfile</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="Dockerfile" class="language-Dockerfile hljs">FROM postgres
+COPY setup.sql /docker-entrypoint-initdb.d/</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">db/setup.sql</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="SQL" class="language-SQL hljs">CREATE DATABASE example;
+\c example
+CREATE TABLE users(
+    email VARCHAR(255) PRIMARY KEY,
+    hash VARCHAR(255) NOT NULL
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The schema in this example is quite simple, consisting of a database and a
+single table for holding emails and hashes. It should be noted that the <code>\c</code>
+command is specific to PostgreSQL and it is the equivalent of a <code>USE</code> statement
+in MySQL, meaning use that particular database.</p>
+</div>
+<div class="paragraph">
+<p>The relevant service definition part of the <code>docker-compose.yml</code> file can be seen
+here:</p>
+</div>
+<div class="listingblock">
+<div class="title">docker-compose.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="yaml" class="language-yaml hljs">    db:
+        build: ./db
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        volumes:
+            - data-volume:/var/lib/postgresql/data</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The database files are stored in a Docker volume named <code>data-volume</code> and the
+password for our database is loaded from an environment variable defined in
+<code>.env</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The <a href="https://hub.docker.com/_/adminer/">adminer</a> image is a great way to see
+what&#8217;s going on in your database. It provides a web interface to many different
+types of databases that can be easily accessed via port 8080. See the example
+<code>docker-compose.yml</code> file for an example of its use.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Moving forward, we should begin to explore how we can implement replication to
+make <strong>Database</strong> more scalable and resilient. Try to get a master / slave
+configuration set up in a <code>docker-compose.yml</code>. How does replication help our
+system? Will we need any other pieces to maximize its potential? Once again,
+there are many good
+<a href="https://medium.com/@2hamed/replicating-postgres-inside-docker-the-how-to-3244dc2305be">web resources</a>
+on the topic.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_back_end">1.4. Back End</h3>
+<div class="paragraph">
+<p><strong>Back End</strong> brokers the exchange of information between <strong>Messaging</strong> and
+<strong>Database</strong>. It also provides an area to perform the tasks needed to support the
+complete system such as web scraping or computation. At this point, our example
+does not include any of the latter and mainly focuses on storing / utilizing
+authentication information in the database.</p>
+</div>
+<div class="paragraph">
+<p>You can think of <strong>Back End</strong> as providing an API that is accessible through
+<strong>Messaging</strong>. Any language can be a good choice for the <strong>Back End</strong> as long as it
+has libraries to interface with <strong>Database</strong> and <strong>Messaging</strong>.</p>
+</div>
+<div class="ulist">
+<div class="title">Popular Libraries used by <strong>Back End</strong></div>
+<ul>
+<li>
+<p>Python</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.psycopg.org/">psycopg2</a> (PostgreSQL)</p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/connector-python/en/">mysql.connector</a> (MySQL / MariaDB)</p>
+</li>
+<li>
+<p><a href="https://github.com/pika/pika">pika</a> (RabbitMQ)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PHP</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/book.mysqli.php">mysqli</a> (MySQL / MariaDB)</p>
+</li>
+<li>
+<p><a href="https://github.com/php-amqplib/php-amqplib">php-amqplib</a> (RabbitMQ)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="backend.svg" alt="backend" width="693" height="245">
+</div>
+</div>
+<div class="paragraph">
+<p>The code for the <strong>Back End</strong> example is entirely contained in <code>back_end/app.py</code>.
+<strong>Back End</strong> starts by connecting to both <strong>Messaging</strong> and <strong>Database</strong> using the
+pika and psycopg2 libraries respectively. With Docker Compose you don&#8217;t know
+when the services will become available so the example repeatedly attempts to
+connect, waiting up to 60 seconds and
+<a href="https://en.wikipedia.org/wiki/Exponential_backoff">backing off exponentially</a>
+each time. Below is an example of typical startup output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">&gt; docker-compose logs --tail=100 back_end | Select-String -Pattern root
+
+back_end_1   | INFO:root:Waiting 1s...
+back_end_1   | INFO:root:Connecting to the database...
+back_end_1   | INFO:root:Connecting to messaging service...
+back_end_1   | INFO:root:Waiting 2s...
+back_end_1   | INFO:root:Connecting to the database...
+back_end_1   | INFO:root:Connecting to messaging service...
+back_end_1   | INFO:root:Waiting 4s...
+back_end_1   | INFO:root:Connecting to the database...
+back_end_1   | INFO:root:Connecting to messaging service...
+back_end_1   | INFO:root:Waiting 8s...
+back_end_1   | INFO:root:Connecting to the database...
+back_end_1   | INFO:root:Connecting to messaging service...
+back_end_1   | INFO:root:Starting consumption...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The example then creates the required database cursor, messaging channel,
+messaging queues, and sets up a callback for messages arriving in the <code>requests</code>
+queue. This is where the majority of work is performed and the function can be
+seen here:</p>
+</div>
+<div class="listingblock">
+<div class="title">back_end/app.py (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="python" class="language-python hljs">def process_request(ch, method, properties, body):
+    """
+    Gets a request from the queue, acts on it, and returns a response to the
+    reply-to queue
+    """
+    request = json.loads(body)
+    if 'action' not in request:
+        response = {
+            'success': False,
+            'message': "Request does not have action"
+        }
+    else:
+        action = request['action']
+        if action == 'GETHASH':
+            data = request['data']
+            email = data['email']
+            logging.info(f"GETHASH request for {email} received")
+            curr.execute('SELECT hash FROM users WHERE email=%s;', (email,))
+            row =  curr.fetchone()
+            if row == None:
+                response = {'success': False}
+            else:
+                response = {'success': True, 'hash': row[0]}
+        elif action == 'REGISTER':
+            data = request['data']
+            email = data['email']
+            hashed = data['hash']
+            logging.info(f"REGISTER request for {email} received")
+            curr.execute('SELECT * FROM users WHERE email=%s;', (email,))
+            if curr.fetchone() != None:
+                response = {'success': False, 'message': 'User already exists'}
+            else:
+                curr.execute('INSERT INTO users VALUES (%s, %s);', (email, hashed))
+                conn.commit()
+                response = {'success': True}
+        else:
+            response = {'success': False, 'message': "Unknown action"}
+    logging.info(response)
+    ch.basic_publish(
+        exchange='',
+        routing_key=properties.reply_to,
+        body=json.dumps(response)
+    )</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Notice that psycopg2 functions are used to put variables into the SQL
+statements. Do <strong>NOT</strong> use Python string formating to build your SQL statements.
+You may be thinking that we are in <strong>Back End</strong> and the parameters we receive are
+already <a href="https://xkcd.com/327/">sanitized</a> by <strong>Front End</strong> but this is not always
+the case.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_front_end">1.5. Front End</h3>
+<div class="paragraph">
+<p>The <strong>Front End</strong> can be created using any web framework, but the most popular
+choices are <a href="https://www.php.net">PHP</a> or
+<a href="https://palletsprojects.com/p/flask">Flask</a>. The most popular Docker Hub images
+for those frameworks are <a href="https://hub.docker.com/_/php">php:apache</a> and
+<a href="https://hub.docker.com/_/python">python</a> respectively. For interacting with
+<strong>Messaging</strong> there are a few options, but groups tend to gravitate towards
+<a href="https://github.com/php-amqplib/php-amqplib">php-amqplib</a> for PHP and
+<a href="https://github.com/pika/pika">pika</a> for Python Flask. This is probably due to
+the fact that the
+<a href="https://www.rabbitmq.com/getstarted.html">documentation for RabbitMQ</a> references
+those libraries.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="frontend.svg" alt="frontend" width="505" height="264">
+</div>
+</div>
+<div class="paragraph">
+<p>A custom <code>front_end/Dockerfile</code> is used for creating the image:</p>
+</div>
+<div class="listingblock">
+<div class="title">front_end/Dockerfile</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="docker" class="language-docker hljs">FROM python
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+ENV FLASK_APP=app.py
+CMD ["./wait-for-it.sh", "messaging:5672", "--", \
+     "flask", "run", "--host=0.0.0.0"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A script called <a href="https://github.com/vishnubob/wait-for-it"><code>wait-for-it.sh</code></a> is
+included with the image. It is used
+<a href="https://docs.docker.com/compose/startup-order/">as recommended by the Docker documentation</a>
+to make sure the <strong>Messaging</strong> is up before <strong>Front End</strong> starts. This way
+<strong>Front End</strong> will give errors to users who attempt to use it before the full
+system has been brought up.</p>
+</div>
+<div class="paragraph">
+<p><code>front_end/Dockerfile</code> is built in the service section of the
+<code>docker-compose.yml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="title">docker-compose.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="yaml" class="language-yaml hljs">    front_end:
+        build: ./front_end
+        ports:
+            - 5000:5000
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            FLASK_ENV: development
+            FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+        volumes:
+            - "./front_end:/app"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are a few things in the <code>docker-compose.yml</code> service definition that
+should be noted:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Port <code>5000</code> needs to be forwarded as it will be accessed externally</p>
+</li>
+<li>
+<p>The <code>FLASK_ENV</code> environment variable is useful for development. It causes
+Flask to print more friendly error messages right inside the web browser.</p>
+</li>
+<li>
+<p><code>front_end/</code> is bind mounted to <code>/app</code> in the container even though the
+<code>Dockerfile</code> copies those files to the <code>/app</code> directory when the image is
+created. This allows for easier development, the container can be running
+while you edit the files Flask is using. The development server will
+automatically restart if changes are detected.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To make communication with <strong>Messaging</strong> a easier, <code>front_end/messaging.py</code>
+defines a <code>Messaging</code> class that initializes the connection, shuts down the
+connection, and provides a send and receive function. All messages are sent to
+the general <code>requests</code> queue and replies are returned via an exclusive reply
+queue.</p>
+</div>
+<div class="listingblock">
+<div class="title">front_end/messaging.py</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="python" class="language-python hljs">import pika
+import json
+import time
+import logging
+import os
+
+class Messaging:
+    """
+    Helper class for dealing with the messaging service
+    """
+    request_queue_name = 'request'
+
+    # Get credentials from the environment
+    credentials = pika.PlainCredentials(os.environ['RABBITMQ_DEFAULT_USER'],
+                                        os.environ['RABBITMQ_DEFAULT_PASS'])
+
+    # docker-compose will resolve this host to our messaging service
+    host = 'messaging'
+
+    def __init__(self):
+        """
+        Establishes connection and creates queues as needed
+        """
+        logging.info("Messaging: Establishing connection")
+        self.connection = pika.BlockingConnection(
+            pika.ConnectionParameters(host=self.host, credentials=self.credentials))
+        self.channel = self.connection.channel()
+        logging.info("Messaging: Creating queues")
+        self.channel.queue_declare(queue=self.request_queue_name)
+        self.result_queue = self.channel.queue_declare(queue='', exclusive=True).method.queue
+
+    def __del__(self):
+        """
+        Closes down the connection
+        """
+        logging.info("Messaging: Closing down connection")
+        self.connection.close()
+
+    def send(self, action, data):
+        """
+        Sends an action and data to the request queue in JSON. Sets the
+        reply_to property to the custom result queue.
+        """
+        logging.info(f"Messaging: send(action={action}, data={data})")
+
+        self.channel.basic_publish(
+            exchange='',
+            routing_key=self.request_queue_name,
+            properties=pika.BasicProperties(
+                reply_to=self.result_queue),
+                body=json.dumps({'action': action, 'data': data}
+            )
+        )
+
+    def receive(self):
+        """
+        Waits for a single message and returns it. Waits up to 1s, checking
+        every 0.1s.
+        """
+        attempts = 0
+        while True:
+            method_frame, properties, body = self.channel.basic_get(
+                self.result_queue, auto_ack=True)
+            if method_frame:
+                received = json.loads(body)
+                logging.info(f"Messaging: received={received}")
+                return received
+            elif attempts &gt; 10:
+                logging.info("Messaging: receive did not get message")
+                return None
+            else:
+                time.sleep(0.1)
+                attempts += 1</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Every HTTP request received by <strong>Front End</strong> will result in a full
+connection sequence with <strong>Messaging</strong> which is not optimal. A
+<a href="https://github.com/eandersson/python-rabbitmq-examples/blob/master/Flask-examples/pika_async_rpc_example.py">better solution</a>
+is to have the <code>Messaging</code> class run in its own thread and maintain a permanent
+connection.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look at a registration sequence involving the <strong>User</strong>, <strong>Front End</strong>,
+and <strong>Back End</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="registration.svg" alt="registration" width="481" height="283">
+</div>
+</div>
+<div class="paragraph">
+<p>The relevant code in <code>app.py</code> follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">front_end/app.py (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="python" class="language-python hljs">@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        msg = messaging.Messaging()
+        msg.send(
+            'REGISTER',
+            {
+                'email': email,
+                'hash': generate_password_hash(password)
+            }
+        )
+        response = msg.receive()
+        if response['success']:
+            session['email'] = email
+            return redirect('/')
+        else:
+            return f"{response['message']}"
+    return render_template('register.html')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Fortunately password hashing functions are readily available in the
+<code>werkzeug.security</code> module. <a href="https://palletsprojects.com/p/werkzeug/">Werkzeug</a>
+is a WSGI utility library that Flask already uses, so we don&#8217;t need to add
+anything to <code>requirements.txt</code>. We can use the functions <code>check_password_hash</code>
+and <code>generate_password_hash</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Do <strong>NOT</strong> store user passwords in cleartext. There are plenty of good
+hashing options in both PHP and Python. Try to minimize systems that come in
+contact with unencrypted passwords as well. In this example it is hashed before
+it is even passed to the <strong>Back End</strong>. For the same reason, in production your
+users should only be able to connect via TLS (HTTPS). This will secure the
+channel between <strong>User</strong> and <strong>Front End</strong> which passes the password when the user
+registers or logs in.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>register</code> function will also set <code>email</code> in the user session upon
+successful completion. This is akin to having a user log in automatically once
+they have created an account.
+<a href="https://flask.palletsprojects.com/en/1.1.x/api/#flask.session">Flask sessions</a>
+are a good way of storing things on the client that can&#8217;t be modified. They
+default to a lifetime of 31 days.</p>
+</div>
+<div class="paragraph">
+<p>A similar sequence is used to log in a user:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="login.svg" alt="login" width="426" height="283">
+</div>
+</div>
+<div class="paragraph">
+<p>The relevant code in <code>front_end/app.py</code> follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">front_end/app.py (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="python" class="language-python hljs">@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        msg = messaging.Messaging()
+        msg.send('GETHASH', { 'email': email })
+        response = msg.receive()
+        if response['success'] != True:
+            return "Login failed."
+        if check_password_hash(response['hash'], password):
+            session['email'] = email
+            return redirect('/')
+        else:
+            return "Login failed."
+    return render_template('login.html')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Compared to the <code>register</code> function, handling a login is simpler. A few other
+routes of interest with brief descriptions are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/</code> - serves the <code>index.html</code></p>
+</li>
+<li>
+<p><code>/logout</code> - removes <code>email</code> from the user&#8217;s session and redirects to <code>/</code></p>
+</li>
+<li>
+<p><code>/secret</code> - protected by the <code>@login_required</code> decorator (see below), serves
+<code>secret.html</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="https://realpython.com/primer-on-python-decorators/">Python decorators</a> are used
+for routing in Flask so it is a natural fit to use them to protect routes as
+well. The <code>@login_required</code> decorator does exactly that:</p>
+</div>
+<div class="listingblock">
+<div class="title">front_end/app.py (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="python" class="language-python hljs">def login_required(f):
+    """
+    Decorator that returns a redirect if session['email'] is not set
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'email' not in session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Moving forward, we should start thinking about how we are going to transition
+our development server to a production environment. The built-in Flask server is
+great for testing our code but we will want to shift to something meant for
+large scale use as we begin to scale up our application. Some packages to
+research are <a href="https://www.nginx.com/">NGINX</a>,
+<a href="https://uwsgi-docs.readthedocs.io/en/latest/">uWSGI</a>,
+<a href="https://gunicorn.org/">gunicorn</a>, <a href="https://www.apache.org/">Apache</a>, and
+<a href="https://modwsgi.readthedocs.io/en/develop/">mod_wsgi</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_replication">2. Replication</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Replicating a service can provide many benefits. In this section we will
+replicate a <a href="http://postgresql.org">PostgreSQL</a> database service to analyze the
+advantages and complexity costs. PostgreSQL was purposefully chosen because it
+leaves much of work, which is understandably outside the purview of a Database
+Management System (DBMS), to the user.</p>
+</div>
+<div class="sect2">
+<h3 id="_background">2.1. Background</h3>
+<div class="imageblock">
+<div class="content">
+<img src="replication.svg" alt="replication" width="199" height="140">
+</div>
+</div>
+<div class="paragraph">
+<p>In the simplest sense, replication is running more than one service for a given
+component of our system. We can do this in Docker Compose by declaring more
+than one service:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/docker-compose.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="yml" class="language-yml hljs">    db1:
+        build: ./db
+        environment:
+            POSTGRES_PASSWORD: asdffdsa
+            POSTGRES_REPLICA_PASSWORD: asdffdsa
+            POSTGRES_NODES: "db1 db2"
+    db2:
+        build: ./db
+        environment:
+            POSTGRES_PASSWORD: asdffdsa
+            POSTGRES_REPLICA_PASSWORD: asdffdsa
+            POSTGRES_NODES: "db1 db2"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A better solution would be to use a more complete orchestration solution
+than Docker Compose. For syntax that you are used to, see
+<a href="https://docs.docker.com/compose/compose-file/#deploy">the deploy option and
+Docker Swarm</a>. You could also bite the bullet and migrate to
+<a href="https://kubernetes.io">kubernetes</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In most DBMS, replication can be implemented via Volume Sharing or Hot / Warm
+Standby:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="volshare.svg" alt="volshare" width="441" height="445">
+</div>
+<div class="title">Figure 1. Volume Sharing</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="standby.svg" alt="standby" width="510" height="311">
+</div>
+<div class="title">Figure 2. Hot / Warm Standby</div>
+</div>
+<div class="paragraph">
+<p>Volume Sharing has the advantage of being easy to implement <em>if</em> you already
+have network storage. You can scale simply by increasing the amount of
+database instances (db3, db4, db5&#8230;&#8203;). Each instance has full read / write
+access, making it easy to load balance. Despite that, reading / writing from
+network storage tends to be a bottleneck. Also, shared access to files and the
+issues that arise (file locking, etc.) are difficult problems. Your DBMS may
+not be able to handle them. Even if they can be handled, performance can be an
+issue. Lastly, this method puts all of your eggs in one basket with regard to
+where your data is stored. There may be no duplicates of the data depending on
+how you handle your network storage.</p>
+</div>
+<div class="paragraph">
+<p>Hot / Warm Standby mode is typically already implemented by the DBMS. It is
+usually performed via <em>Log Shipping</em>, sending logs of all actions between a
+primary node and standby nodes. The standby nodes can keep up with transactions
+and be <em>promoted</em> in the event of an issue. Each node maintains a separate data
+volume. With this system, only the primary node is capable of performing write
+operations. If the standby node is a <em>hot</em> standby node it can perform reads as
+well. Fortunately, write operations tend to be less frequent that read
+operations, meaning you may see significant performance gains from scaling with
+this type of system.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+What&#8217;s the difference between a hot and warm standby? A hot standby can
+perform read operations while replicating the primary. This allows for load
+balancing to be performed. A warm standby simply keeps up with the primary so
+that it can be brought up in the event of a problem.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implementation">2.2. Implementation</h3>
+<div class="paragraph">
+<p>This example implements a
+<a href="https://www.postgresql.org/docs/current/hot-standby.html">Hot Standby in PostgreSQL</a>.
+Actually implementing <em>replication</em> is largely handled for us by the DMBS. It is
+simply a matter of setting configuration variables, starting the databases are
+in the correct state, and bringing up the services in the right order. We can
+handle this in the <code>docker-entrypoint.sh</code> file that is used as the ENTRYPOINT
+for the container. In the <a href="https://hub.docker.com/_/postgres">official Docker
+image</a> this script is responsible for setting up the database and running the
+user-specified command, <code>postgres</code> by default.</p>
+</div>
+<div class="paragraph">
+<p>A basic Dockerfile that builds from this image and adds some extra needed
+utilities will be used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="Dockerfile" class="language-Dockerfile hljs">FROM postgres
+RUN apt-get -y update &amp;&amp; \
+    apt-get -y install iputils-ping dnsutils
+COPY docker-entrypoint.sh /usr/local/bin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rather than create separate primary and standby images, this example employs one
+image that detects the status of the cluster on startup and creates either a
+primary or standby node accordingly. The logic for startup is as follows:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="startup_logic.svg" alt="startup logic" width="486" height="530">
+</div>
+</div>
+<div class="paragraph">
+<p>By passing a list of all nodes in an environment variable, we can create a bash
+function to see who is up and who is the primary when <code>docker-entrypoint.sh</code> is
+called at container creation:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">function find_primary() {
+    # Goes through all the nodes in POSTGRES_NODES and looks for one that is up
+    # and is a PRIMARY
+    echo "Looking for a primary node..."
+    PRIMARY=""
+    for NODE in $POSTGRES_NODES; do
+        NODE_IP=$( dig +short $NODE )
+        if [ -z $NODE_IP ] || [ $NODE_IP != $MY_IP ]; then
+            # https://stackoverflow.com/questions/11231937/bash-ignoring-error-for-a-particular-command
+            EXIT_CODE=0
+            pg_isready -h $NODE || EXIT_CODE=$?
+            if [ $EXIT_CODE -eq 0 ]; then
+                echo "$NODE:5432:postgres:postgres:$POSTGRES_PASSWORD" &gt;&gt; ~/.pgpass
+                VALUE=$(psql -U postgres -t -h $NODE -d postgres -c "select pg_is_in_recovery()")
+                if [ $VALUE == "f" ]; then
+                    echo "$NODE is primary node"
+                    if [ ! -z $PRIMARY ]; then
+                        echo "Two primary nodes detected! Exiting..."
+                        exit 1
+                    fi
+                    PRIMARY=$NODE
+                fi
+            fi
+        fi
+    done
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If a situation arises where there are two primaries on the network, this
+function will prevent a new db container from being created. No sense adding to
+the confusion.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now all that is left is to configure either a primary or a standby node.
+The code to configure a primary node follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">    echo "Configuring a PRIMARY instance..."
+
+    if [ -s "$PGDATA/PG_VERSION" ]; then
+        echo "Database already exists, NOT creating a new one"
+    else
+        echo "Creating a new database..."
+
+        initdb --username=postgres --pwfile=&lt;(echo "$POSTGRES_PASSWORD")
+
+        # Start a temporary server listening on localhost
+        pg_ctl -D "$PGDATA" -w start
+
+        # Create a user for replication operations
+        psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" &lt;&lt; EOSQL
+            CREATE USER repuser REPLICATION LOGIN ENCRYPTED PASSWORD '$POSTGRES_REPLICA_PASSWORD';
+EOSQL
+
+        # Stop the temporary server
+        pg_ctl -D "$PGDATA" -m fast -w stop
+
+        # Set up authentication parameters
+        echo "host replication all all md5" &gt;&gt; $PGDATA/pg_hba.conf
+        echo "host all all all md5" &gt;&gt; $PGDATA/pg_hba.conf
+    fi
+
+    # if, for some reason, a cold standby is being brought up as a primary
+    # remove the standby.signal file
+    if [ -f $PGDATA/standby.signal ]; then
+        rm $PGDATA/standby.signal
+    fi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code is self-explanatory, but it should be noted that the actual building
+of the database, including auth configuration, and the create of a replication
+user is a rare occurrence. That should only happen once when the volume is
+initialized.</p>
+</div>
+<div class="paragraph">
+<p>The code to configure a standby node is shown below:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">    echo "Configuring a STANDBY instance..."
+
+    # Set up our password so we can connect to replicate
+    echo "$PRIMARY:5432:replication:repuser:$POSTGRES_REPLICA_PASSWORD" &gt;&gt; /var/lib/postgresql/.pgpass
+
+    # Clone the primary database
+    rm -rf $PGDATA/*
+    pg_basebackup -h $PRIMARY -D $PGDATA -U repuser -v -P -X stream
+    chmod -R 700 $PGDATA
+
+    # Add connection info
+    cat &lt;&lt; EOF &gt;&gt; $PGDATA/postgresql.conf
+        primary_conninfo = 'host=$PRIMARY port=5432 user=repuser password=$POSTGRES_REPLICA_PASSWORD'
+EOF
+
+    # Notify postgres that this is a standby server
+    touch $PGDATA/standby.signal
+
+    # Make sure there is a primary server and failover if there isn't
+    monitor &amp;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When a standby is brought up, any database on the volume is removed and the
+entire database from the primary is backed up You may want to revisit this
+design decision if your database becomes large. Connection info is also added to
+the end of <code>postgres.conf</code>. This does mean that if a standby is promoted the
+previous connect line will be synced to any new standbys that are brought up.
+This will result in an ever growing <code>postgres.conf</code> file. The monitor function
+will be covered in the next section.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You may notice that primaries and standbys have a very similar
+configuration. This is by design in PostgreSQL &gt;= 12, to simplify the failover
+procedure.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look at the relevant log messages of db1 and db2 when we bring them
+both up with <code>docker-compose up</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db1 - Looking for a primary node...
+db1 - db2:5432 - no response
+db1 - Configuring a PRIMARY instance...
+db2 - Looking for a primary node...
+db2 - db1:5432 - no response
+db2 - Giving the first node a 10s head start...
+db2 - Looking for a primary node...
+db2 - db1:5432 - accepting connections
+db2 - db1 is primary node
+db2 - Configuring a STANDBY instance...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As can be seen, db2 wasn&#8217;t able to detect db1 at first but the additional 10s
+delay prevented a multiple-primary situation.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Having multiple primaries in a cluster is bad. So bad, that most
+solutions implement a <a href="https://en.wikipedia.org/wiki/STONITH">STONITH</a> policy. It
+is quite possibly the greatest acronym in all of technology.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Just because we have our database replicated on two volumes <strong>does not</strong>
+mean that we have backups. Those volumes are designed to be used as part of a
+running system and are not a reliable long-term solution. Create and implement
+a reliable backup plan as you would for any other database.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_high_availability">2.3. High Availability</h3>
+<div class="paragraph">
+<p>Even though we now have a replicated database, it isn&#8217;t doing us much good. If
+we want to make our database service highly available (HA) we will need to
+monitor for problems and promote a standby server if the primary server fails.
+This is referred to as <em>failover</em> and is often handled by a
+<a href="https://wiki.clusterlabs.org/wiki/Pacemaker">a separate component</a>.  In this
+simple example it is implemented in the <code>monitor</code> function shown below:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">function monitor() {
+    while true; do
+        # spread out our checks to avoid the chance of two nodes promoting at
+        # the same time
+        WAIT=$((20 + $RANDOM % 10))
+        sleep $WAIT
+        find_primary
+        if [ -z $PRIMARY ]; then
+            echo "Can't find a primary failing over..."
+            pg_ctl promote
+            # we don't need to monitor any more if we are the primary
+            exit
+        fi
+    done
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This function is run in the background on every standby instance. The
+timeout is randomized to decrease the likelihood that two standby instances
+will promote themselves at exactly the same time. To better understand this,
+let&#8217;s examine the <strong>non-randomized</strong> scenario shown in the following diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="dualpromotion.svg" alt="dualpromotion" width="487" height="240">
+</div>
+<div class="title">Figure 3. Dual Promotion</div>
+</div>
+<div class="paragraph">
+<p>In the above scenario each standby node is checking to see that there is a
+primary node every 30s. The primary fails at 50s and <em>both</em> nodes check for a
+primary at exactly 60s. At that moment, neither node is a primary, no primary
+can be found, and they both begin the promotion process. This leaves the
+cluster with two primary nodes. This can be largely avoided by randomizing
+the check intervals.</p>
+</div>
+<div class="paragraph">
+<p>Finally, lets simulate a failure and a recovery to see that our HA system is
+working.  The following commands were executed and the Docker Compose logs were
+captured.  Each command was run with about a minute pause between them:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>docker-compose up</code></p>
+</li>
+<li>
+<p><code>docker-compose stop db1</code></p>
+</li>
+<li>
+<p><code>docker-compose up db1</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The relevant, simplified log messages and descriptions follow:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db2 - Looking for a primary node...
+db1 - Looking for a primary node...
+db2 - db1:5432 - no response
+db1 - db2:5432 - no response
+db2 - Giving the first node a 10s head start...
+db1 - Configuring a PRIMARY instance...
+db2 - Looking for a primary node...
+db2 - db1:5432 - accepting connections
+db2 - db1 is primary node
+db2 - Configuring a STANDBY instance...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Both db1 and db2 are brought up at the same time. db1 ends up being
+the primary.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db2 - Looking for a primary node...
+db2 - db1:5432 - accepting connections
+db2 - db1 is primary node
+db2 - Looking for a primary node...
+db2 - db1:5432 - accepting connections
+db2 - db1 is primary node</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>db1 begins checking to make sure there is a primary node about every 30s.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db1 - LOG:  shutting down
+db2 - Looking for a primary node...
+db2 - db1:5432 - no response
+db2 - Can't find a primary failing over...
+db2 - server promoted</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>db1 is shut down. db2 performs its regularly scheduled check and self promotes
+because it cannot find a primary.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db1 - Looking for a primary node...
+db1 - db2:5432 - accepting connections
+db1 - db2 is primary node
+db1 - Configuring a STANDBY instance...
+db1 - Looking for a primary node...
+db1 - db2:5432 - accepting connections
+db1 - db2 is primary node
+db1 - Looking for a primary node...
+db1 - db2:5432 - accepting connections
+db1 - db2 is primary node</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>db1 is brought back up, finds another primary and makes itself a standby. db1
+begins checking to make sure the primary is available at regular intervals.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_load_balancing">2.4. Load Balancing</h3>
+<div class="paragraph">
+<p>Another advantage to replication is the ability to split the work among
+different nodes in the cluster. In our particular case, the primary node can
+handle any request, while the standby node can only handle read requests. Since
+we also control the application, we could create a connection for read requests
+and a separate connection for write requests.</p>
+</div>
+<div class="paragraph">
+<p>Fortunately this can be accomplished by
+<a href="https://www.percona.com/blog/2019/10/23/seamless-application-failover-using-libpq-features-in-postgresql/">changing
+the connect string that is used</a> in your application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="python" class="language-python hljs"># get a read / write connection
+psycopg.connect(
+    database="example",
+    host="db1,db2",
+    user="postgres",
+    password=password,
+    target_session_attrs="read-write"
+)
+
+# get a read connection
+psycopg.connect(
+    database="example",
+    host="db2,db1", # order should be randomized
+    user="postgres",
+    password=password,
+    target_session_attrs="any"
+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The other option is to employ a proxy to forward requests, the most popular
+being <a href="http://www.haproxy.org/">HAProxy</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Load balancing is often referenced as a part of <em>horizontal scaling</em>.
+You can think of horizontal scaling as adding more instances to serve requests.
+<em>Vertical scaling</em> refers to making instances more powerful so that each
+individual one can serve more requests.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_kubernetes">3. Kubernetes</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" alt="Kubernetes Logo" width="25%">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_introduction">3.1. Introduction</h3>
+<div class="paragraph">
+<p>Kubernetes is a container orchestration system originally designed by Google.
+It is currently the most popular orchestration system and is notorious for
+being difficult to learn. Fortunately, most of the concepts we will be using
+have already been covered and the command syntax is similar to Docker, which
+we have been working with.</p>
+</div>
+<div class="paragraph">
+<p>A Kubernetes cluster is made up of nodes. Each node is capable of running
+pods, which in turn are made up of containers:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="k8s_cluster.svg" alt="k8s cluster" width="714" height="262">
+</div>
+<div class="title">Figure 4. Kubernetes Cluster</div>
+</div>
+<div class="paragraph">
+<p>Kubernetes is designed to solve the hard problems of multi-node deployment,
+replication, volume sharing, container communication, updates, roll-backs, and
+monitoring. It does this by defining objects in YAML files. The objects we will
+be working with are <strong>Deployment</strong>, <strong>Service</strong>, and <strong>PersistentVolumeClaim</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <strong>PersistentVolumeClaim</strong> defines what storage our application will need</p>
+</li>
+<li>
+<p>A <strong>Service</strong> defines how pods can access each other</p>
+</li>
+<li>
+<p>A <strong>Deployment</strong> defines how to handle the creation / maintenance of pods</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_development_environment">3.2. The Development Environment</h3>
+<div class="paragraph">
+<p>For our purposes we will be using a single-node, local version of Kubernetes
+called <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">minikube</a>.
+minikube acts as a single-node cluster by running Linux in a virtual machine on
+the host. It provides a several options for how the VM is run:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="minikube_arch.svg" alt="minikube arch" width="645" height="451">
+</div>
+<div class="title">Figure 5. Minikube Architecture</div>
+</div>
+<div class="paragraph">
+<p><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Follow these directions
+to install minikube.</a> There are a few virtualization options depending on the
+OS that you are running.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If you have Docker Desktop running, minikube defaults to the Docker
+driver. This driver is still experimental and may not work well. You can
+explicitly specify another driver when you start minikube with the <code>--driver=</code>
+option.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Hyper-V and VirtualBox were still mutually exclusive in Windows at the
+time of this writing. You will need to choose one or the other.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Hyper-V will require you to run your commands as an Administrator.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When you start minikube, you should see output similar to the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; minikube start --driver=hyperv
+* minikube v1.9.0 on Microsoft Windows 10 Enterprise 10.0.18362 Build 18362
+* Using the hyperv driver based on existing profile
+* Retarting existing hyperv VM for "minikube" ...
+* Preparing Kubernetes v1.18.0 on Docker 19.03.8 ...
+* Enabling addons: default-storageclass, storage-provisioner
+* Done! kubectl is now configured to use "minikube"</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you get errors due to low memory, close a few applications and try
+again. Typically you can restart the applications after minikube is running.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Kubernetes will attempt to pull all container images from a container
+repository by default. To avoid having to upload our images to a repository, we
+can set environment variables in our terminal so that we interact with the
+Docker daemon <em>inside</em> our minikube virtual
+machine.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> Fortunately, minikube has the
+<code>docker-env</code> command to make this easier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; minikube docker-env | Invoke-Expression
+PS minikube-demo&gt; docker ps
+CONTAINER ID        IMAGE                  COMMAND                  CREATED
+1bf91c2ca7df        4689081edb10           "/storage-provisioner"   7 minutes ago
+a9866f5f5838        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+03a4f7f5e320        67da37a9a360           "/coredns -conf /etc…"   7 minutes ago
+05061b993702        67da37a9a360           "/coredns -conf /etc…"   7 minutes ago
+78977b068886        43940c34f24f           "/usr/local/bin/kube…"   7 minutes ago
+b5312ba91086        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+968acc692934        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+0a72059bbe5f        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+d9c5aa3d43d0        303ce5db0e90           "etcd --advertise-cl…"   7 minutes ago
+21b09398206f        74060cea7f70           "kube-apiserver --ad…"   7 minutes ago
+313982f14a1c        d3e55153f52f           "kube-controller-man…"   7 minutes ago
+35813d25f0bf        a31f78c7c8ce           "kube-scheduler --au…"   7 minutes ago
+e6cdb564a306        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+b6bfe0e6f093        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+da47e560edab        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago
+3c599f97ecec        k8s.gcr.io/pause:3.2   "/pause"                 7 minutes ago</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As can be seen from the output of the <code>docker ps</code> command, our Kubernetes
+cluster is made up of many containers running in a VM. If you ran <code>docker ps</code>
+without setting up the environment first, you would only see the containers you
+had running on your local Docker daemon (which may actually be
+<a href="https://inception.davepedu.com/">running on a VM itself</a> if you are using Docker
+Toolbox).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>minikube</code> commands will work in a new terminal, but if you want to build
+docker images and have them available on your Kubernetes cluster, you will need
+to use minikube&#8217;s docker-env command for each new terminal you open.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you are experiencing errors with minikube, the first thing you should
+try is running <code>minikube delete</code> and <code>minikube start --driver=&lt;your driver&gt;</code>.
+This addresses the vast majority of issues by wiping all traces of the old VM,
+creating a new one, and starting fresh.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>minikube includes a popular command line tool called kubectl. This is the
+command that we will be using for interacting with our Kubernetes cluster. To
+show that everything is working, lets create and build a basic Dockerfile that
+should print some output to standard out:</p>
+</div>
+<div class="listingblock">
+<div class="title">minikube-demo/Dockerfile</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="Dockerfile" class="language-Dockerfile hljs">FROM alpine
+ENTRYPOINT ["/bin/sh", "-c", "echo 'Hello from a Kubernetes log!'; sleep 30"]</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; docker build -t k8s-example:v1 .
+Sending build context to Docker daemon  2.048kB
+Step 1/2 : FROM alpine
+latest: Pulling from library/alpine
+aad63a933944: Pull complete
+Digest: sha256:b276d875eeed9c7d3f1cfa7edb06b22ed22b14219a7d67c52c56612330348239
+Status: Downloaded newer image for alpine:latest
+ ---&gt; a187dde48cd2
+Step 2/2 : ENTRYPOINT ["/bin/sh", "-c", "echo 'Hello from a Kubernetes log!'; sleep 30"]
+ ---&gt; Running in 96c1739d805e
+Removing intermediate container 96c1739d805e
+ ---&gt; 7b9898952ce0
+Successfully built 7b9898952ce0
+Successfully tagged k8s-example:v1</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+We built our image with a tag <em>and</em> a version. You need the tag so you
+can reference it from Kubernetes. If you don&#8217;t specify a version Kubernetes
+will try to pull the <code>latest</code> from a repository.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now we&#8217;ll create a deployment, which by default will make one pod that runs
+your image. We also run the <code>get deployment</code> and <code>get pod</code> commands so we can
+see the outcome. Lastly, we will inspect the logs for the pod that was created.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; kubectl create deployment k8s-example --image=k8s-example:v1
+deployment.apps/k8s-example created
+PS minikube-demo&gt; kubectl get deployment
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+k8s-example   1/1     1            1           7s
+PS minikube-demo&gt; kubectl get pod
+NAME                           READY   STATUS    RESTARTS   AGE
+k8s-example-5787cd97dc-ft2cr   1/1     Running   0          12s
+PS minikube-demo&gt; kubectl logs k8s-example-5787cd97dc-ft2cr
+Hello from a Kubernetes log!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our image is up and running, but remember that after 30 seconds it should exit.
+As an orchestration system, Kubernetes defaults to restarting pods that have
+stopped. Lets wait a while (14 minutes to be exact) and then execute the <code>get
+pod</code> command again:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; kubectl get pod
+NAME                           READY   STATUS             RESTARTS   AGE
+k8s-example-5787cd97dc-ft2cr   0/1     CrashLoopBackOff   6          14m</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Kubernetes has restarted our pod six times now. In fact, it restarted it so
+much that it is now waiting before trying again (<code>CrashLoopBackOff</code>). You now
+have a minikube single-node Kubernetes cluster running on your local machine.
+You can build custom Docker images and have them run on your cluster.</p>
+</div>
+<div class="paragraph">
+<p>To bring everything down, use the <code>delete deployment</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; kubectl delete deployment k8s-example
+deployment.apps "k8s-example" deleted
+PS minikube-demo&gt; kubectl get pod
+No resources found in default namespace.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database_replication_example">3.3. Database Replication Example</h3>
+<div class="paragraph">
+<p>In this example we implement a primary / standby replication setup for
+PostgreSQL. Two <strong>Services</strong> will be provided: one for read/write requests and
+another exclusively for read requests. We will try to use Kubernetes to handle
+the most of the initialization and monitoring functions that had to be done by
+hand in the <a href="#_replication">previously</a>.</p>
+</div>
+<div class="paragraph">
+<p>Rather than passing command line options to the <code>kubectl</code> command, we will be
+defining what we create in a YAML file: <code>example-final/db-k8s.yml</code>. kubectl can
+load object definitions from YAML files with the <code>apply</code> command.</p>
+</div>
+<div class="sect3">
+<h4 id="_persistentvolumeclaims">3.3.1. PersistentVolumeClaims</h4>
+<div class="paragraph">
+<p>A <strong>PersistentVolumeClaim</strong> lets the cluster know that you are expecting certain
+storage resources. In this case, we are looking for a place to store our
+primary database files. This claim will be fulfilled by a
+<a href="https://kubernetes.io/docs/concepts/storage/storage-classes/"><strong>StorageClass</strong></a>
+that is built into minikube. As far as we are concerned, we just have to tell
+it what we want and it will make it happen.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>.</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-primary-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512M</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This claim will be used by our <em>one</em> <code>db-rw</code> pod, so we don&#8217;t have to worry
+about shared access. The supported accessModes are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ReadWriteOnce</strong> - can be mounted read / write by only one pod</p>
+</li>
+<li>
+<p><strong>ReadOnlyMany</strong> – can be mounted read-only by many pods</p>
+</li>
+<li>
+<p><strong>ReadWriteMany</strong> – can be mounted as read-write by many pods</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_services">3.3.2. Services</h4>
+<div class="paragraph">
+<p>A <strong>Service</strong> exposes an application on a group of pods. In our case we will be
+providing two <strong>Services</strong>: a <code>db-rw</code> <strong>Service</strong> which connects to our primary
+PostgreSQL instance and a <code>db-r</code> <strong>Service</strong> which connects to our standby
+PostgreSQL instances. Unlike Docker Compose, even on our internal network we
+have to explicitly state which ports we make available.</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-rw
+  labels:
+    app: db-rw
+spec:
+  selector:
+    app: db-rw
+  ports:
+    - protocol: TCP
+      port: 5432
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-r
+  labels:
+    app: db-r
+spec:
+  selector:
+    app: db-r
+  ports:
+    - protocol: TCP
+      port: 5432</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>selector</code> field above defines how a <strong>Service</strong> knows which pods to utilize.
+In our case all pods with the app label <code>db-r</code> are used by the <code>db-r</code> <strong>Service</strong>
+and a similar rule is applied to the <code>db-rw</code> <strong>Service</strong>. Both services accept
+incoming connections on port 5432 and route those connections to 5432. In the
+case where there are multiple pods supporting a <strong>Service</strong> a load-balancing
+proxy is used by default.</p>
+</div>
+<div class="paragraph">
+<p>From a development perspective, Kubernetes <strong>Services</strong> make things really easy.
+If you want to connect to a read-only database instance all you have to do is
+use the hostname <code>db-r</code>. Similarly, if you want to connect to a read-write
+database use the hostname <code>db-rw</code>. The DNS resolution, load-balancing proxy,
+and routing are set up for you automatically.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deployments">3.3.3. Deployments</h4>
+<div class="paragraph">
+<p>A <strong>Deployment</strong> tells Kubernetes how to create and monitor pods. The bulk of our
+work will be done in the <code>db-r</code> and <code>db-rw</code> <strong>Deployments</strong>. Fortunately we have
+already covered the logic of what needs to happen <a href="#_replication">previously</a>, so
+let&#8217;s jump right in and take a look at the <strong>Deployment</strong> for our primary
+PostgreSQL instance:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-rw
+  labels:
+    app: db-rw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-rw
+  template:
+    metadata:
+      labels:
+        app: db-rw
+    spec:
+      containers:
+        - name: db-rw
+          image: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "changeme"
+            - name: POSTGRES_REPLICA_PASSWORD
+              value: "changeme"
+          command:
+            - bash
+            - "-c"
+            - |
+              set -ex
+
+              if [ -s "/var/lib/postgresql/data/PG_VERSION" ]; then
+                echo "Database already exists, not creating a new one."
+              else
+                rm -rf /var/lib/postgresql/data/*
+                chown postgres /var/lib/postgresql/data
+
+                su -c "initdb --username=postgres --pwfile=&lt;(echo \"$POSTGRES_PASSWORD\")" postgres
+
+                # Start a temporary server listening on localhost
+                su -c "pg_ctl -D /var/lib/postgresql/data -w start" postgres
+
+                # Create a user for replication operations
+                psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres &lt;&lt;EOF
+                  CREATE USER repuser REPLICATION LOGIN ENCRYPTED PASSWORD '$POSTGRES_REPLICA_PASSWORD';
+              EOF
+              # ^ this EOF has to be in line with the YAML scalar block
+
+                # Stop the temporary server
+                su -c "pg_ctl -D /var/lib/postgresql/data -m fast -w stop" postgres
+
+                # Set up authentication parameters
+                echo "host replication all all md5" &gt;&gt; /var/lib/postgresql/data/pg_hba.conf
+                echo "host all all all md5" &gt;&gt; /var/lib/postgresql/data/pg_hba.conf
+              fi
+
+              # Now run the server
+              su -c postgres postgres
+          volumeMounts:
+            - name: db-primary-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: db-primary-storage
+          persistentVolumeClaim:
+            claimName: db-primary-pv-claim</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <strong>Deployment</strong> tells Kubernetes to maintain one <code>replica</code> of the pod defined
+in the <code>template</code> section. The <code>containers</code> section is a list of one container
+that uses the <code>postgres</code> image from Docker Hub and overrides the ENTRYPOINT of
+that Dockerfile (this is <code>command</code> in Kubernetespeak). Our script is taken
+almost line-for-line from our <a href="#_replication">previous example</a>. Lastly, this
+deployment makes use of our <strong>PersistentVolumeClaim</strong> defined previously and
+mounts it in <code>/var/lib/postgresql/data</code>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look at the <strong>Deployment</strong> for our standby PostgreSQL instances:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/db-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-r
+  labels:
+    app: db-r
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: db-r
+  template:
+    metadata:
+      labels:
+        app: db-r
+    spec:
+      containers:
+        - name: db-r
+          image: postgres
+          env:
+            - name: POSTGRES_REPLICA_PASSWORD
+              value: "changeme"
+          command:
+            - bash
+            - "-c"
+            - |
+              set -ex
+
+              # Set up our password in .pgpass so we can connect to replicate
+              # without a prompt
+              echo "db-rw:5432:replication:repuser:$POSTGRES_REPLICA_PASSWORD" &gt;&gt; /var/lib/postgresql/.pgpass
+              chown postgres /var/lib/postgresql/.pgpass
+              chmod 600 /var/lib/postgresql/.pgpass
+
+              # we may start before their are WALs, so we need to make this directory
+              mkdir -p /var/lib/postgresql/data/pg_wal
+              chown postgres /var/lib/postgresql/data/pg_wal
+
+              # Clone the database from db-rw
+              rm -rf /var/lib/postgresql/data/*
+              chown postgres /var/lib/postgresql/data
+              chmod -R 700 /var/lib/postgresql/data
+              su -c "pg_basebackup -h db-rw -D /var/lib/postgresql/data -U repuser -w -v -P -X stream" postgres
+
+              # Add connection info
+              cat &lt;&lt; EOF &gt;&gt; /var/lib/postgresql/data/postgresql.conf
+                primary_conninfo = 'host=db-rw port=5432 user=repuser password=$POSTGRES_REPLICA_PASSWORD'
+              EOF
+
+              # Notify postgres that this is a standby server
+              touch /var/lib/postgresql/data/standby.signal
+
+              # Now run the server
+              su -c postgres postgres</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This <strong>Deployment</strong> stands up two replicas. Each replica clones the primary
+database (using the hostname <code>db-rw</code> provided by our <code>db-rw</code> <strong>Service</strong>) and then
+acts as a hot standby. A <strong>PersistentVolumeClaim</strong> is <em>not</em> used, meaning if push
+came to shove, we may not be able to easily recover the database from one of
+these containers.</p>
+</div>
+<div class="paragraph">
+<p>Notice that neither <strong>Deployment</strong> has to search for the primary or monitor the
+other instances. Kubernetes handles this for us. In fact, the standbys don&#8217;t
+even have to wait for the primary to be up. If they can&#8217;t clone the database,
+they will fail and Kubernetes will restart them until they work.</p>
+</div>
+<div class="paragraph">
+<p>Much of the hard work of our <a href="#_replication">earlier example</a> is now handled for
+us by a <em>proper</em> orchestration framework.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_running_the_example">3.3.4. Running the Example</h4>
+<div class="paragraph">
+<p>Let&#8217;s take a look at the example in action:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl apply -f .\db-k8s.yml
+persistentvolumeclaim/db-primary-pv-claim created
+service/db-rw created
+service/db-r created
+deployment.apps/db-rw created
+deployment.apps/db-r created</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>kubectl apply -f</code> command can be used to bring up all of the objects
+defined in a file. It should also be noted that it can work with an entire
+directory of files, allowing for separation of logical segments, unlike a
+<code>docker-compose.yml</code> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl get pod
+NAME                     READY   STATUS    RESTARTS   AGE
+db-r-54d9bc6496-cjhn8    1/1     Running   1          2m31s
+db-r-54d9bc6496-pg8b2    1/1     Running   0          2m31s
+db-rw-6fd7767ddd-g6kvj   1/1     Running   0          2m31s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>kubectl get pod</code> show you all of the pods that are currently running. All of
+the pods in our deployment are now up. They are given hash codes for the second
+part of their name to keep them unique. You may notice that
+<code>db-r-54d9bc6496-cjhn8</code> had to be restarted once. It probably came up before
+<code>db-rw-6fd7767ddd-g6kvj</code> was ready to have its database cloned.</p>
+</div>
+<div class="paragraph">
+<p>Using the command <code>kubectl logs</code> we can get the logs for a pod. Let&#8217;s take a
+look at our primary PostgreSQL instance:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl logs db-rw-6fd7767ddd-g6kvj
++ '[' -s /var/lib/postgresql/PG_VERSION ']'
++ rm -rf '/var/lib/postgresql/data/*'
++ chown postgres /var/lib/postgresql/data
++ su -c 'initdb --username=postgres --pwfile=&lt;(echo "changeme")' postgres
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Etc/UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+initdb: warning: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
++ su -c 'pg_ctl -D /var/lib/postgresql/data -w start' postgres
+waiting for server to start....2020-04-06 01:34:45.086 UTC [27] LOG:  starting PostgreSQL 12.2 (Debian 12.2-2.pgdg100+1) on x86_64
+-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+2020-04-06 01:34:45.086 UTC [27] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2020-04-06 01:34:45.086 UTC [27] LOG:  listening on IPv6 address "::", port 5432
+2020-04-06 01:34:45.091 UTC [27] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2020-04-06 01:34:45.104 UTC [28] LOG:  database system was shut down at 2020-04-06 01:34:44 UTC
+2020-04-06 01:34:45.109 UTC [27] LOG:  database system is ready to accept connections
+ done
+server started
++ psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres
+CREATE ROLE
++ su -c 'pg_ctl -D /var/lib/postgresql/data -m fast -w stop' postgres
+waiting for server to shut down....2020-04-06 01:34:45.238 UTC [27] LOG:  received fast shutdown request
+2020-04-06 01:34:45.242 UTC [27] LOG:  aborting any active transactions
+2020-04-06 01:34:45.244 UTC [27] LOG:  background worker "logical replication launcher" (PID 34) exited with exit code 1
+2020-04-06 01:34:45.244 UTC [29] LOG:  shutting down
+2020-04-06 01:34:45.275 UTC [27] LOG:  database system is shut down
+ done
+server stopped
++ echo 'host replication all all md5'
++ echo 'host all all all md5'
++ su -c postgres postgres
+2020-04-06 01:34:45.362 UTC [46] LOG:  starting PostgreSQL 12.2 (Debian 12.2-2.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc
+(Debian 8.3.0-6) 8.3.0, 64-bit
+2020-04-06 01:34:45.363 UTC [46] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2020-04-06 01:34:45.363 UTC [46] LOG:  listening on IPv6 address "::", port 5432
+2020-04-06 01:34:45.368 UTC [46] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2020-04-06 01:34:45.383 UTC [47] LOG:  database system was shut down at 2020-04-06 01:34:45 UTC
+2020-04-06 01:34:45.388 UTC [46] LOG:  database system is ready to accept connections</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Just as <a href="#_replication">before</a>, the primary node initialized a database, set
+up a replication user, and started <code>postgres</code>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look at one of the standby nodes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl logs db-r-54d9bc6496-cjhn8
++ echo db-rw:5432:replication:repuser:changeme
++ chown postgres /var/lib/postgresql/.pgpass
++ chmod 600 /var/lib/postgresql/.pgpass
++ mkdir -p /var/lib/postgresql/data/pg_wal
++ chown postgres /var/lib/postgresql/data/pg_wal
++ rm -rf /var/lib/postgresql/data/pg_wal
++ chown postgres /var/lib/postgresql/data
++ chmod -R 700 /var/lib/postgresql/data
++ su -c 'pg_basebackup -h db-rw -D /var/lib/postgresql/data -U repuser -w -v -P -X stream' postgres
+pg_basebackup: initiating base backup, waiting for checkpoint to complete
+pg_basebackup: checkpoint completed
+pg_basebackup: write-ahead log start point: 0/3000028 on timeline 1
+pg_basebackup: starting background WAL receiver
+pg_basebackup: created temporary replication slot "pg_basebackup_57"
+    0/24554 kB (0%), 0/1 tablespace (...lib/postgresql/data/backup_label)
+24564/24564 kB (100%), 0/1 tablespace (...ostgresql/data/global/pg_control)
+24564/24564 kB (100%), 1/1 tablespace
+pg_basebackup: write-ahead log end point: 0/3000100
+pg_basebackup: waiting for background process to finish streaming ...
+pg_basebackup: syncing data to disk ...
+pg_basebackup: base backup completed
++ cat
++ touch /var/lib/postgresql/data/standby.signal
++ su -c postgres postgres
+2020-04-06 01:34:47.283 UTC [18] LOG:  starting PostgreSQL 12.2 (Debian 12.2-2.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc
+(Debian 8.3.0-6) 8.3.0, 64-bit
+2020-04-06 01:34:47.283 UTC [18] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2020-04-06 01:34:47.283 UTC [18] LOG:  listening on IPv6 address "::", port 5432
+2020-04-06 01:34:47.289 UTC [18] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2020-04-06 01:34:47.304 UTC [19] LOG:  database system was interrupted; last known up at 2020-04-06 01:34:46 UTC
+2020-04-06 01:34:47.442 UTC [19] LOG:  entering standby mode
+2020-04-06 01:34:47.446 UTC [19] LOG:  redo starts at 0/3000028
+2020-04-06 01:34:47.449 UTC [19] LOG:  consistent recovery state reached at 0/3000100
+2020-04-06 01:34:47.449 UTC [18] LOG:  database system is ready to accept read only connections
+2020-04-06 01:34:47.455 UTC [23] LOG:  started streaming WAL from primary at 0/4000000 on timeline 1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This standby backed up the primary database and started streaming logs from the
+primary.</p>
+</div>
+<div class="paragraph">
+<p>The <code>kubectl exec</code> command lets you execute a command on a running pod. Lets
+use this to run psql on one of the standbys, connect to the primary, create
+a table, and then check to see if it shows up on the standbys:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl exec -it db-r-54d9bc6496-pg8b2 -- bash
+root@db-r-54d9bc6496-pg8b2:/# psql -h db-rw -U postgres
+Password for user postgres:
+psql (12.2 (Debian 12.2-2.pgdg100+1))
+Type "help" for help.
+
+postgres=# \dt
+Did not find any relations.
+postgres=# CREATE TABLE test(test_column INTEGER);
+CREATE TABLE
+postgres=# \dt
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | test | table | postgres
+(1 row)
+
+postgres=# \q
+root@db-r-54d9bc6496-pg8b2:/# psql -h db-r -U postgres
+Password for user postgres:
+psql (12.2 (Debian 12.2-2.pgdg100+1))
+Type "help" for help.
+
+postgres=# \dt
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | test | table | postgres
+(1 row)
+
+postgres=# \q</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sure enough, anything we create on the primary (which we access by resolving
+the name <code>db-rw</code> shows up on the standby. Now lets try performing a write
+operation on a standby:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">root@db-r-54d9bc6496-pg8b2:/# psql -h db-r -U postgres
+Password for user postgres:
+psql (12.2 (Debian 12.2-2.pgdg100+1))
+Type "help" for help.
+
+postgres=# CREATE TABLE test2(test_column INTEGER);
+ERROR:  cannot execute CREATE TABLE in a read-only transaction</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It fails, as it should. Lets take a look at how <strong>Services</strong> glue all of this
+together with the <code>kubectl get service</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl get service
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+db-r         ClusterIP   10.106.33.23    &lt;none&gt;        5432/TCP   41m
+db-rw        ClusterIP   10.99.113.228   &lt;none&gt;        5432/TCP   41m
+kubernetes   ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP    35h</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>db-r</code> and <code>db-rw</code> are <strong>Services</strong>, so if a pod tries to resolve on of those
+names, they will get the CLUSTER-IP (10.106.33.23 and 10.99.113.228
+respectively). That ClusterIP is a proxy that will forward their request to
+a pod that can handle it. This allows for load-balancing and high availability.</p>
+</div>
+<div class="paragraph">
+<p>On the subject of HA, the last thing we have to check is that pods will be
+automatically restarted. Let&#8217;s do something bad to one of our pods with the
+<code>kubectl exec</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl exec -it db-rw-6fd7767ddd-g6kvj -- bash
+root@db-rw-6fd7767ddd-g6kvj:/# killall5 -9
+command terminated with exit code 137
+PS C:\Users\rxt1077\it490\example-final&gt; kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+db-r-54d9bc6496-cjhn8    1/1     Running   1          48m
+db-r-54d9bc6496-pg8b2    1/1     Running   0          48m
+db-rw-6fd7767ddd-g6kvj   1/1     Running   1          48m</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>killall5 -9</code> will send a kill signal to all processes on the pod, causing it
+to shut down. Kubernetes brought it back up again as evidenced by RESTARTS
+being equal to one. While the primary is restarting you will lose write
+access, but the standbys will continue to provide read access. Once it is back
+up (a matter of seconds), everything should be functioning as normal.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conclusion">3.3.5. Conclusion</h4>
+<div class="paragraph">
+<p>Using Kubernetes we were able to build a HA PostgreSQL cluster that scales at
+the limits of the database itself. Further improvements in scalability would
+require changing how the database management system functions at a core level.</p>
+</div>
+<div class="paragraph">
+<p>Hopefully you can see the benefit of working with an orchestration framework.
+While it may be daunting at first to learn all of the objects and to use new,
+unfamiliar commands, Kubernetes does provide a lot of options for someone
+looking to deploy scalable applications. Kubernetes has emerged as the
+<a href="https://www.forbes.com/sites/udinachmany/2018/11/01/kubernetes-evolution-of-an-it-revolution/#67e70c2454e1">
+de facto standard</a> and knowledge of how to use it is a <em>very</em> marketable skill.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. Eventually we will want things to be more scalable than just a static, three node cluster.
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. <a href="https://medium.com/@maumribeiro/running-your-own-docker-images-in-minikube-for-windows-ea7383d931f6"> See this great blog post for more details</a>
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. <a href="https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-in-kubernetes-with-minikube"> The fascinating details of how this works are revealed in this blog post.</a>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-04-05 20:45:53 -0400
+</div>
+</div>
+<link rel="stylesheet" href="highlight/styles/github.min.css">
+<script src="highlight/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>

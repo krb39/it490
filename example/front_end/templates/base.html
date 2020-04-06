@@ -12,7 +12,21 @@
     </head>
 	<body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Example</a>>
+            <a class="navbar-brand" href="#">Example</a>
+            <ul class="navbar-nav ml-auto">
+                {% if session['email'] %}
+                <li class="nav-item">
+                    <span class="navbar-text">{{ session['email'] }}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">(log out)</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Log In</a>
+                </li>
+                {% endif %}
+            </ul>
         </nav>
         <div class="container">
             {% block content %}{% endblock %}
