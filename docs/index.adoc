@@ -1,6 +1,7 @@
 :highlightjsdir: highlight
 :source-highlighter: highlight.js
 :icons: font
+:imagesdir: images
 
 = Systems Integration: A Project Based Approach
 Ryan Tolboom <Ryan.Tolboom@njit.edu>
@@ -24,5 +25,9 @@ include::midterm_checkin.adoc[]
 include::replication.adoc[]
 
 include::kubernetes.adoc[]
+
+include::database_k8s.adoc[]
+
+include::rabbitmq_k8s.adoc[]
 
 :leveloffset: -1

@@ -1,0 +1,387 @@
+= RabbitMQ in Kubernetes
+
+In this section we will build a RabbitMQ cluster in Kubernetes to support our
+application.
+
+== Resources
+
+Before we get started, there are some excellent resources for what we are going
+to be covering. You should read / explore _all_ of the following resources:
+
+* https://www.rabbitmq.com/clustering.html[RabbitMQ Clustering Guide]
+* https://www.rabbitmq.com/cluster-formation.html[RabbitMQ Cluster Formation and Peer Discovery]
+* https://hub.docker.com/_/rabbitmq[RabbitMQ Documentation on Docker Hub]
+* https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples[
+Deploy RabbitMQ on Kubernetes with the Kubernetes Peer Discovery Plugin]
+
+== RabbitMQ
+
+RabbitMQ is built on Erlang/OTP, a platform designed in the telecom industry.
+Given the nature of that industry, Erlang/OTP was designed to be highly scalable
+and have strong concurrency support. In other words, it is the perfect platform
+for building non-hierarchical, distributed applications. To give you an example
+that you may be familiar with, Whatsapp runs on Erlang/OTP and it handles about
+two million connected users per server. 
+
+All nodes in a RabbitMQ cluster are equal peers, there is no primary / standby
+structure like we used in the database example. The https://raft.github.io/[
+RAFT] consensus algorithm is used to make decisions for the cluster and as such,
+it is https://www.rabbitmq.com/quorum-queues.html[highly recommended] that the
+number of nodes be odd. Given the amount of traffic and the need for quick
+communication, clustering is designed to function at the LAN level, not the WAN
+level.
+
+Messages in queues are *not* replicated by default, although that
+https://www.rabbitmq.com/ha.html[can be turned on.] For us, this only really
+matters for the `incoming` queue as our other queues are exclusive. Any node can
+route requests through the node that happens to contain the `incoming` queue
+and given the short nature of our connections this should function just fine.
+It is also worth nothing that when a node joins a cluster, its state is reset.
+Once again, given the nature of our connections this shouldn't have much of an
+impact on our application.
+
+It is recommended that all nodes run the same version of Erlang/OTP. This
+should be easy for us since our nodes will be built from the same image. Nodes
+also need to have the same Erlang cookie (shared secret) so they can communicate
+with each other securely. This can be passed via the `RABBITMQ_ERLANG_COOKIE`
+environment variable.
+
+== Kubernetes
+
+RabbitMQ has a peer discovery plugin for Kubernetes that is included with its
+base image. It just needs to be enabled. RabbitMQ also provides a
+https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples[
+repository] that demonstrates how to use it. This example will implement
+something similar, but before we do, we need to go over some new Kubernetes
+objects.
+
+Our example will make use of
+https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/[
+*StatefulSets*], which are similar to *Deployments* in that they use a template
+to build pods. *StatefulSets* also maintain a unique, predictable, enumerated
+name which in our case will be: `messaging-0`, `messaging-1`, `messaging-2`,
+etc. Lastly, *StatefulSets* bring up their pods one-at-a-time, solving some
+initialization / cluster-building problems we've encountered in the past.
+
+The peer discovery plugin, rabbit_peer_discovery_k8s, uses the Kubernetes API to
+find other nodes. Kubernetes uses Role Based Access Control (RBAC) by default to
+grant permissions to use the Kubernetes API.  Therefore we will need to
+configure a *ServiceAccount*, *Role*, and *RoleBinding* to allow the plugin to
+make the requests it needs.
+
+RabbitMQ requires that the hostnames of all cluster members be fully resolvable
+via DNS. By setting up a *Service* we can let Kubernetes handle the hostname
+resolution for us. While this isn't new to us, for RabbitMQ it is important to
+understand exactly how Kubernetes assigns fully qualified domain names (FQDN).
+By default, it uses the form
+`<hostname>.<servicename>.<namespace>.svc.cluster.local`. If you don't specify
+a namespace, you are working in the `default` namespace, therefore we could
+expect the FQDN for the first node of our RabbitMQ cluster to be
+`messaging-0.messaging.default.svc.cluster.local`.
+
+To make things easier we will be using a
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/[
+*ConfigMap*] to store our custom configs for RabbitMQ. This allows us to put
+our config files directly inside our YAML definitions and then mount them as
+volumes.
+
+== Example
+
+Now we'll look at our actual Kubernetes objects. These can be found in
+`example-final/messaging-k8s.yml`.
+
+=== RBAC
+
+Let's start by establishing a *ServiceAccount* for our pods and binding it to a
+*Role* that allows us to GET or LIST endpoints for a *Service*:
+
+.example-final/messaging-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/messaging-k8s.yml[tag=rbac]
+----
+
+The *ServiceAccount* `messaging` will be used in our *StatefulSet* so that when
+a node is brought up, it can query the Kubernetes API to discover the other
+nodes. You will see this process in the logs later.
+
+=== *ConfigMap*
+
+.example-final/messaging-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/messaging-k8s.yml[tag=configmap]
+----
+
+The keys and values in the `data` section of a *ConfigMap* are used to hold
+information that is later placed in a file in a pod template. *ConfigMaps* are
+mounted as volumes in the template as we will see in a moment.
+
+=== *Services*
+
+We will use a *Service* for two purposes:
+
+. To keep track of what nodes are in the RabbitMQ cluster. The
+rabbit_peer_discovery_k8s plugin will use this when RabbitMQ is started on a
+pod.
+. To load balance requests. We can send AMQP traffic _and_ HTTP traffic to any
+node for messaging and administrative interface purposes respectively.
+
+.example-final/messaging-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/messaging-k8s.yml[tag=service]
+----
+
+This is a standard Kubernetes service that will be given a `ClusterIP` and will
+load balance requests for port `5672` and `15672` (AMQP and RabbitMQ admin
+interface, respectively).
+
+=== *StatefulSet*
+
+.example-final/messaging-k8s.yml (excerpted)
+[source, YAML]
+----
+include::../example-final/messaging-k8s.yml[tag=statefulset]
+----
+
+This should look pretty similar to the *Deployment* we worked on
+<<Kubernetes, earlier>>. It creates three replicas by default. Some new things
+that it has introduced:
+
+* Environment variables can be pulled from Kubernetes parameters, see
+`MY_POD_NAME` for an example.
+* *ConfigMaps* can be mounted in a directory. The keys in the data section serve
+as file names and the values service as the file contents.
+https://yaml-multiline.info/[You may want to brush up on your YAML multiline
+strings.]
+* The environment variables `K8S_SERVICE_NAME` and `K8S_HOSTNAME_SUFFIX` are
+used by the discovery plugin. If they are not defined it _will_ fail.
+* `serviceAccountName` is set to messaging to take advantage of our RBAC
+configuration.
+
+=== Running the Example
+
+Let's apply our system to a Kubernetes cluster and perform some analysis:
+
+[source, shell]
+----
+PS \example-final> kubectl apply -f .\messaging-k8s.yml
+serviceaccount/messaging created
+role.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+configmap/rabbitmq-config created
+service/messaging created
+statefulset.apps/messaging created
+PS C:\Users\rxt1077\it490\example-final> kubectl get pod
+NAME          READY   STATUS    RESTARTS   AGE
+messaging-0   1/1     Running   0          4m2s
+messaging-1   1/1     Running   0          4m1s
+messaging-2   1/1     Running   0          4m
+----
+
+As you can see, it brings up three pods. Unlike a *Deployment* which uses
+hashes, the pod names are enumerated. Also unlink a *Deployment* they are
+brought up one-at-a-time.
+
+Let's look at the logs and see how startup proceeded for `messaging-0`:
+
+[source, shell]
+----
+PS C:\Users\rxt1077\it490\example-final> kubectl logs messaging-0
+2020-04-11 18:38:08.118 [info] <0.9.0> Feature flags: list of feature flags found:
+2020-04-11 18:38:08.118 [info] <0.9.0> Feature flags:   [ ] drop_unroutable_metric
+<snip>
+ cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<1>
+<snip>
+2020-04-11 18:38:08.301 [info] <0.278.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-0.messaging.default.
+svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
+2020-04-11 18:38:08.301 [info] <0.278.0> Configured peer discovery backend: rabbit_peer_discovery_k8s
+2020-04-11 18:38:08.301 [info] <0.278.0> Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
+2020-04-11 18:38:08.301 [info] <0.278.0> Peer discovery backend does not support locking, falling back to randomized delay
+2020-04-11 18:38:08.301 [info] <0.278.0> Peer discovery backend rabbit_peer_discovery_k8s supports registration.
+2020-04-11 18:38:08.302 [info] <0.278.0> Will wait for 1638 milliseconds before proceeding with registration...<2>
+2020-04-11 18:38:09.975 [info] <0.278.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
+ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:09.975 [info] <0.278.0> Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, r
+abbit@messaging-1.messaging.default.svc.cluster.local<3>
+2020-04-11 18:38:09.981 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.loca
+l: {error,mnesia_not_running}
+2020-04-11 18:38:09.985 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-1.messaging.default.svc.cluster.loca
+l: {error,tables_not_present}
+2020-04-11 18:38:09.985 [warning] <0.278.0> Could not successfully contact any node of: rabbit@messaging-2.messaging.default.svc.c
+luster.local,rabbit@messaging-1.messaging.default.svc.cluster.local (as in Erlang distribution). Starting as a blank standalone no
+de...<4>
+<snip>
+2020-04-11 18:38:11.041 [info] <0.9.0> Server startup complete; 5 plugins started.
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * rabbitmq_peer_discovery_k8s
+ * rabbitmq_peer_discovery_common
+ completed with 5 plugins.
+2020-04-11 18:38:11.650 [info] <0.535.0> rabbit on node 'rabbit@messaging-2.messaging.default.svc.cluster.local' up <5>
+2020-04-11 18:38:11.859 [info] <0.535.0> rabbit on node 'rabbit@messaging-1.messaging.default.svc.cluster.local' up
+----
+<1> This should match the cookie on the other nodes.
+<2> This randomized wait could be optimized since we know we will start in
+order. See the official example for a better implementation.
+<3> Other peers were detected, but RabbitMQ was not fully initialized on them.
+<4> Therefore `messaging-0` became a standalone node.
+<5> Eventually the other nodes joined us.
+
+Let's look at the logs and see how startup proceeded for `messaging-1`:
+
+[source, shell]
+----
+PS example-final> kubectl logs messaging-1
+2020-04-11 18:38:09.658 [info] <0.9.0> Feature flags: list of feature flags found:
+2020-04-11 18:38:09.658 [info] <0.9.0> Feature flags:   [ ] drop_unroutable_metric
+2020-04-11 18:38:09.658 [info] <0.9.0> Feature flags:   [ ] empty_basic_get_metric
+<snip>
+ cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<1>
+<snip>
+2020-04-11 18:38:09.790 [info] <0.278.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-1.messaging.default.
+svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
+2020-04-11 18:38:09.790 [info] <0.278.0> Configured peer discovery backend: rabbit_peer_discovery_k8s
+2020-04-11 18:38:09.791 [info] <0.278.0> Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
+2020-04-11 18:38:09.791 [info] <0.278.0> Peer discovery backend does not support locking, falling back to randomized delay
+2020-04-11 18:38:09.791 [info] <0.278.0> Peer discovery backend rabbit_peer_discovery_k8s supports registration.
+2020-04-11 18:38:09.791 [info] <0.278.0> Will wait for 855 milliseconds before proceeding with registration...
+2020-04-11 18:38:10.670 [info] <0.278.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
+ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.670 [info] <0.278.0> Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, r
+abbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.673 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.loca
+l: {error,tables_not_present}
+2020-04-11 18:38:10.696 [info] <0.278.0> Node 'rabbit@messaging-0.messaging.default.svc.cluster.local' selected for auto-clusterin
+g<2>
+<snip>
+2020-04-11 18:38:12.118 [info] <0.9.0> Server startup complete; 5 plugins started.
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * rabbitmq_peer_discovery_k8s
+ * rabbitmq_peer_discovery_common
+ completed with 5 plugins.
+----
+<1> Sure enough, our cookie is the same
+<2> `messaging-0` is up an available for peering, but `messaging-1` is not. We
+peered with `messaging-0` 
+
+Finally, let's look at the logs and see how startup proceeded for `messaging-2`:
+
+[source, shell]
+----
+PS example-final> kubectl logs messaging-2
+2020-04-11 18:38:10.155 [info] <0.9.0> Feature flags: list of feature flags found:
+2020-04-11 18:38:10.155 [info] <0.9.0> Feature flags:   [ ] drop_unroutable_metric
+<snip>
+ cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<1>
+<snip>
+2020-04-11 18:38:10.279 [info] <0.287.0> Configured peer discovery backend: rabbit_peer_discovery_k8s
+2020-04-11 18:38:10.279 [info] <0.287.0> Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
+2020-04-11 18:38:10.279 [info] <0.287.0> Peer discovery backend does not support locking, falling back to randomized delay
+2020-04-11 18:38:10.279 [info] <0.287.0> Peer discovery backend rabbit_peer_discovery_k8s supports registration.
+2020-04-11 18:38:10.279 [info] <0.287.0> Will wait for 598 milliseconds before proceeding with registration...
+2020-04-11 18:38:10.891 [info] <0.287.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
+ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.891 [info] <0.287.0> Peer nodes we can cluster with: rabbit@messaging-1.messaging.default.svc.cluster.local, r
+abbit@messaging-0.messaging.default.svc.cluster.local<2>
+2020-04-11 18:38:10.946 [info] <0.287.0> Node 'rabbit@messaging-1.messaging.default.svc.cluster.local' selected for auto-clusterin
+g
+<snip>
+2020-04-11 18:38:12.009 [info] <0.9.0> Server startup complete; 5 plugins started.
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * rabbitmq_peer_discovery_k8s
+ * rabbitmq_peer_discovery_common
+----
+<1> Same cookie as all the other nodes, good.
+<2> `messaging-2` could peer with either `messaging-0` or `messaging-1` as it
+was started last. It chose `messaging-1`.
+
+The last thing we can do is look at the output of `rabbitmqctl cluster_status`
+to see how our cluster is running. Executing
+https://www.rabbitmq.com/rabbitmqctl.8.html[this command] on any node will tell
+you about the health of the entire RabbitMQ cluster:
+
+[source, shell]
+----
+PS example-final> kubectl exec -it messaging-0 -- rabbitmqctl cluster_status
+Cluster status of node rabbit@messaging-0.messaging.default.svc.cluster.local ...
+Basics
+
+Cluster name: rabbit@messaging-0.messaging.default.svc.cluster.local
+
+Disk Nodes
+
+rabbit@messaging-0.messaging.default.svc.cluster.local
+rabbit@messaging-1.messaging.default.svc.cluster.local
+rabbit@messaging-2.messaging.default.svc.cluster.local
+
+Running Nodes
+
+rabbit@messaging-0.messaging.default.svc.cluster.local
+rabbit@messaging-1.messaging.default.svc.cluster.local
+rabbit@messaging-2.messaging.default.svc.cluster.local
+
+Versions
+
+rabbit@messaging-0.messaging.default.svc.cluster.local: RabbitMQ 3.8.3 on Erlang 22.3.1
+rabbit@messaging-1.messaging.default.svc.cluster.local: RabbitMQ 3.8.3 on Erlang 22.3.1
+rabbit@messaging-2.messaging.default.svc.cluster.local: RabbitMQ 3.8.3 on Erlang 22.3.1
+
+Alarms
+
+(none)
+
+Network Partitions
+
+(none)
+
+Listeners
+
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
+ode and CLI tool communication
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
+ AMQP 1.0
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
+ode and CLI tool communication
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
+ AMQP 1.0
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
+ode and CLI tool communication
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
+ AMQP 1.0
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+
+Feature flags
+
+Flag: drop_unroutable_metric, state: enabled
+Flag: empty_basic_get_metric, state: enabled
+Flag: implicit_default_bindings, state: enabled
+Flag: quorum_queue, state: enabled
+Flag: virtual_host_metadata, state: enabled
+----
+
+This shows us that there are three nodes, the nodes are all running the same
+version of RabbitMQ and Erlang, and that they are listening for AMQP and admin
+interface connections.
+
+== Questions
+
+[qanda]
+What sets RabbitMQ clustering apart from more traditional primary / standby replication?::
+    {empty}
+What is the difference between a *Deployment* and a *StatefulSet*? Why did we choose a *StatefulSet* for this application?::
+    {empty}
+Why does our peer discovery plugin use the Kubernetes API and what alternatives are there?::
+    {empty}
+What role does RBAC play in the Kubernetes cluster?::
+    {empty}
+What does a *ConfigMap* do and how is it used?::
+    {empty}

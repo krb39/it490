@@ -469,8 +469,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_kubernetes">3. Kubernetes</a>
 <ul class="sectlevel2">
 <li><a href="#_introduction">3.1. Introduction</a></li>
-<li><a href="#_the_development_environment">3.2. The Development Environment</a></li>
-<li><a href="#_database_replication_example">3.3. Database Replication Example</a></li>
+<li><a href="#_minikube">3.2. Minikube</a></li>
+<li><a href="#_debugging">3.3. Debugging</a></li>
+<li><a href="#_conclusion">3.4. Conclusion</a></li>
+<li><a href="#_questions">3.5. Questions</a></li>
+</ul>
+</li>
+<li><a href="#_postgresql_in_kubernetes">4. PostgreSQL in Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_2">4.1. Introduction</a></li>
+<li><a href="#_persistentvolumeclaims">4.2. PersistentVolumeClaims</a></li>
+<li><a href="#_services">4.3. Services</a></li>
+<li><a href="#_deployments">4.4. Deployments</a></li>
+<li><a href="#_running_the_example">4.5. Running the Example</a></li>
+<li><a href="#_conclusion_2">4.6. Conclusion</a></li>
+<li><a href="#_questions_2">4.7. Questions</a></li>
+</ul>
+</li>
+<li><a href="#_rabbitmq_in_kubernetes">5. RabbitMQ in Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_resources">5.1. Resources</a></li>
+<li><a href="#_rabbitmq">5.2. RabbitMQ</a></li>
+<li><a href="#_kubernetes_2">5.3. Kubernetes</a></li>
+<li><a href="#_example">5.4. Example</a></li>
+<li><a href="#_questions_3">5.5. Questions</a></li>
 </ul>
 </li>
 </ul>
@@ -540,7 +562,7 @@ write to the <strong>Database</strong>:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="overview_compose.svg" alt="overview compose" width="587" height="103">
+<img src="images/overview_compose.svg" alt="overview compose" width="587" height="103">
 </div>
 </div>
 <div class="paragraph">
@@ -611,7 +633,7 @@ detailed in the diagram below:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="messaging.svg" alt="messaging" width="349" height="293">
+<img src="images/messaging.svg" alt="messaging" width="349" height="293">
 </div>
 </div>
 <div class="paragraph">
@@ -653,7 +675,7 @@ uses. It only communicates with <strong>Back End</strong>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="database.svg" alt="database" width="234" height="117">
+<img src="images/database.svg" alt="database" width="234" height="117">
 </div>
 </div>
 <div class="paragraph">
@@ -781,7 +803,7 @@ has libraries to interface with <strong>Database</strong> and <strong>Messaging<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="backend.svg" alt="backend" width="693" height="245">
+<img src="images/backend.svg" alt="backend" width="693" height="245">
 </div>
 </div>
 <div class="paragraph">
@@ -900,7 +922,7 @@ those libraries.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="frontend.svg" alt="frontend" width="505" height="264">
+<img src="images/frontend.svg" alt="frontend" width="505" height="264">
 </div>
 </div>
 <div class="paragraph">
@@ -1075,7 +1097,7 @@ and <strong>Back End</strong>:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="registration.svg" alt="registration" width="481" height="283">
+<img src="images/registration.svg" alt="registration" width="481" height="283">
 </div>
 </div>
 <div class="paragraph">
@@ -1144,7 +1166,7 @@ default to a lifetime of 31 days.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="login.svg" alt="login" width="426" height="283">
+<img src="images/login.svg" alt="login" width="426" height="283">
 </div>
 </div>
 <div class="paragraph">
@@ -1236,7 +1258,7 @@ Management System (DBMS), to the user.</p>
 <h3 id="_background">2.1. Background</h3>
 <div class="imageblock">
 <div class="content">
-<img src="replication.svg" alt="replication" width="199" height="140">
+<img src="images/replication.svg" alt="replication" width="199" height="140">
 </div>
 </div>
 <div class="paragraph">
@@ -1283,13 +1305,13 @@ Standby:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="volshare.svg" alt="volshare" width="441" height="445">
+<img src="images/volshare.svg" alt="volshare" width="441" height="445">
 </div>
 <div class="title">Figure 1. Volume Sharing</div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="standby.svg" alt="standby" width="510" height="311">
+<img src="images/standby.svg" alt="standby" width="510" height="311">
 </div>
 <div class="title">Figure 2. Hot / Warm Standby</div>
 </div>
@@ -1364,7 +1386,7 @@ primary or standby node accordingly. The logic for startup is as follows:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="startup_logic.svg" alt="startup logic" width="486" height="530">
+<img src="images/startup_logic.svg" alt="startup logic" width="486" height="530">
 </div>
 </div>
 <div class="paragraph">
@@ -1603,7 +1625,7 @@ let&#8217;s examine the <strong>non-randomized</strong> scenario shown in the fo
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="dualpromotion.svg" alt="dualpromotion" width="487" height="240">
+<img src="images/dualpromotion.svg" alt="dualpromotion" width="487" height="240">
 </div>
 <div class="title">Figure 3. Dual Promotion</div>
 </div>
@@ -1769,42 +1791,41 @@ individual one can serve more requests.
 <div class="paragraph">
 <p>Kubernetes is a container orchestration system originally designed by Google.
 It is currently the most popular orchestration system and is notorious for
-being difficult to learn. Fortunately, most of the concepts we will be using
-have already been covered and the command syntax is similar to Docker, which
-we have been working with.</p>
+being difficult to learn. Fortunately, we have already covered most of the
+concepts and the command syntax is similar to Docker.</p>
 </div>
 <div class="paragraph">
 <p>A Kubernetes cluster is made up of nodes. Each node is capable of running
-pods, which in turn are made up of containers:</p>
+pods, which in turn are running containers:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="k8s_cluster.svg" alt="k8s cluster" width="714" height="262">
+<img src="images/k8s_cluster.svg" alt="k8s cluster" width="714" height="262">
 </div>
 <div class="title">Figure 4. Kubernetes Cluster</div>
 </div>
 <div class="paragraph">
 <p>Kubernetes is designed to solve the hard problems of multi-node deployment,
-replication, volume sharing, container communication, updates, roll-backs, and
-monitoring. It does this by defining objects in YAML files. The objects we will
-be working with are <strong>Deployment</strong>, <strong>Service</strong>, and <strong>PersistentVolumeClaim</strong>:</p>
+replication, volume sharing, container communication, updates, roll-backs,
+service discovery and monitoring. It does this by defining objects and
+providing an API to interact with them. Some of the first objects we will be
+working with are:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>A <strong>PersistentVolumeClaim</strong> defines what storage our application will need</p>
-</li>
-<li>
-<p>A <strong>Service</strong> defines how pods can access each other</p>
-</li>
-<li>
-<p>A <strong>Deployment</strong> defines how to handle the creation / maintenance of pods</p>
-</li>
-</ul>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Deployment</dt>
+<dd>
+<p>Defines how to handle the creation / maintenance of pods</p>
+</dd>
+<dt class="hdlist1">Service</dt>
+<dd>
+<p>Defines what pods offer to the cluster and how it should be accessed</p>
+</dd>
+</dl>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_the_development_environment">3.2. The Development Environment</h3>
+<h3 id="_minikube">3.2. Minikube</h3>
 <div class="paragraph">
 <p>For our purposes we will be using a single-node, local version of Kubernetes
 called <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">minikube</a>.
@@ -1813,7 +1834,7 @@ the host. It provides a several options for how the VM is run:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="minikube_arch.svg" alt="minikube arch" width="645" height="451">
+<img src="images/minikube_arch.svg" alt="minikube arch" width="645" height="451">
 </div>
 <div class="title">Figure 5. Minikube Architecture</div>
 </div>
@@ -1936,7 +1957,7 @@ Toolbox).</p>
 </td>
 <td class="content">
 <code>minikube</code> commands will work in a new terminal, but if you want to build
-docker images and have them available on your Kubernetes cluster, you will need
+docker images and have them available on your Kubernetes cluster you will need
 to use minikube&#8217;s docker-env command for each new terminal you open.
 </td>
 </tr>
@@ -2053,7 +2074,251 @@ No resources found in default namespace.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_database_replication_example">3.3. Database Replication Example</h3>
+<h3 id="_debugging">3.3. Debugging</h3>
+<div class="paragraph">
+<p>The official Kubernetes documentation has an
+<a href="https://kubernetes.io/docs/tasks/debug-application-cluster/debug-service/">
+excellent article</a> on debugging services. What follows are some tips they may
+help reinforce or fill-in-the-blanks for topics in the article.</p>
+</div>
+<div class="paragraph">
+<p>Two <code>kubectl</code> commands are especially useful for finding out more information
+about an object:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>kubectl get</code></dt>
+<dd>
+<p>gets brief information about an object or all of the objects of
+that type</p>
+</dd>
+<dt class="hdlist1"><code>kubectl describe</code></dt>
+<dd>
+<p>gets more information about an object</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; kubectl get pod
+NAME                           READY   STATUS    RESTARTS   AGE
+k8s-example-5787cd97dc-fbrxl   1/1     Running   0          33s
+PS minikube-demo&gt; kubectl describe pod k8s-example-5787cd97dc-fbrxl
+Name:         k8s-example-5787cd97dc-fbrxl
+Namespace:    default
+Priority:     0
+Node:         minikube/172.17.0.2
+Start Time:   Mon, 13 Apr 2020 18:22:39 -0400
+Labels:       app=k8s-example
+              pod-template-hash=5787cd97dc
+Annotations:  &lt;none&gt;
+Status:       Running
+IP:           172.18.0.3
+IPs:
+  IP:           172.18.0.3
+Controlled By:  ReplicaSet/k8s-example-5787cd97dc
+Containers:
+  k8s-example:
+    Container ID:   docker://f22a1be8401f256c42c8c8ad82cf6757bc9e34ec7ae1fe0c4329fff57ff09bcb
+    Image:          k8s-example:v1
+    Image ID:       docker://sha256:374b52c1385d25269a05e9542e65690fe9dc00146b869580db8ab51b5027096a
+    Port:           &lt;none&gt;
+    Host Port:      &lt;none&gt;
+    State:          Running
+      Started:      Mon, 13 Apr 2020 18:23:37 -0400
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 13 Apr 2020 18:23:06 -0400
+      Finished:     Mon, 13 Apr 2020 18:23:36 -0400
+    Ready:          True
+    Restart Count:  1
+    Environment:    &lt;none&gt;
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-5mgft (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  default-token-5mgft:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-5mgft
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  &lt;none&gt;
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Normal   Scheduled  &lt;unknown&gt;          default-scheduler  Successfully assigned default/k8s-example-5787cd97dc-fbrxl to minikube
+  Normal   BackOff    62s                kubelet, minikube  Back-off pulling image "k8s-example:v1"
+  Warning  Failed     62s                kubelet, minikube  Error: ImagePullBackOff
+  Normal   Pulling    50s (x2 over 62s)  kubelet, minikube  Pulling image "k8s-example:v1"
+  Warning  Failed     50s (x2 over 62s)  kubelet, minikube  Failed to pull image "k8s-example:v1": rpc error: code = Unknown desc = Error
+ response from daemon: pull access denied for k8s-example, repository does not exist or may require 'docker login': denied: requested acc
+ess to the resource is denied
+  Warning  Failed     50s (x2 over 62s)  kubelet, minikube  Error: ErrImagePull
+  Normal   Pulled     5s (x2 over 36s)   kubelet, minikube  Container image "k8s-example:v1" already present on machine
+  Normal   Created    5s (x2 over 36s)   kubelet, minikube  Created container k8s-example
+  Normal   Started    5s (x2 over 36s)   kubelet, minikube  Started container k8s-example</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see there, is lots of useful information here including a full
+history of events that have occured.</p>
+</div>
+<div class="paragraph">
+<p>Many of the same techniques used for debugging Docker images can be used for
+debugging Kubernetes objects. For example you can execute interactive commands
+(including a shell) on running docker images with <code>kubectl exec -it</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS minikube-demo&gt; kubectl exec -it k8s-example-5787cd97dc-7j6cc -- /bin/sh
+/ # ps ax
+PID   USER     TIME  COMMAND
+    1 root      0:00 sleep 30
+   11 root      0:00 /bin/sh
+   16 root      0:00 ps ax
+/ # ls
+bin    dev    etc    home   lib    media  mnt    opt    proc   root   run    sbin   srv    sys    tmp    usr    var
+/ # exit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If, for some reason, an image does not start up, you can replace the ENTRYPOINT
+of the Dockerfile from within the <code>template</code> definition of a <strong>Deployment</strong>. By
+replacing it with something you know will work, you can then execute an
+interactive shell in the container to see what is going on. The following is an
+example of executing the sleep command, assuring that the pod will run for at
+least an hour:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">kind: Deployment
+metadata:
+  name: db-rw
+  labels:
+    app: db-rw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-rw
+  template:
+    metadata:
+      labels:
+        app: db-rw
+    spec:
+      containers:
+        - name: db-rw
+          image: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "changeme"
+            - name: POSTGRES_REPLICA_PASSWORD
+              value: "changeme"
+          command: ["bash", "-c", "sleep 3600"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, you may find yourself in a situation where you need to run <code>kubectl</code>
+from within a pod. This can be helpful for sorting out role based access
+control issues, namely "how can this pod interact with the Kubernetes API?"
+<a href="https://itnext.io/running-kubectl-commands-from-within-a-pod-b303e8176088">
+This guide</a> is a great resource. It largely boils down to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From within the pod (<code>kubectl exec -it &lt;pod-name&gt;&#8201;&#8212;&#8201;bash</code>) install curl:
+<code>apt-get install curl</code>.</p>
+</li>
+<li>
+<p>Download <code>kubectl</code>:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>VERSION=curl <a href="https://storage.googleapis.com/kubernetes-release/release/stable.txt" class="bare">https://storage.googleapis.com/kubernetes-release/release/stable.txt</a></code></p>
+</li>
+<li>
+<p><code>curl -LO <a href="https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl" class="bare">https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl</a></code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Make it executable and install it:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>chmod +x ./kubectl</code></p>
+</li>
+<li>
+<p><code>mv ./kubectl /usr/local/bin/</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion">3.4. Conclusion</h3>
+<div class="paragraph">
+<p>Hopefully you can see the benefit of working with an orchestration framework.
+While it may be daunting at first to learn all of the objects and to use new,
+unfamiliar commands, Kubernetes does provide a lot of options for someone
+looking to deploy scalable applications. Kubernetes has emerged as the
+<a href="https://www.forbes.com/sites/udinachmany/2018/11/01/kubernetes-evolution-of-an-it-revolution/#67e70c2454e1">
+de facto standard</a> and knowing how to use it is a <em>very</em> marketable skill.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_questions">3.5. Questions</h3>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>What is the role of a pod in Kubernetes?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What does a <strong>Deployment</strong> do?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>A systems architect was using a stock Docker Hub image with a custom ENTRYPOINT point script she had designed. This required a Dockerfile, BASH script, and a directory to store them. When she migrated to Kubernetes she was able to do this all in one YAML file. Describe how this is possible.</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What is minikube used for and what platforms can it run on?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Why are <strong>Services</strong> essential to replication?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>If you were given an image to deploy on Kubernetes and it continually failed to start, what steps would you take to figure out what was going wrong?</em></p>
+<p></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_postgresql_in_kubernetes">4. PostgreSQL in Kubernetes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction_2">4.1. Introduction</h3>
 <div class="paragraph">
 <p>In this example we implement a primary / standby replication setup for
 PostgreSQL. Two <strong>Services</strong> will be provided: one for read/write requests and
@@ -2066,8 +2331,12 @@ hand in the <a href="#_replication">previously</a>.</p>
 defining what we create in a YAML file: <code>example-final/db-k8s.yml</code>. kubectl can
 load object definitions from YAML files with the <code>apply</code> command.</p>
 </div>
-<div class="sect3">
-<h4 id="_persistentvolumeclaims">3.3.1. PersistentVolumeClaims</h4>
+<div class="paragraph">
+<p>Now let&#8217;s look at each of the Kubernetes objects we are defining:</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_persistentvolumeclaims">4.2. PersistentVolumeClaims</h3>
 <div class="paragraph">
 <p>A <strong>PersistentVolumeClaim</strong> lets the cluster know that you are expecting certain
 storage resources. In this case, we are looking for a place to store our
@@ -2110,8 +2379,8 @@ about shared access. The supported accessModes are:</p>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_services">3.3.2. Services</h4>
+<div class="sect2">
+<h3 id="_services">4.3. Services</h3>
 <div class="paragraph">
 <p>A <strong>Service</strong> exposes an application on a group of pods. In our case we will be
 providing two <strong>Services</strong>: a <code>db-rw</code> <strong>Service</strong> which connects to our primary
@@ -2167,8 +2436,8 @@ database use the hostname <code>db-rw</code>. The DNS resolution, load-balancing
 and routing are set up for you automatically.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_deployments">3.3.3. Deployments</h4>
+<div class="sect2">
+<h3 id="_deployments">4.4. Deployments</h3>
 <div class="paragraph">
 <p>A <strong>Deployment</strong> tells Kubernetes how to create and monitor pods. The bulk of our
 work will be done in the <code>db-r</code> and <code>db-rw</code> <strong>Deployments</strong>. Fortunately we have
@@ -2247,7 +2516,7 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p>The <strong>Deployment</strong> tells Kubernetes to maintain one <code>replica</code> of the pod defined
+<p>Ths <strong>Deployment</strong> tells Kubernetes to maintain one <code>replica</code> of the pod defined
 in the <code>template</code> section. The <code>containers</code> section is a list of one container
 that uses the <code>postgres</code> image from Docker Hub and overrides the ENTRYPOINT of
 that Dockerfile (this is <code>command</code> in Kubernetespeak). Our script is taken
@@ -2336,8 +2605,8 @@ they will fail and Kubernetes will restart them until they work.</p>
 us by a <em>proper</em> orchestration framework.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_running_the_example">3.3.4. Running the Example</h4>
+<div class="sect2">
+<h3 id="_running_the_example">4.5. Running the Example</h3>
 <div class="paragraph">
 <p>Let&#8217;s take a look at the example in action:</p>
 </div>
@@ -2595,21 +2864,653 @@ access, but the standbys will continue to provide read access. Once it is back
 up (a matter of seconds), everything should be functioning as normal.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_conclusion_2">4.6. Conclusion</h3>
+<div class="paragraph">
+<p>Using Kubernetes we were able to quickly build a HA PostgreSQL cluster. This is
+just the tip of the iceberg for what Kubernetes supports and as you learn more
+about it you should be able to revisit and improve this implementation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_questions_2">4.7. Questions</h3>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>A systems architect was using a stock Docker Hub image with a custom ENTRYPOINT point script she had designed. This required a Dockerfile, BASH script, and a directory to store them. When she migrated to Kubernetes she was able to do this all in one YAML file. Describe how this is possible.</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Why are <strong>Services</strong> essential to replication?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Why do we define two <strong>Deployments</strong> for our example?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>How can our database deployment be improved?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Compare and contrast Kubernetes ConsistentVolumeClaims with Docker compose named volumes.</em></p>
+<p></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rabbitmq_in_kubernetes">5. RabbitMQ in Kubernetes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section we will build a RabbitMQ cluster in Kubernetes to support our
+application.</p>
+</div>
+<div class="sect2">
+<h3 id="_resources">5.1. Resources</h3>
+<div class="paragraph">
+<p>Before we get started, there are some excellent resources for what we are going
+to be covering. You should read / explore <em>all</em> of the following resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.rabbitmq.com/clustering.html">RabbitMQ Clustering Guide</a></p>
+</li>
+<li>
+<p><a href="https://www.rabbitmq.com/cluster-formation.html">RabbitMQ Cluster Formation and Peer Discovery</a></p>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/rabbitmq">RabbitMQ Documentation on Docker Hub</a></p>
+</li>
+<li>
+<p><a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples">
+Deploy RabbitMQ on Kubernetes with the Kubernetes Peer Discovery Plugin</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rabbitmq">5.2. RabbitMQ</h3>
+<div class="paragraph">
+<p>RabbitMQ is built on Erlang/OTP, a platform designed in the telecom industry.
+Given the nature of that industry, Erlang/OTP was designed to be highly scalable
+and have strong concurrency support. In other words, it is the perfect platform
+for building non-hierarchical, distributed applications. To give you an example
+that you may be familiar with, Whatsapp runs on Erlang/OTP and it handles about
+two million connected users per server.</p>
+</div>
+<div class="paragraph">
+<p>All nodes in a RabbitMQ cluster are equal peers, there is no primary / standby
+structure like we used in the database example. The <a href="https://raft.github.io/">
+RAFT</a> consensus algorithm is used to make decisions for the cluster and as such,
+it is <a href="https://www.rabbitmq.com/quorum-queues.html">highly recommended</a> that the
+number of nodes be odd. Given the amount of traffic and the need for quick
+communication, clustering is designed to function at the LAN level, not the WAN
+level.</p>
+</div>
+<div class="paragraph">
+<p>Messages in queues are <strong>not</strong> replicated by default, although that
+<a href="https://www.rabbitmq.com/ha.html">can be turned on.</a> For us, this only really
+matters for the <code>incoming</code> queue as our other queues are exclusive. Any node can
+route requests through the node that happens to contain the <code>incoming</code> queue
+and given the short nature of our connections this should function just fine.
+It is also worth nothing that when a node joins a cluster, its state is reset.
+Once again, given the nature of our connections this shouldn&#8217;t have much of an
+impact on our application.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that all nodes run the same version of Erlang/OTP. This
+should be easy for us since our nodes will be built from the same image. Nodes
+also need to have the same Erlang cookie (shared secret) so they can communicate
+with each other securely. This can be passed via the <code>RABBITMQ_ERLANG_COOKIE</code>
+environment variable.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kubernetes_2">5.3. Kubernetes</h3>
+<div class="paragraph">
+<p>RabbitMQ has a peer discovery plugin for Kubernetes that is included with its
+base image. It just needs to be enabled. RabbitMQ also provides a
+<a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples">
+repository</a> that demonstrates how to use it. This example will implement
+something similar, but before we do, we need to go over some new Kubernetes
+objects.</p>
+</div>
+<div class="paragraph">
+<p>Our example will make use of
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">
+<strong>StatefulSets</strong></a>, which are similar to <strong>Deployments</strong> in that they use a template
+to build pods. <strong>StatefulSets</strong> also maintain a unique, predictable, enumerated
+name which in our case will be: <code>messaging-0</code>, <code>messaging-1</code>, <code>messaging-2</code>,
+etc. Lastly, <strong>StatefulSets</strong> bring up their pods one-at-a-time, solving some
+initialization / cluster-building problems we&#8217;ve encountered in the past.</p>
+</div>
+<div class="paragraph">
+<p>The peer discovery plugin, rabbit_peer_discovery_k8s, uses the Kubernetes API to
+find other nodes. Kubernetes uses Role Based Access Control (RBAC) by default to
+grant permissions to use the Kubernetes API.  Therefore we will need to
+configure a <strong>ServiceAccount</strong>, <strong>Role</strong>, and <strong>RoleBinding</strong> to allow the plugin to
+make the requests it needs.</p>
+</div>
+<div class="paragraph">
+<p>RabbitMQ requires that the hostnames of all cluster members be fully resolvable
+via DNS. By setting up a <strong>Service</strong> we can let Kubernetes handle the hostname
+resolution for us. While this isn&#8217;t new to us, for RabbitMQ it is important to
+understand exactly how Kubernetes assigns fully qualified domain names (FQDN).
+By default, it uses the form
+<code>&lt;hostname&gt;.&lt;servicename&gt;.&lt;namespace&gt;.svc.cluster.local</code>. If you don&#8217;t specify
+a namespace, you are working in the <code>default</code> namespace, therefore we could
+expect the FQDN for the first node of our RabbitMQ cluster to be
+<code>messaging-0.messaging.default.svc.cluster.local</code>.</p>
+</div>
+<div class="paragraph">
+<p>To make things easier we will be using a
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">
+<strong>ConfigMap</strong></a> to store our custom configs for RabbitMQ. This allows us to put
+our config files directly inside our YAML definitions and then mount them as
+volumes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example">5.4. Example</h3>
+<div class="paragraph">
+<p>Now we&#8217;ll look at our actual Kubernetes objects. These can be found in
+<code>example-final/messaging-k8s.yml</code>.</p>
+</div>
 <div class="sect3">
-<h4 id="_conclusion">3.3.5. Conclusion</h4>
+<h4 id="_rbac">5.4.1. RBAC</h4>
 <div class="paragraph">
-<p>Using Kubernetes we were able to build a HA PostgreSQL cluster that scales at
-the limits of the database itself. Further improvements in scalability would
-require changing how the database management system functions at a core level.</p>
+<p>Let&#8217;s start by establishing a <strong>ServiceAccount</strong> for our pods and binding it to a
+<strong>Role</strong> that allows us to GET or LIST endpoints for a <strong>Service</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/messaging-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: messaging
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: rabbitmq-peer-discovery-rbac
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: rabbitmq-peer-discovery-rbac
+subjects:
+  - kind: ServiceAccount
+    name: messaging
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: rabbitmq-peer-discovery-rbac</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Hopefully you can see the benefit of working with an orchestration framework.
-While it may be daunting at first to learn all of the objects and to use new,
-unfamiliar commands, Kubernetes does provide a lot of options for someone
-looking to deploy scalable applications. Kubernetes has emerged as the
-<a href="https://www.forbes.com/sites/udinachmany/2018/11/01/kubernetes-evolution-of-an-it-revolution/#67e70c2454e1">
-de facto standard</a> and knowledge of how to use it is a <em>very</em> marketable skill.</p>
+<p>The <strong>ServiceAccount</strong> <code>messaging</code> will be used in our <strong>StatefulSet</strong> so that when
+a node is brought up, it can query the Kubernetes API to discover the other
+nodes. You will see this process in the logs later.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_configmap">5.4.2. <strong>ConfigMap</strong></h4>
+<div class="listingblock">
+<div class="title">example-final/messaging-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  enabled_plugins: |
+    [rabbitmq_management,rabbitmq_peer_discovery_k8s].
+  rabbitmq.conf: |
+    cluster_formation.peer_discovery_backend  = rabbit_peer_discovery_k8s
+    cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
+    cluster_formation.k8s.address_type = hostname
+    cluster_formation.node_cleanup.interval = 30
+    cluster_formation.node_cleanup.only_log_warning = true
+    cluster_partition_handling = autoheal
+    queue_master_locator=min-masters
+    loopback_users.guest = false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The keys and values in the <code>data</code> section of a <strong>ConfigMap</strong> are used to hold
+information that is later placed in a file in a pod template. <strong>ConfigMaps</strong> are
+mounted as volumes in the template as we will see in a moment.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_services_2">5.4.3. <strong>Services</strong></h4>
+<div class="paragraph">
+<p>We will use a <strong>Service</strong> for two purposes:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To keep track of what nodes are in the RabbitMQ cluster. The
+rabbit_peer_discovery_k8s plugin will use this when RabbitMQ is started on a
+pod.</p>
+</li>
+<li>
+<p>To load balance requests. We can send AMQP traffic <em>and</em> HTTP traffic to any
+node for messaging and administrative interface purposes respectively.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">example-final/messaging-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: v1
+kind: Service
+metadata:
+  name: messaging
+  labels:
+    app: messaging
+spec:
+  selector:
+    app: messaging
+  ports:
+    - name: amqp
+      protocol: TCP
+      port: 5672
+    - name: http
+      protocol: TCP
+      port: 15672</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is a standard Kubernetes service that will be given a <code>ClusterIP</code> and will
+load balance requests for port <code>5672</code> and <code>15672</code> (AMQP and RabbitMQ admin
+interface, respectively).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_statefulset">5.4.4. <strong>StatefulSet</strong></h4>
+<div class="listingblock">
+<div class="title">example-final/messaging-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: messaging
+  labels:
+    app: messaging
+spec:
+  serviceName: messaging
+  replicas: 3
+  selector:
+    matchLabels:
+      app: messaging
+  template:
+    metadata:
+      labels:
+        app: messaging
+    spec:
+      serviceAccountName: messaging
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: RABBITMQ_USE_LONGNAME
+              value: "true"
+            - name: K8S_SERVICE_NAME
+              value: messaging
+            - name: K8S_HOSTNAME_SUFFIX
+              value: .messaging.default.svc.cluster.local
+            - name: RABBITMQ_NODENAME
+              value: rabbit@$(MY_POD_NAME).messaging.default.svc.cluster.local
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: "changeme"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/rabbitmq
+      volumes:
+        - name: config-volume
+          configMap:
+            name: rabbitmq-config
+            items:
+              - key: rabbitmq.conf
+                path: rabbitmq.conf
+              - key: enabled_plugins
+                path: enabled_plugins</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This should look pretty similar to the <strong>Deployment</strong> we worked on
+<a href="#_kubernetes">earlier</a>. It creates three replicas by default. Some new things
+that it has introduced:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Environment variables can be pulled from Kubernetes parameters, see
+<code>MY_POD_NAME</code> for an example.</p>
+</li>
+<li>
+<p><strong>ConfigMaps</strong> can be mounted in a directory. The keys in the data section serve
+as file names and the values service as the file contents.
+<a href="https://yaml-multiline.info/">You may want to brush up on your YAML multiline
+strings.</a></p>
+</li>
+<li>
+<p>The environment variables <code>K8S_SERVICE_NAME</code> and <code>K8S_HOSTNAME_SUFFIX</code> are
+used by the discovery plugin. If they are not defined it <em>will</em> fail.</p>
+</li>
+<li>
+<p><code>serviceAccountName</code> is set to messaging to take advantage of our RBAC
+configuration.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_running_the_example_2">5.4.5. Running the Example</h4>
+<div class="paragraph">
+<p>Let&#8217;s apply our system to a Kubernetes cluster and perform some analysis:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS \example-final&gt; kubectl apply -f .\messaging-k8s.yml
+serviceaccount/messaging created
+role.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+configmap/rabbitmq-config created
+service/messaging created
+statefulset.apps/messaging created
+PS C:\Users\rxt1077\it490\example-final&gt; kubectl get pod
+NAME          READY   STATUS    RESTARTS   AGE
+messaging-0   1/1     Running   0          4m2s
+messaging-1   1/1     Running   0          4m1s
+messaging-2   1/1     Running   0          4m</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, it brings up three pods. Unlike a <strong>Deployment</strong> which uses
+hashes, the pod names are enumerated. Also unlink a <strong>Deployment</strong> they are
+brought up one-at-a-time.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at the logs and see how startup proceeded for <code>messaging-0</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS C:\Users\rxt1077\it490\example-final&gt; kubectl logs messaging-0
+2020-04-11 18:38:08.118 [info] &lt;0.9.0&gt; Feature flags: list of feature flags found:
+2020-04-11 18:38:08.118 [info] &lt;0.9.0&gt; Feature flags:   [ ] drop_unroutable_metric
+&lt;snip&gt;
+ cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<i class="conum" data-value="1"></i><b>(1)</b>
+&lt;snip&gt;
+2020-04-11 18:38:08.301 [info] &lt;0.278.0&gt; Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-0.messaging.default.
+svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
+2020-04-11 18:38:08.301 [info] &lt;0.278.0&gt; Configured peer discovery backend: rabbit_peer_discovery_k8s
+2020-04-11 18:38:08.301 [info] &lt;0.278.0&gt; Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
+2020-04-11 18:38:08.301 [info] &lt;0.278.0&gt; Peer discovery backend does not support locking, falling back to randomized delay
+2020-04-11 18:38:08.301 [info] &lt;0.278.0&gt; Peer discovery backend rabbit_peer_discovery_k8s supports registration.
+2020-04-11 18:38:08.302 [info] &lt;0.278.0&gt; Will wait for 1638 milliseconds before proceeding with registration...<i class="conum" data-value="2"></i><b>(2)</b>
+2020-04-11 18:38:09.975 [info] &lt;0.278.0&gt; All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
+ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:09.975 [info] &lt;0.278.0&gt; Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, r
+abbit@messaging-1.messaging.default.svc.cluster.local<i class="conum" data-value="3"></i><b>(3)</b>
+2020-04-11 18:38:09.981 [warning] &lt;0.278.0&gt; Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.loca
+l: {error,mnesia_not_running}
+2020-04-11 18:38:09.985 [warning] &lt;0.278.0&gt; Could not auto-cluster with node rabbit@messaging-1.messaging.default.svc.cluster.loca
+l: {error,tables_not_present}
+2020-04-11 18:38:09.985 [warning] &lt;0.278.0&gt; Could not successfully contact any node of: rabbit@messaging-2.messaging.default.svc.c
+luster.local,rabbit@messaging-1.messaging.default.svc.cluster.local (as in Erlang distribution). Starting as a blank standalone no
+de...<i class="conum" data-value="4"></i><b>(4)</b>
+&lt;snip&gt;
+2020-04-11 18:38:11.041 [info] &lt;0.9.0&gt; Server startup complete; 5 plugins started.
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * rabbitmq_peer_discovery_k8s
+ * rabbitmq_peer_discovery_common
+ completed with 5 plugins.
+2020-04-11 18:38:11.650 [info] &lt;0.535.0&gt; rabbit on node 'rabbit@messaging-2.messaging.default.svc.cluster.local' up <i class="conum" data-value="5"></i><b>(5)</b>
+2020-04-11 18:38:11.859 [info] &lt;0.535.0&gt; rabbit on node 'rabbit@messaging-1.messaging.default.svc.cluster.local' up</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This should match the cookie on the other nodes.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This randomized wait could be optimized since we know we will start in
+order. See the official example for a better implementation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Other peers were detected, but RabbitMQ was not fully initialized on them.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Therefore <code>messaging-0</code> became a standalone node.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Eventually the other nodes joined us.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at the logs and see how startup proceeded for <code>messaging-1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl logs messaging-1
+2020-04-11 18:38:09.658 [info] &lt;0.9.0&gt; Feature flags: list of feature flags found:
+2020-04-11 18:38:09.658 [info] &lt;0.9.0&gt; Feature flags:   [ ] drop_unroutable_metric
+2020-04-11 18:38:09.658 [info] &lt;0.9.0&gt; Feature flags:   [ ] empty_basic_get_metric
+&lt;snip&gt;
+ cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<i class="conum" data-value="1"></i><b>(1)</b>
+&lt;snip&gt;
+2020-04-11 18:38:09.790 [info] &lt;0.278.0&gt; Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-1.messaging.default.
+svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
+2020-04-11 18:38:09.790 [info] &lt;0.278.0&gt; Configured peer discovery backend: rabbit_peer_discovery_k8s
+2020-04-11 18:38:09.791 [info] &lt;0.278.0&gt; Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
+2020-04-11 18:38:09.791 [info] &lt;0.278.0&gt; Peer discovery backend does not support locking, falling back to randomized delay
+2020-04-11 18:38:09.791 [info] &lt;0.278.0&gt; Peer discovery backend rabbit_peer_discovery_k8s supports registration.
+2020-04-11 18:38:09.791 [info] &lt;0.278.0&gt; Will wait for 855 milliseconds before proceeding with registration...
+2020-04-11 18:38:10.670 [info] &lt;0.278.0&gt; All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
+ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.670 [info] &lt;0.278.0&gt; Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, r
+abbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.673 [warning] &lt;0.278.0&gt; Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.loca
+l: {error,tables_not_present}
+2020-04-11 18:38:10.696 [info] &lt;0.278.0&gt; Node 'rabbit@messaging-0.messaging.default.svc.cluster.local' selected for auto-clusterin
+g<i class="conum" data-value="2"></i><b>(2)</b>
+&lt;snip&gt;
+2020-04-11 18:38:12.118 [info] &lt;0.9.0&gt; Server startup complete; 5 plugins started.
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * rabbitmq_peer_discovery_k8s
+ * rabbitmq_peer_discovery_common
+ completed with 5 plugins.</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sure enough, our cookie is the same</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>messaging-0</code> is up an available for peering, but <code>messaging-1</code> is not. We
+peered with <code>messaging-0</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Finally, let&#8217;s look at the logs and see how startup proceeded for <code>messaging-2</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl logs messaging-2
+2020-04-11 18:38:10.155 [info] &lt;0.9.0&gt; Feature flags: list of feature flags found:
+2020-04-11 18:38:10.155 [info] &lt;0.9.0&gt; Feature flags:   [ ] drop_unroutable_metric
+&lt;snip&gt;
+ cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<i class="conum" data-value="1"></i><b>(1)</b>
+&lt;snip&gt;
+2020-04-11 18:38:10.279 [info] &lt;0.287.0&gt; Configured peer discovery backend: rabbit_peer_discovery_k8s
+2020-04-11 18:38:10.279 [info] &lt;0.287.0&gt; Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
+2020-04-11 18:38:10.279 [info] &lt;0.287.0&gt; Peer discovery backend does not support locking, falling back to randomized delay
+2020-04-11 18:38:10.279 [info] &lt;0.287.0&gt; Peer discovery backend rabbit_peer_discovery_k8s supports registration.
+2020-04-11 18:38:10.279 [info] &lt;0.287.0&gt; Will wait for 598 milliseconds before proceeding with registration...
+2020-04-11 18:38:10.891 [info] &lt;0.287.0&gt; All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
+ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.891 [info] &lt;0.287.0&gt; Peer nodes we can cluster with: rabbit@messaging-1.messaging.default.svc.cluster.local, r
+abbit@messaging-0.messaging.default.svc.cluster.local<i class="conum" data-value="2"></i><b>(2)</b>
+2020-04-11 18:38:10.946 [info] &lt;0.287.0&gt; Node 'rabbit@messaging-1.messaging.default.svc.cluster.local' selected for auto-clusterin
+g
+&lt;snip&gt;
+2020-04-11 18:38:12.009 [info] &lt;0.9.0&gt; Server startup complete; 5 plugins started.
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * rabbitmq_peer_discovery_k8s
+ * rabbitmq_peer_discovery_common</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Same cookie as all the other nodes, good.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>messaging-2</code> could peer with either <code>messaging-0</code> or <code>messaging-1</code> as it
+was started last. It chose <code>messaging-1</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The last thing we can do is look at the output of <code>rabbitmqctl cluster_status</code>
+to see how our cluster is running. Executing
+<a href="https://www.rabbitmq.com/rabbitmqctl.8.html">this command</a> on any node will tell
+you about the health of the entire RabbitMQ cluster:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl exec -it messaging-0 -- rabbitmqctl cluster_status
+Cluster status of node rabbit@messaging-0.messaging.default.svc.cluster.local ...
+Basics
+
+Cluster name: rabbit@messaging-0.messaging.default.svc.cluster.local
+
+Disk Nodes
+
+rabbit@messaging-0.messaging.default.svc.cluster.local
+rabbit@messaging-1.messaging.default.svc.cluster.local
+rabbit@messaging-2.messaging.default.svc.cluster.local
+
+Running Nodes
+
+rabbit@messaging-0.messaging.default.svc.cluster.local
+rabbit@messaging-1.messaging.default.svc.cluster.local
+rabbit@messaging-2.messaging.default.svc.cluster.local
+
+Versions
+
+rabbit@messaging-0.messaging.default.svc.cluster.local: RabbitMQ 3.8.3 on Erlang 22.3.1
+rabbit@messaging-1.messaging.default.svc.cluster.local: RabbitMQ 3.8.3 on Erlang 22.3.1
+rabbit@messaging-2.messaging.default.svc.cluster.local: RabbitMQ 3.8.3 on Erlang 22.3.1
+
+Alarms
+
+(none)
+
+Network Partitions
+
+(none)
+
+Listeners
+
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
+ode and CLI tool communication
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
+ AMQP 1.0
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
+ode and CLI tool communication
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
+ AMQP 1.0
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
+ode and CLI tool communication
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
+ AMQP 1.0
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+
+Feature flags
+
+Flag: drop_unroutable_metric, state: enabled
+Flag: empty_basic_get_metric, state: enabled
+Flag: implicit_default_bindings, state: enabled
+Flag: quorum_queue, state: enabled
+Flag: virtual_host_metadata, state: enabled</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This shows us that there are three nodes, the nodes are all running the same
+version of RabbitMQ and Erlang, and that they are listening for AMQP and admin
+interface connections.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_questions_3">5.5. Questions</h3>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>What sets RabbitMQ clustering apart from more traditional primary / standby replication?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What is the difference between a <strong>Deployment</strong> and a <strong>StatefulSet</strong>? Why did we choose a <strong>StatefulSet</strong> for this application?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Why does our peer discovery plugin use the Kubernetes API and what alternatives are there?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What role does RBAC play in the Kubernetes cluster?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What does a <strong>ConfigMap</strong> do and how is it used?</em></p>
+<p></p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -2629,7 +3530,7 @@ de facto standard</a> and knowledge of how to use it is a <em>very</em> marketab
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-05 20:45:53 -0400
+Last updated 2020-04-13 17:25:37 -0400
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

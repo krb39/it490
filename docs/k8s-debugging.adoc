@@ -1,0 +1,5 @@
+= Debugging with Kubernetes
+
+command: ["bash", "-c", "sleep 3600"]
+
+https://itnext.io/running-kubectl-commands-from-within-a-pod-b303e8176088
