@@ -1,18 +1,19 @@
-= PostgreSQL in Kubernetes
+= Database in Kubernetes
+:sourcedir: example-final
 
 == Introduction
 
 In this example we implement a primary / standby replication setup for
 PostgreSQL. Two *Services* will be provided: one for read/write requests and
 another exclusively for read requests. We will try to use Kubernetes to handle
-the most of the initialization and monitoring functions that had to be done by
-hand in the <<Replication, previously>>.
+the initialization and monitoring functions that had to be done by hand in
+<<Replication, previously>>.
 
 Rather than passing command line options to the `kubectl` command, we will be
-defining what we create in a YAML file: `example-final/db-k8s.yml`. kubectl can
+defining what we create in a YAML file: `{sourcedir}/db-k8s.yml`. kubectl can
 load object definitions from YAML files with the `apply` command.
 
-Now let's look at each of the Kubernetes objects we are defining:
+Now let's look at the Kubernetes objects we are defining:
 
 == PersistentVolumeClaims
 
@@ -25,10 +26,10 @@ it what we want and it will make it happen.footnote:[
 https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-in-kubernetes-with-minikube[
 The fascinating details of how this works are revealed in this blog post.]].
 
-.example-final/db-k8s.yml (excerpted)
+.{sourcedir}/db-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/db-k8s.yml[tags=pv-claims]
+include::{sourceroot}/{sourcedir}/db-k8s.yml[tags=pv-claims]
 ----
 
 This claim will be used by our _one_ `db-rw` pod, so we don't have to worry
@@ -46,24 +47,24 @@ PostgreSQL instance and a `db-r` *Service* which connects to our standby
 PostgreSQL instances. Unlike Docker Compose, even on our internal network we
 have to explicitly state which ports we make available.
 
-.example-final/db-k8s.yml (excerpted)
+.{sourcedir}/db-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/db-k8s.yml[tag=services]
+include::{sourceroot}/{sourcedir}/db-k8s.yml[tag=services]
 ----
 
 The `selector` field above defines how a *Service* knows which pods to utilize.
 In our case all pods with the app label `db-r` are used by the `db-r` *Service*
 and a similar rule is applied to the `db-rw` *Service*. Both services accept
 incoming connections on port 5432 and route those connections to 5432. In the
-case where there are multiple pods supporting a *Service* a load-balancing
-proxy is used by default.
+case where there are multiple pods in a *Service* a load balancing scheme is
+used by default.
 
-From a development perspective, Kubernetes *Services* make things really easy.
+From a service discovery perspective, Kubernetes *Services* make things easier.
 If you want to connect to a read-only database instance all you have to do is
 use the hostname `db-r`. Similarly, if you want to connect to a read-write
-database use the hostname `db-rw`. The DNS resolution, load-balancing proxy,
-and routing are set up for you automatically.
+database, use the hostname `db-rw`. The DNS resolution, load-balancing proxy,
+and routing are set up automatically.
 
 == Deployments
 
@@ -73,10 +74,10 @@ already covered the logic of what needs to happen <<Replication,previously>>, so
 let's jump right in and take a look at the *Deployment* for our primary
 PostgreSQL instance:
 
-.example-final/db-k8s.yml (excerpted)
+.{sourcedir}/db-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/db-k8s.yml[tags=db-rw-deployment]
+include::{sourceroot}/{sourcedir}/db-k8s.yml[tags=db-rw-deployment]
 ----
 
 Ths *Deployment* tells Kubernetes to maintain one `replica` of the pod defined
@@ -89,10 +90,10 @@ mounts it in `/var/lib/postgresql/data`.
 
 Let's take a look at the *Deployment* for our standby PostgreSQL instances:
 
-.example-final/db-k8s.yml (excerpted)
+.{sourcedir}/db-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/db-k8s.yml[tags=db-r-deployment]
+include::{sourceroot}/{sourcedir}/db-k8s.yml[tags=db-r-deployment]
 ----
 
 This *Deployment* stands up two replicas. Each replica clones the primary
@@ -371,5 +372,5 @@ Why do we define two *Deployments* for our example?::
     {empty}
 How can our database deployment be improved?::
     {empty}
-Compare and contrast Kubernetes ConsistentVolumeClaims with Docker compose named volumes.::
+Compare and contrast Kubernetes PersistentVolumeClaims with Docker compose named volumes.::
     {empty}

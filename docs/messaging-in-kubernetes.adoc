@@ -1,4 +1,5 @@
-= RabbitMQ in Kubernetes
+= Messaging in Kubernetes
+:sourcedir: example-final
 
 In this section we will build a RabbitMQ cluster in Kubernetes to support our
 application.
@@ -88,17 +89,17 @@ volumes.
 == Example
 
 Now we'll look at our actual Kubernetes objects. These can be found in
-`example-final/messaging-k8s.yml`.
+`{sourceroot}/{sourcedir}/messaging-k8s.yml`.
 
 === RBAC
 
 Let's start by establishing a *ServiceAccount* for our pods and binding it to a
 *Role* that allows us to GET or LIST endpoints for a *Service*:
 
-.example-final/messaging-k8s.yml (excerpted)
+.{sourcedir}/messaging-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/messaging-k8s.yml[tag=rbac]
+include::{sourceroot}/{sourcedir}/messaging-k8s.yml[tag=rbac]
 ----
 
 The *ServiceAccount* `messaging` will be used in our *StatefulSet* so that when
@@ -107,10 +108,10 @@ nodes. You will see this process in the logs later.
 
 === *ConfigMap*
 
-.example-final/messaging-k8s.yml (excerpted)
+.{sourcedir}/messaging-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/messaging-k8s.yml[tag=configmap]
+include::{sourceroot}/{sourcedir}/messaging-k8s.yml[tag=configmap]
 ----
 
 The keys and values in the `data` section of a *ConfigMap* are used to hold
@@ -127,10 +128,10 @@ pod.
 . To load balance requests. We can send AMQP traffic _and_ HTTP traffic to any
 node for messaging and administrative interface purposes respectively.
 
-.example-final/messaging-k8s.yml (excerpted)
+.{sourcedir}/messaging-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/messaging-k8s.yml[tag=service]
+include::{sourceroot}/{sourcedir}/messaging-k8s.yml[tag=service]
 ----
 
 This is a standard Kubernetes service that will be given a `ClusterIP` and will
@@ -139,10 +140,10 @@ interface, respectively).
 
 === *StatefulSet*
 
-.example-final/messaging-k8s.yml (excerpted)
+.{sourcedir}/messaging-k8s.yml (excerpted)
 [source, YAML]
 ----
-include::../example-final/messaging-k8s.yml[tag=statefulset]
+include::{sourceroot}/{sourcedir}/messaging-k8s.yml[tag=statefulset]
 ----
 
 This should look pretty similar to the *Deployment* we worked on

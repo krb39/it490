@@ -1,9 +1,7 @@
-:sourceroot: ../
+= Kubernetes
 :sourcedir: minikube-demo
 
-= Kubernetes
-
-image::https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg[alt="Kubernetes Logo",width=25%]
+image::k8s-logo.svg[alt="Kubernetes Logo",width=25%,align=center]
 
 == Introduction
 
@@ -421,6 +419,14 @@ spec:
           command: ["bash", "-c", "sleep 3600"]
 ----
 
+Sometimes your objects are applied, but no pods start up. This may mean
+that Kubernetes started your *Deployment* or *StatefulSet* which created a
+https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/[
+*ReplicaSet*], but the *ReplicaSet* was unable to start your pods. Try running
+`kubectl get replicaset` to find which *ReplicaSet* is running and then
+`kubectl describe replicaset <replicaset_name>` where <replicaset_name> is the
+name of your *ReplicaSet*.
+
 Finally, you may find yourself in a situation where you need to run `kubectl`
 from within a pod. This can be helpful for sorting out role based access
 control issues, namely "how can this pod interact with the Kubernetes API?"
@@ -452,11 +458,7 @@ What is the role of a pod in Kubernetes?::
     {empty}
 What does a *Deployment* do?::
     {empty}
-A systems architect was using a stock Docker Hub image with a custom ENTRYPOINT point script she had designed. This required a Dockerfile, BASH script, and a directory to store them. When she migrated to Kubernetes she was able to do this all in one YAML file. Describe how this is possible.::
-    {empty}
 What is minikube used for and what platforms can it run on?::
-    {empty}
-Why are *Services* essential to replication?::
     {empty}
 If you were given an image to deploy on Kubernetes and it continually failed to start, what steps would you take to figure out what was going wrong?::
     {empty}

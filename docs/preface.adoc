@@ -1,3 +1,14 @@
 = Preface
 
-https://ist.njit.edu/fall-2020-recommended-specs/
+The goal of this text is to provide a practical introduction to systems
+integration by designing and implementing an actual system. In accordance with
+the show-me-the-code attitude of the open source software movement, all of the
+code for the text and examples are available at
+https://github.com/rxt1077/it490. The philosophy of this text can probably best
+be summed up in a quote:
+
+[quote, Dale Carnegie]
+Knowledge isn't power until it's applied.
+
+A computer that meets https://ist.njit.edu/fall-2020-recommended-specs/[these]
+minimum specifications will be required to complete the coursework.

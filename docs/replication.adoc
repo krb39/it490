@@ -1,13 +1,16 @@
 = Replication
+:sourcedir: replication-demo
 
 Replicating a service can provide many benefits. In this section we will
 replicate a http://postgresql.org[PostgreSQL] database service to analyze the
 advantages and complexity costs. PostgreSQL was purposefully chosen because it
 leaves much of work, which is understandably outside the purview of a Database
-Management System (DBMS), to the user.
+Management System (DBMS), to the user. We will be using Docker compose so that
+we do not have to introduce a new tool as well.
 
 == Background
 
+.Basic Replication
 [plantuml, "replication", svg]
 ....
 @startuml
@@ -24,10 +27,10 @@ In the simplest sense, replication is running more than one service for a given
 component of our system. We can do this in Docker Compose by declaring more
 than one service:
 
-.example-final/docker-compose.yml (excerpted)
-[source, yml]
+.{sourcedir}/docker-compose.yml (excerpted)
+[source, YAML]
 ----
-include::../example-final/docker-compose.yml[tags=db_services]
+include::{sourceroot}/{sourcedir}/docker-compose.yml[tags=db_services]
 ----
 
 NOTE: A better solution would be to use a more complete orchestration solution
@@ -159,9 +162,10 @@ user-specified command, `postgres` by default.
 A basic Dockerfile that builds from this image and adds some extra needed
 utilities will be used:
 
+.{sourcedir}/db/Dockerfile
 [source, Dockerfile]
 ----
-include::../example-final/db/Dockerfile[]
+include::{sourceroot}/{sourcedir}/db/Dockerfile[]
 ----
 
 Rather than create separate primary and standby images, this example employs one
@@ -195,10 +199,10 @@ By passing a list of all nodes in an environment variable, we can create a bash
 function to see who is up and who is the primary when `docker-entrypoint.sh` is
 called at container creation:
 
-.example-final/db/docker-entrypoint.sh (excerpted)
+.{sourcedir}/db/docker-entrypoint.sh (excerpted)
 [source, bash]
 ----
-include::../example-final/db/docker-entrypoint.sh[tags=find_primary]
+include::{sourceroot}/{sourcedir}/db/docker-entrypoint.sh[tags=find_primary]
 ----
 
 NOTE: If a situation arises where there are two primaries on the network, this
@@ -208,10 +212,10 @@ the confusion.
 Now all that is left is to configure either a primary or a standby node.
 The code to configure a primary node follows:
 
-.example-final/db/docker-entrypoint.sh (excerpted)
+.{sourcedir}/db/docker-entrypoint.sh (excerpted)
 [source, bash]
 ----
-include::../example-final/db/docker-entrypoint.sh[tags=configure_primary]
+include::{sourceroot}/{sourcedir}/db/docker-entrypoint.sh[tags=configure_primary]
 ----
 
 The code is self-explanatory, but it should be noted that the actual building
@@ -221,10 +225,10 @@ initialized.
 
 The code to configure a standby node is shown below:
 
-.example-final/db/docker-entrypoint.sh (excerpted)
+.{sourcedir}/db/docker-entrypoint.sh (excerpted)
 [source, bash]
 ----
-include::../example-final/db/docker-entrypoint.sh[tags=configure_standby]
+include::{sourceroot}/{sourcedir}/db/docker-entrypoint.sh[tags=configure_standby]
 ----
 
 When a standby is brought up, any database on the volume is removed and the
@@ -242,7 +246,7 @@ procedure.
 Let's take a look at the relevant log messages of db1 and db2 when we bring them
 both up with `docker-compose up`:
 
-[source, console]
+[source, shell]
 ----
 db1 - Looking for a primary node...
 db1 - db2:5432 - no response
@@ -277,10 +281,10 @@ This is referred to as _failover_ and is often handled by a
 https://wiki.clusterlabs.org/wiki/Pacemaker[a separate component].  In this
 simple example it is implemented in the `monitor` function shown below:
 
-.example-final/db/docker-entrypoint.sh (excerpted)
+.{sourcedir}/db/docker-entrypoint.sh (excerpted)
 [source, bash]
 ----
-include::../example-final/db/docker-entrypoint.sh[tags=monitor]
+include::{sourceroot}/{sourcedir}/db/docker-entrypoint.sh[tags=monitor]
 ----
 
 This function is run in the background on every standby instance. The
@@ -346,7 +350,7 @@ captured.  Each command was run with about a minute pause between them:
 
 The relevant, simplified log messages and descriptions follow:
 
-[source, console]
+[source, shell]
 ----
 db2 - Looking for a primary node...
 db1 - Looking for a primary node...
@@ -363,7 +367,7 @@ db2 - Configuring a STANDBY instance...
 Both db1 and db2 are brought up at the same time. db1 ends up being
 the primary.
 
-[source, console]
+[source, shell]
 ----
 db2 - Looking for a primary node...
 db2 - db1:5432 - accepting connections
@@ -375,7 +379,7 @@ db2 - db1 is primary node
 
 db1 begins checking to make sure there is a primary node about every 30s.
 
-[source, console]
+[source, shell]
 ----
 db1 - LOG:  shutting down
 db2 - Looking for a primary node...
@@ -387,7 +391,7 @@ db2 - server promoted
 db1 is shut down. db2 performs its regularly scheduled check and self promotes
 because it cannot find a primary.
 
-[source, console]
+[source, shell]
 ----
 db1 - Looking for a primary node...
 db1 - db2:5432 - accepting connections
@@ -444,3 +448,17 @@ TIP: Load balancing is often referenced as a part of _horizontal scaling_.
 You can think of horizontal scaling as adding more instances to serve requests.
 _Vertical scaling_ refers to making instances more powerful so that each
 individual one can serve more requests.
+
+== Questions
+
+[qanda]
+What are some of the issues with a volume sharing database?::
+    {empty}
+Why does our example have a startup delay? What could happen if we brought all of the nodes up at the same time?::
+    {empty}
+What is the difference between high availability and load balancing?::
+    {empty}
+What does a _hot_ standby node do?::
+    {empty}
+Our example starts up two nodes, but what would we have to change in our docker-compose.yml file if we wanted to start ten nodes? Is this congruent with the https://en.wikipedia.org/wiki/Don%27t_repeat_yourself["Don't Repeat Yourself" (DRY)] principle?::
+    {empty}

@@ -449,6 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_legal">Legal</a></li>
+<li><a href="#_preface">Preface</a></li>
 <li><a href="#_midterm_check_in">1. Midterm Check In</a>
 <ul class="sectlevel2">
 <li><a href="#_overview">1.1. Overview</a></li>
@@ -464,6 +465,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_implementation">2.2. Implementation</a></li>
 <li><a href="#_high_availability">2.3. High Availability</a></li>
 <li><a href="#_load_balancing">2.4. Load Balancing</a></li>
+<li><a href="#_questions">2.5. Questions</a></li>
 </ul>
 </li>
 <li><a href="#_kubernetes">3. Kubernetes</a>
@@ -472,10 +474,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_minikube">3.2. Minikube</a></li>
 <li><a href="#_debugging">3.3. Debugging</a></li>
 <li><a href="#_conclusion">3.4. Conclusion</a></li>
-<li><a href="#_questions">3.5. Questions</a></li>
+<li><a href="#_questions_2">3.5. Questions</a></li>
 </ul>
 </li>
-<li><a href="#_postgresql_in_kubernetes">4. PostgreSQL in Kubernetes</a>
+<li><a href="#_database_in_kubernetes">4. Database in Kubernetes</a>
 <ul class="sectlevel2">
 <li><a href="#_introduction_2">4.1. Introduction</a></li>
 <li><a href="#_persistentvolumeclaims">4.2. PersistentVolumeClaims</a></li>
@@ -483,22 +485,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_deployments">4.4. Deployments</a></li>
 <li><a href="#_running_the_example">4.5. Running the Example</a></li>
 <li><a href="#_conclusion_2">4.6. Conclusion</a></li>
-<li><a href="#_questions_2">4.7. Questions</a></li>
+<li><a href="#_questions_3">4.7. Questions</a></li>
 </ul>
 </li>
-<li><a href="#_rabbitmq_in_kubernetes">5. RabbitMQ in Kubernetes</a>
+<li><a href="#_messaging_in_kubernetes">5. Messaging in Kubernetes</a>
 <ul class="sectlevel2">
 <li><a href="#_resources">5.1. Resources</a></li>
 <li><a href="#_rabbitmq">5.2. RabbitMQ</a></li>
 <li><a href="#_kubernetes_2">5.3. Kubernetes</a></li>
 <li><a href="#_example">5.4. Example</a></li>
-<li><a href="#_questions_3">5.5. Questions</a></li>
+<li><a href="#_questions_4">5.5. Questions</a></li>
+</ul>
+</li>
+<li><a href="#_front_end_in_kubernetes">6. Front End in Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_3">6.1. Introduction</a></li>
+<li><a href="#_kubernetes_3">6.2. Kubernetes</a></li>
+<li><a href="#_example_2">6.3. Example</a></li>
+<li><a href="#_questions_5">6.4. Questions</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/logo.png" alt="logo" width="33%">
+</div>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_legal">Legal</h2>
 <div class="sectionbody">
@@ -508,7 +527,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Attribution-ShareAlike 4.0 International License.</a></p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Creative Commons License"></span></p>
+<p><span class="image"><img src="images/cc.png" alt="Creative Commons License"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preface">Preface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The goal of this text is to provide a practical introduction to systems
+integration by designing and implementing an actual system. In accordance with
+the show-me-the-code attitude of the open source software movement, all of the
+code for the text and examples are available at
+<a href="https://github.com/rxt1077/it490" class="bare">https://github.com/rxt1077/it490</a>. The philosophy of this text can probably best
+be summed up in a quote:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Knowledge isn&#8217;t power until it&#8217;s applied.
+</blockquote>
+<div class="attribution">
+&#8212; Dale Carnegie
+</div>
+</div>
+<div class="paragraph">
+<p>A computer that meets <a href="https://ist.njit.edu/fall-2020-recommended-specs/">these</a>
+minimum specifications will be required to complete the coursework.</p>
 </div>
 </div>
 </div>
@@ -1252,7 +1296,8 @@ research are <a href="https://www.nginx.com/">NGINX</a>,
 replicate a <a href="http://postgresql.org">PostgreSQL</a> database service to analyze the
 advantages and complexity costs. PostgreSQL was purposefully chosen because it
 leaves much of work, which is understandably outside the purview of a Database
-Management System (DBMS), to the user.</p>
+Management System (DBMS), to the user. We will be using Docker compose so that
+we do not have to introduce a new tool as well.</p>
 </div>
 <div class="sect2">
 <h3 id="_background">2.1. Background</h3>
@@ -1260,6 +1305,7 @@ Management System (DBMS), to the user.</p>
 <div class="content">
 <img src="images/replication.svg" alt="replication" width="199" height="140">
 </div>
+<div class="title">Figure 1. Basic Replication</div>
 </div>
 <div class="paragraph">
 <p>In the simplest sense, replication is running more than one service for a given
@@ -1267,9 +1313,9 @@ component of our system. We can do this in Docker Compose by declaring more
 than one service:</p>
 </div>
 <div class="listingblock">
-<div class="title">example-final/docker-compose.yml (excerpted)</div>
+<div class="title">replication-demo/docker-compose.yml (excerpted)</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="yml" class="language-yml hljs">    db1:
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">    db1:
         build: ./db
         environment:
             POSTGRES_PASSWORD: asdffdsa
@@ -1307,13 +1353,13 @@ Standby:</p>
 <div class="content">
 <img src="images/volshare.svg" alt="volshare" width="441" height="445">
 </div>
-<div class="title">Figure 1. Volume Sharing</div>
+<div class="title">Figure 2. Volume Sharing</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/standby.svg" alt="standby" width="510" height="311">
 </div>
-<div class="title">Figure 2. Hot / Warm Standby</div>
+<div class="title">Figure 3. Hot / Warm Standby</div>
 </div>
 <div class="paragraph">
 <p>Volume Sharing has the advantage of being easy to implement <em>if</em> you already
@@ -1372,6 +1418,7 @@ user-specified command, <code>postgres</code> by default.</p>
 utilities will be used:</p>
 </div>
 <div class="listingblock">
+<div class="title">replication-demo/db/Dockerfile</div>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="Dockerfile" class="language-Dockerfile hljs">FROM postgres
 RUN apt-get -y update &amp;&amp; \
@@ -1395,7 +1442,7 @@ function to see who is up and who is the primary when <code>docker-entrypoint.sh
 called at container creation:</p>
 </div>
 <div class="listingblock">
-<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="title">replication-demo/db/docker-entrypoint.sh (excerpted)</div>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">function find_primary() {
     # Goes through all the nodes in POSTGRES_NODES and looks for one that is up
@@ -1444,7 +1491,7 @@ the confusion.
 The code to configure a primary node follows:</p>
 </div>
 <div class="listingblock">
-<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="title">replication-demo/db/docker-entrypoint.sh (excerpted)</div>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">    echo "Configuring a PRIMARY instance..."
 
@@ -1488,7 +1535,7 @@ initialized.</p>
 <p>The code to configure a standby node is shown below:</p>
 </div>
 <div class="listingblock">
-<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="title">replication-demo/db/docker-entrypoint.sh (excerpted)</div>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">    echo "Configuring a STANDBY instance..."
 
@@ -1541,7 +1588,7 @@ both up with <code>docker-compose up</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db1 - Looking for a primary node...
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">db1 - Looking for a primary node...
 db1 - db2:5432 - no response
 db1 - Configuring a PRIMARY instance...
 db2 - Looking for a primary node...
@@ -1598,7 +1645,7 @@ This is referred to as <em>failover</em> and is often handled by a
 simple example it is implemented in the <code>monitor</code> function shown below:</p>
 </div>
 <div class="listingblock">
-<div class="title">example-final/db/docker-entrypoint.sh (excerpted)</div>
+<div class="title">replication-demo/db/docker-entrypoint.sh (excerpted)</div>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">function monitor() {
     while true; do
@@ -1627,7 +1674,7 @@ let&#8217;s examine the <strong>non-randomized</strong> scenario shown in the fo
 <div class="content">
 <img src="images/dualpromotion.svg" alt="dualpromotion" width="487" height="240">
 </div>
-<div class="title">Figure 3. Dual Promotion</div>
+<div class="title">Figure 4. Dual Promotion</div>
 </div>
 <div class="paragraph">
 <p>In the above scenario each standby node is checking to see that there is a
@@ -1660,7 +1707,7 @@ captured.  Each command was run with about a minute pause between them:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db2 - Looking for a primary node...
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">db2 - Looking for a primary node...
 db1 - Looking for a primary node...
 db2 - db1:5432 - no response
 db1 - db2:5432 - no response
@@ -1678,7 +1725,7 @@ the primary.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db2 - Looking for a primary node...
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">db2 - Looking for a primary node...
 db2 - db1:5432 - accepting connections
 db2 - db1 is primary node
 db2 - Looking for a primary node...
@@ -1691,7 +1738,7 @@ db2 - db1 is primary node</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db1 - LOG:  shutting down
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">db1 - LOG:  shutting down
 db2 - Looking for a primary node...
 db2 - db1:5432 - no response
 db2 - Can't find a primary failing over...
@@ -1704,7 +1751,7 @@ because it cannot find a primary.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="console" class="language-console hljs">db1 - Looking for a primary node...
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">db1 - Looking for a primary node...
 db1 - db2:5432 - accepting connections
 db1 - db2 is primary node
 db1 - Configuring a STANDBY instance...
@@ -1776,14 +1823,41 @@ individual one can serve more requests.
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_questions">2.5. Questions</h3>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>What are some of the issues with a volume sharing database?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Why does our example have a startup delay? What could happen if we brought all of the nodes up at the same time?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What is the difference between high availability and load balancing?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What does a <em>hot</em> standby node do?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>Our example starts up two nodes, but what would we have to change in our docker-compose.yml file if we wanted to start ten nodes? Is this congruent with the <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">"Don&#8217;t Repeat Yourself" (DRY)</a> principle?</em></p>
+<p></p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_kubernetes">3. Kubernetes</h2>
 <div class="sectionbody">
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" alt="Kubernetes Logo" width="25%">
+<img src="images/k8s-logo.svg" alt="Kubernetes Logo" width="25%">
 </div>
 </div>
 <div class="sect2">
@@ -1802,7 +1876,7 @@ pods, which in turn are running containers:</p>
 <div class="content">
 <img src="images/k8s_cluster.svg" alt="k8s cluster" width="714" height="262">
 </div>
-<div class="title">Figure 4. Kubernetes Cluster</div>
+<div class="title">Figure 5. Kubernetes Cluster</div>
 </div>
 <div class="paragraph">
 <p>Kubernetes is designed to solve the hard problems of multi-node deployment,
@@ -1836,7 +1910,7 @@ the host. It provides a several options for how the VM is run:</p>
 <div class="content">
 <img src="images/minikube_arch.svg" alt="minikube arch" width="645" height="451">
 </div>
-<div class="title">Figure 5. Minikube Architecture</div>
+<div class="title">Figure 6. Minikube Architecture</div>
 </div>
 <div class="paragraph">
 <p><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Follow these directions
@@ -2229,6 +2303,15 @@ spec:
 </div>
 </div>
 <div class="paragraph">
+<p>Sometimes your objects are applied, but no pods start up. This may mean
+that Kubernetes started your <strong>Deployment</strong> or <strong>StatefulSet</strong> which created a
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/">
+<strong>ReplicaSet</strong></a>, but the <strong>ReplicaSet</strong> was unable to start your pods. Try running
+<code>kubectl get replicaset</code> to find which <strong>ReplicaSet</strong> is running and then
+<code>kubectl describe replicaset &lt;replicaset_name&gt;</code> where &lt;replicaset_name&gt; is the
+name of your <strong>ReplicaSet</strong>.</p>
+</div>
+<div class="paragraph">
 <p>Finally, you may find yourself in a situation where you need to run <code>kubectl</code>
 from within a pod. This can be helpful for sorting out role based access
 control issues, namely "how can this pod interact with the Kubernetes API?"
@@ -2282,7 +2365,7 @@ de facto standard</a> and knowing how to use it is a <em>very</em> marketable sk
 </div>
 </div>
 <div class="sect2">
-<h3 id="_questions">3.5. Questions</h3>
+<h3 id="_questions_2">3.5. Questions</h3>
 <div class="qlist qanda">
 <ol>
 <li>
@@ -2294,15 +2377,7 @@ de facto standard</a> and knowing how to use it is a <em>very</em> marketable sk
 <p></p>
 </li>
 <li>
-<p><em>A systems architect was using a stock Docker Hub image with a custom ENTRYPOINT point script she had designed. This required a Dockerfile, BASH script, and a directory to store them. When she migrated to Kubernetes she was able to do this all in one YAML file. Describe how this is possible.</em></p>
-<p></p>
-</li>
-<li>
 <p><em>What is minikube used for and what platforms can it run on?</em></p>
-<p></p>
-</li>
-<li>
-<p><em>Why are <strong>Services</strong> essential to replication?</em></p>
 <p></p>
 </li>
 <li>
@@ -2315,7 +2390,7 @@ de facto standard</a> and knowing how to use it is a <em>very</em> marketable sk
 </div>
 </div>
 <div class="sect1">
-<h2 id="_postgresql_in_kubernetes">4. PostgreSQL in Kubernetes</h2>
+<h2 id="_database_in_kubernetes">4. Database in Kubernetes</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_introduction_2">4.1. Introduction</h3>
@@ -2323,8 +2398,8 @@ de facto standard</a> and knowing how to use it is a <em>very</em> marketable sk
 <p>In this example we implement a primary / standby replication setup for
 PostgreSQL. Two <strong>Services</strong> will be provided: one for read/write requests and
 another exclusively for read requests. We will try to use Kubernetes to handle
-the most of the initialization and monitoring functions that had to be done by
-hand in the <a href="#_replication">previously</a>.</p>
+the initialization and monitoring functions that had to be done by hand in
+<a href="#_replication">previously</a>.</p>
 </div>
 <div class="paragraph">
 <p>Rather than passing command line options to the <code>kubectl</code> command, we will be
@@ -2332,7 +2407,7 @@ defining what we create in a YAML file: <code>example-final/db-k8s.yml</code>. k
 load object definitions from YAML files with the <code>apply</code> command.</p>
 </div>
 <div class="paragraph">
-<p>Now let&#8217;s look at each of the Kubernetes objects we are defining:</p>
+<p>Now let&#8217;s look at the Kubernetes objects we are defining:</p>
 </div>
 </div>
 <div class="sect2">
@@ -2425,15 +2500,15 @@ spec:
 In our case all pods with the app label <code>db-r</code> are used by the <code>db-r</code> <strong>Service</strong>
 and a similar rule is applied to the <code>db-rw</code> <strong>Service</strong>. Both services accept
 incoming connections on port 5432 and route those connections to 5432. In the
-case where there are multiple pods supporting a <strong>Service</strong> a load-balancing
-proxy is used by default.</p>
+case where there are multiple pods in a <strong>Service</strong> a load balancing scheme is
+used by default.</p>
 </div>
 <div class="paragraph">
-<p>From a development perspective, Kubernetes <strong>Services</strong> make things really easy.
+<p>From a service discovery perspective, Kubernetes <strong>Services</strong> make things easier.
 If you want to connect to a read-only database instance all you have to do is
 use the hostname <code>db-r</code>. Similarly, if you want to connect to a read-write
-database use the hostname <code>db-rw</code>. The DNS resolution, load-balancing proxy,
-and routing are set up for you automatically.</p>
+database, use the hostname <code>db-rw</code>. The DNS resolution, load-balancing proxy,
+and routing are set up automatically.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2873,7 +2948,7 @@ about it you should be able to revisit and improve this implementation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_questions_2">4.7. Questions</h3>
+<h3 id="_questions_3">4.7. Questions</h3>
 <div class="qlist qanda">
 <ol>
 <li>
@@ -2893,7 +2968,7 @@ about it you should be able to revisit and improve this implementation.</p>
 <p></p>
 </li>
 <li>
-<p><em>Compare and contrast Kubernetes ConsistentVolumeClaims with Docker compose named volumes.</em></p>
+<p><em>Compare and contrast Kubernetes PersistentVolumeClaims with Docker compose named volumes.</em></p>
 <p></p>
 </li>
 </ol>
@@ -2902,7 +2977,7 @@ about it you should be able to revisit and improve this implementation.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rabbitmq_in_kubernetes">5. RabbitMQ in Kubernetes</h2>
+<h2 id="_messaging_in_kubernetes">5. Messaging in Kubernetes</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this section we will build a RabbitMQ cluster in Kubernetes to support our
@@ -3018,7 +3093,7 @@ volumes.</p>
 <h3 id="_example">5.4. Example</h3>
 <div class="paragraph">
 <p>Now we&#8217;ll look at our actual Kubernetes objects. These can be found in
-<code>example-final/messaging-k8s.yml</code>.</p>
+<code>..//example-final/messaging-k8s.yml</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_rbac">5.4.1. RBAC</h4>
@@ -3487,7 +3562,7 @@ interface connections.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_questions_3">5.5. Questions</h3>
+<h3 id="_questions_4">5.5. Questions</h3>
 <div class="qlist qanda">
 <ol>
 <li>
@@ -3515,6 +3590,497 @@ interface connections.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_front_end_in_kubernetes">6. Front End in Kubernetes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction_3">6.1. Introduction</h3>
+<div class="paragraph">
+<p>Migrating <strong>Front End</strong> to Kubernetes should be a relatively simple. It is already
+designed with horizontal scaling in mind. All communication with the other
+components is handled by <strong>Messaging</strong> and <strong>Front End</strong> does not maintain any
+state. Multiple <strong>Front Ends</strong> can be run at the same time and as far as the
+client is concerned, any instance can be used. Kubernetes <strong>Services</strong> can be used
+to manage our <strong>Messaging</strong> and <strong>Front End</strong> instances, making connections easy:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/front-end-k8s.svg" alt="front end k8s" width="729" height="383">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Notice how the front-end instances don&#8217;t need to communicate with each
+other unlike the messaging instances which are part of a cluster. This makes
+scaling much less complex.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kubernetes_3">6.2. Kubernetes</h3>
+<div class="paragraph">
+<p><strong>Front End</strong> requires a way of accessing a <strong>Service</strong> from the outside world. The
+traditional way of doing this is through a load balancer, which has an external
+IP and forwards traffic from a standard port, 80 for HTTP or 443 for HTTPS, to
+the <strong>Service</strong> and ultimately one of the running pods. The concept of load
+balancing isn&#8217;t new to us, we have been using it implicitly when we create a
+<strong>Service</strong>. The new concept is a method of external access.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/loadbalancer.svg" alt="loadbalancer" width="734" height="438">
+</div>
+<div class="title">Figure 7. Load Balancer Architecture</div>
+</div>
+<div class="paragraph">
+<p>Our Flask application will listen on port 5000 by default. In an actual
+production environment (not minikube) the load balancer would be given an
+external IP listening on a standard port. Minikube will support the definition
+of a LoadBalancer type <strong>Service</strong> object, but it will actually use a slightly
+simpler object called a
+<a href="https://kubernetes.io/docs/concepts/services-networking/service/#nodeport">
+NodePort</a> to access the service. For us, this means we can get to our service
+via a local IP and a random port between 30000 and 32767. The
+<code>minikube service</code> command will automatically open the URL for the service in
+your default web browser.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_2">6.3. Example</h3>
+<div class="sect3">
+<h4 id="_updating_the_docker_image">6.3.1. Updating the Docker Image</h4>
+<div class="paragraph">
+<p>The Docker image for use in Kubernetes can actually be simplified from what we
+were running before. We can remove the <code>wait-for-it.sh</code> script and we no longer
+have to call it from the Dockerfile:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/front-end/Dockerfile</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="Dockerfile" class="language-Dockerfile hljs">FROM python
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+ENV FLASK_APP=app.py
+CMD ["flask", "run", "--host=0.0.0.0"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our <strong>Service</strong> name for <strong>Messaging</strong> is still messaging, so we don&#8217;t even need
+to change the hostname the Messaging class connects to. If you look at the
+source code you will see that I just changed the comment to reference
+Kubernetes instead of Docker Compose.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_building_the_docker_image">6.3.2. Building the Docker Image</h4>
+<div class="paragraph">
+<p>In order for Kubernetes to be able to use our custom image, we need to build it
+and make it available to the Docker daemon running <em>inside</em> minikube. With
+minikube started, but without the environment set up correctly, <code>docker ps</code>
+will only show the containers you have running natively on the host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; docker ps
+CONTAINER ID  IMAGE                                COMMAND
+9689f05c2fca  gcr.io/k8s-minikube/kicbase:v0.0.8   "/usr/local/bin/entr…"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this example the only container I have running is the container used
+by the minikube <code>docker</code> driver. If you are running it under <code>virtualbox</code> or
+<code>hyperv</code> you may not see any containers running. If you don&#8217;t have docker
+running on your host, you may not even be able to execute the <code>docker ps</code>
+command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now if we execute the <code>minikube docker-env</code> command and follow the directions,
+<code>docker ps</code> should show the entire Kubernetes environment running in containers
+as it is querying the Docker daemon running <em>inside</em> minikube:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; minikube docker-env <i class="conum" data-value="1"></i><b>(1)</b>
+$Env:DOCKER_TLS_VERIFY = "1"
+$Env:DOCKER_HOST = "tcp://127.0.0.1:32769"
+$Env:DOCKER_CERT_PATH = "C:\Users\rxt1077\.minikube\certs"
+$Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
+# To point your shell to minikube's docker-daemon, run:
+# &amp; minikube -p minikube docker-env | Invoke-Expression <i class="conum" data-value="2"></i><b>(2)</b>
+PS example-final&gt; minikube docker-env | Invoke-Expression <i class="conum" data-value="3"></i><b>(3)</b>
+PS example-final&gt; docker ps <i class="conum" data-value="4"></i><b>(4)</b>
+CONTAINER ID        IMAGE                  COMMAND                  CREATED
+47eff1ee88b2        67da37a9a360           "/coredns -conf /etc…"   15 hours ago
+79d53aceb8f2        67da37a9a360           "/coredns -conf /etc…"   15 hours ago
+c0eebfebded2        aa67fec7d7ef           "/bin/kindnetd"          15 hours ago
+b6a95759fdbe        43940c34f24f           "/usr/local/bin/kube…"   15 hours ago
+2173eeb16643        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+3b72a0aa725b        4689081edb10           "/storage-provisioner"   15 hours ago
+4616fd610301        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+78e245e291fb        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+764d41d70f58        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+29f46b453297        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+fa87bf3bdcfb        a31f78c7c8ce           "kube-scheduler --au…"   15 hours ago
+5e51df5cc257        d3e55153f52f           "kube-controller-man…"   15 hours ago
+dc051639dbed        74060cea7f70           "kube-apiserver --ad…"   15 hours ago
+01cb4068fc8b        303ce5db0e90           "etcd --advertise-cl…"   15 hours ago
+efb620d9f59a        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+f723dce3ac9d        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+89d58b537cae        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
+d05cf6dbe82a        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Running docker-env by itself prints out how the command should be executed</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Here it is telling us how to run it</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Now we actually run it as recommended and change the environment</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>docker ps</code> now lists everything running on the minikube docker daemon</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now we can build our front-end image and it will be available to minikube:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; docker build -t front-end:v1 ./front-end
+Sending build context to Docker daemon  9.728kB
+Step 1/6 : FROM python
+latest: Pulling from library/python
+7e2b2a5af8f6: Pull complete
+09b6f03ffac4: Pull complete
+dc3f0c679f0f: Pull complete
+fd4b47407fc3: Pull complete
+b32f6bf7d96d: Pull complete
+3940e1b57073: Pull complete
+ce1fce2a6cf9: Pull complete
+1f593157bb4c: Pull complete
+bde1ccd8f1b8: Pull complete
+Digest: sha256:3df040cc8e804b731a9e98c82e2bc5cf3c979d78288c28df4f54bbdc18dbb521
+Status: Downloaded newer image for python:latest
+ ---&gt; b55669b4130e
+Step 2/6 : COPY . /app
+ ---&gt; b88600cc635a
+Step 3/6 : WORKDIR /app
+ ---&gt; Running in 20bc72069ed8
+Removing intermediate container 20bc72069ed8
+ ---&gt; 61eb3608a02a
+Step 4/6 : RUN pip install -r requirements.txt
+ ---&gt; Running in da9520ffee48
+Collecting Flask
+  Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+Collecting pika
+  Downloading pika-1.1.0-py2.py3-none-any.whl (148 kB)
+Collecting itsdangerous&gt;=0.24
+  Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting Werkzeug&gt;=0.15
+  Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Collecting click&gt;=5.1
+  Downloading click-7.1.1-py2.py3-none-any.whl (82 kB)
+Collecting Jinja2&gt;=2.10.1
+  Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting MarkupSafe&gt;=0.23
+  Downloading MarkupSafe-1.1.1-cp38-cp38-manylinux1_x86_64.whl (32 kB)
+Installing collected packages: itsdangerous, Werkzeug, click, MarkupSafe, Jinja2, Flask, pika
+Successfully installed Flask-1.1.2 Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 click-7.1.1 itsdangerous-1.1.0 pika-1.1.0
+Removing intermediate container da9520ffee48
+ ---&gt; 8d2f4da8b8b4
+Step 5/6 : ENV FLASK_APP=app.py
+ ---&gt; Running in 4cdf7ad5a96e
+Removing intermediate container 4cdf7ad5a96e
+ ---&gt; 4b5853571124
+Step 6/6 : CMD ["flask", "run", "--host=0.0.0.0"]
+ ---&gt; Running in ff512bc5e42b
+Removing intermediate container ff512bc5e42b
+ ---&gt; 52ec5d015433
+Successfully built 52ec5d015433
+Successfully tagged front-end:v1</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Make sure you give your image a tag with a version ("v1" in our
+example). Kubernetes will automatically try to pull the "latest" version
+for untagged images and since we are not using a Docker image repository
+that pull will fail.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_service">6.3.3. Service</h4>
+<div class="paragraph">
+<p>Let&#8217;s take a look at our <strong>Service</strong> definition:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/front-end-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="YAML" class="language-YAML hljs">---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end
+  labels:
+    app: front-end
+spec:
+  type: LoadBalancer
+  selector:
+    app: front-end
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The only new thing in this definition is <code>type: LoadBalancer</code> in the <code>spec</code>.
+This allows us to access this service externally. It is worth noting that in a
+real-life scenario, this will create a load balancer with an external IP via
+your IaaS provider. These cost money and it can add up as you expose more
+services to the outside world. Fortunately, as explained in the previous
+<a href="#_kubernetes_3">Kubernetes</a> section, we can still use minikube to test externally connecting
+to our service with the <code>minikube service</code> command.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deployment">6.3.4. Deployment</h4>
+<div class="paragraph">
+<p>For <strong>Front End</strong> we can use a simple deployment:</p>
+</div>
+<div class="listingblock">
+<div class="title">example-final/front-end-k8s.yml (excerpted)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="yml" class="language-yml hljs">---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  labels:
+    app: front-end
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+        - name: front-end
+          image: front-end:v1
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "guest"
+            - name: FLASK_SECRET_KEY
+              value: "changeme"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_running_the_example_3">6.3.5. Running the Example</h4>
+<div class="paragraph">
+<p>Now let&#8217;s apply both <strong>Messaging</strong> and <strong>Front End</strong>. This will let us check to see
+if the <strong>Front End</strong> serves web pages <em>and</em> if the <strong>Front End</strong> can connect to
+<strong>Messaging</strong> and create queues. We won&#8217;t be able to login / register users
+entirely yet because we don&#8217;t have <strong>Back End</strong> running.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS example-final&gt; kubectl apply -f messaging-k8s.yml -f front-end-k8s.yml <i class="conum" data-value="1"></i><b>(1)</b>
+serviceaccount/messaging created
+role.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+configmap/rabbitmq-config created
+service/messaging created
+statefulset.apps/messaging created
+service/front-end created
+deployment.apps/front-end created
+PS example-final&gt; kubectl get pod <i class="conum" data-value="2"></i><b>(2)</b>
+NAME                         READY   STATUS    RESTARTS   AGE
+front-end-7f7c4f5455-6qbcx   1/1     Running   0          4h46m
+front-end-7f7c4f5455-htdlv   1/1     Running   0          4h46m
+front-end-7f7c4f5455-q2nn6   1/1     Running   0          4h46m
+messaging-0                  1/1     Running   0          16m
+messaging-1                  1/1     Running   0          16m
+messaging-2                  1/1     Running   0          16m
+PS example-final&gt; minikube service front-end <i class="conum" data-value="3"></i><b>(3)</b>
+|-----------|-----------|-------------|----------------------------|
+| NAMESPACE |   NAME    | TARGET PORT |            URL             |
+|-----------|-----------|-------------|----------------------------|
+| default   | front-end | http/5000   | http://192.168.135.5:31232 |
+|-----------|-----------|-------------|----------------------------|
+* Opening service default/front-end in default browser...</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>kubectl apply</code> command can be used with multiple files or all YAML
+files in a directory. Here we specify the two components we want to start.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>After a little while, you should see six pods running: three for
+<strong>Messaging</strong> and three for <strong>Front End</strong>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This command will start the default browser and pass it the URL to the
+front-end <strong>Service</strong>. If you just want the URL instead of having it open the
+browser you can use <code>kubectl service --url front-end</code>.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If you apply the objects, run the <code>kubectl get pod</code> command, and see
+<code>ErrImagePull</code> or <code>ImagePullBackOff</code> it means that Kubernetes can&#8217;t pull your
+Docker images. Either you&#8217;ve misnamed a stock image that in the <code>name</code>
+attribute of your container, or you are trying to use a custom image that
+you did not make available to minikube. See <a href="#_building_the_docker_image">Building the Docker Image</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If your connections are timing out with the <code>minikube service</code> command
+and you are using the minikube <code>docker</code> driver, try with <code>hyperv</code> or
+<code>virtualbox</code>. The <code>docker</code> driver seems to have some issues with port
+forwarding.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We see our <strong>Front End</strong> website in our default browser. If we try to register
+a user we get a message saying "No response from back end."</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you want to test things quickly, without opening a browser the
+<a href="https://curl.haxx.se/">curl</a> command is a great thing to know. In PowerShell
+curl is an alias to Invoke-WebRequest, but it will still work for simple
+testing. Try <code>curl $(minikube service --url front-end)</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s run a shell in our RabbitMQ cluster and use the <code>rabbitmqctl</code> command
+to verify that a <code>requests</code> queue has actually been created:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="shell" class="language-shell hljs">PS C:\Users\rxt1077\it490\example-final&gt; kubectl exec -it messaging-0 -- bash <i class="conum" data-value="1"></i><b>(1)</b>
+root@messaging-0:/# rabbitmqctl list_queues
+Timeout: 60.0 seconds ...
+Listing queues for vhost / ...
+name    messages
+request 1 <i class="conum" data-value="2"></i><b>(2)</b>
+root@messaging-0:/# exit
+exit</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>It doesn&#8217;t matter which node we run a shell on, they should all be able to
+see all queues. I chose <code>messaging-0</code> because it is easy to remember.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>There is a request queue, with one message in it.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_questions_5">6.4. Questions</h3>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>Why is it easier to set up <strong>Front End</strong> in Kubernetes than it is to set up <strong>Messaging</strong>?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>What does a LoadBalancer type <strong>Service</strong> do?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>When creating custom images for use with minikube, why do you have to set up your Docker environment variables before building images?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>How do you make a <strong>Service</strong> accessible from outside the Kubernetes cluster?</em></p>
+<p></p>
+</li>
+<li>
+<p><em>If you wanted to use the RabbitMQ web-based admin interface for testing, what would you have to do to access it?</em></p>
+<p></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes">
 <hr>
@@ -3530,7 +4096,7 @@ interface connections.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-13 17:25:37 -0400
+Last updated 2020-04-22 10:08:03 -0400
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

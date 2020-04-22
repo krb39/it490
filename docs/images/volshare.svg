@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="445px" preserveAspectRatio="none" style="width:441px;height:445px;" version="1.1" viewBox="0 0 441 445" width="441px" zoomAndPan="magnify"><defs><filter height="300%" id="f1lqduazz2uw4b" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[815249f79c2c08157ac02b3106e03757]
+cluster Database--><polygon fill="#FFFFFF" filter="url(#f1lqduazz2uw4b)" points="63,42,73,32,328,32,328,142,318,152,63,152,63,42" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="318" x2="327" y1="42" y2="33"/><line style="stroke: #000000; stroke-width: 1.5;" x1="63" x2="318" y1="42" y2="42"/><line style="stroke: #000000; stroke-width: 1.5;" x1="318" x2="318" y1="42" y2="152"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="65" x="159" y="59.5332">Database</text><!--MD5=[2331507006b4b8bee4c616015350b23c]
+entity db2--><path d="M222.5,91 C222.5,81 263,81 263,81 C263,81 303.5,81 303.5,91 L303.5,117.6094 C303.5,127.6094 263,127.6094 263,127.6094 C263,127.6094 222.5,127.6094 222.5,117.6094 L222.5,91 " fill="#FEFECE" filter="url(#f1lqduazz2uw4b)" style="stroke: #000000; stroke-width: 1.5;"/><path d="M222.5,91 C222.5,101 263,101 263,101 C263,101 303.5,101 303.5,91 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="61" x="232.5" y="119.5332">db2 (RW)</text><!--MD5=[7aa9c583cf047545838c264d3047b712]
+entity db1--><path d="M106.5,91 C106.5,81 147,81 147,81 C147,81 187.5,81 187.5,91 L187.5,117.6094 C187.5,127.6094 147,127.6094 147,127.6094 C147,127.6094 106.5,127.6094 106.5,117.6094 L106.5,91 " fill="#FEFECE" filter="url(#f1lqduazz2uw4b)" style="stroke: #000000; stroke-width: 1.5;"/><path d="M106.5,91 C106.5,101 147,101 147,101 C147,101 187.5,101 187.5,91 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="61" x="116.5" y="119.5332">db1 (RW)</text><!--MD5=[fee662a292a0353a69bd162820bae93b]
+entity User--><ellipse cx="21" cy="72" fill="#FEFECE" filter="url(#f1lqduazz2uw4b)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;"/><path d="M21,80 L21,107 M8,88 L34,88 M21,107 L8,122 M21,107 L34,122 " fill="none" filter="url(#f1lqduazz2uw4b)" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="6.5" y="143.5332">User</text><!--MD5=[ecac65e018b2ccf4411957157ca2cac5]
+entity Network--><polygon fill="#FEFECE" filter="url(#f1lqduazz2uw4b)" points="126.5,217,136.5,207,283.5,207,283.5,423.875,273.5,433.875,126.5,433.875,126.5,217" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="273.5" x2="282.5" y1="217" y2="208"/><line style="stroke: #000000; stroke-width: 1.5;" x1="126.5" x2="273.5" y1="217" y2="217"/><line style="stroke: #000000; stroke-width: 1.5;" x1="273.5" x2="273.5" y1="217" y2="433.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="117" x="141.5" y="241.5332">Network Storage</text><line style="stroke: #000000; stroke-width: 1.0;" x1="126.5" x2="273.5" y1="244.6094" y2="244.6094"/><line style="stroke: #000000; stroke-width: 1.0;" x1="273.5" x2="283.5" y1="244.6094" y2="234.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="27" x="147.5" y="263.1426">NFS</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="126.5" x2="273.5" y1="270.2188" y2="270.2188"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="273.5" x2="283.5" y1="270.2188" y2="260.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="27" x="147.5" y="288.752">AFS</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="126.5" x2="273.5" y1="295.8281" y2="295.8281"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="273.5" x2="283.5" y1="295.8281" y2="285.8281"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="64" x="147.5" y="314.3613">GlusterFS</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="126.5" x2="273.5" y1="321.4375" y2="321.4375"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="273.5" x2="283.5" y1="321.4375" y2="311.4375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="39" x="147.5" y="339.9707">DRBD</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="126.5" x2="273.5" y1="347.0469" y2="347.0469"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="273.5" x2="283.5" y1="347.0469" y2="337.0469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="34" x="147.5" y="365.5801">Ceph</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="126.5" x2="273.5" y1="372.6563" y2="372.6563"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="273.5" x2="283.5" y1="372.6563" y2="362.6563"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="17" x="147.5" y="391.1895">S3</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="126.5" x2="273.5" y1="398.2656" y2="398.2656"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="273.5" x2="283.5" y1="398.2656" y2="388.2656"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="20" x="147.5" y="416.7988">. . .</text><!--MD5=[0787bf615adb7ff321a859e42816e0c7]
+entity Volumes--><polygon fill="#FEFECE" filter="url(#f1lqduazz2uw4b)" points="319,272.5,329,262.5,419,262.5,419,368.9375,409,378.9375,319,378.9375,319,272.5" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="409" x2="418" y1="272.5" y2="263.5"/><line style="stroke: #000000; stroke-width: 1.5;" x1="319" x2="409" y1="272.5" y2="272.5"/><line style="stroke: #000000; stroke-width: 1.5;" x1="409" x2="409" y1="272.5" y2="378.9375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="60" x="334" y="297.0332">Volumes</text><line style="stroke: #000000; stroke-width: 1.0;" x1="319" x2="409" y1="300.1094" y2="300.1094"/><line style="stroke: #000000; stroke-width: 1.0;" x1="409" x2="419" y1="300.1094" y2="290.1094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="28" x="340" y="318.6426">data</text><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="319" x2="409" y1="325.7188" y2="325.7188"/><line style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="409" x2="419" y1="325.7188" y2="315.7188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="46" x="340" y="344.252">backup</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="20" x="340" y="361.8613">. . .</text><!--MD5=[e0247bad07c2352f09a524bc9fa53a38]
+link User to Database--><path d="M36.2344,104.5 C41.9381,104.5 47.6418,104.5 53.3456,104.5 C56.1974,104.5 59.0493,104.5 61.9012,104.5 C62.2577,104.5 62.6141,104.5 62.9706,104.5 " fill="none" id="User-&gt;Database" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="62.9706,104.5,53.9706,100.5,57.9706,104.5,53.9706,108.5,62.9706,104.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ab030aad71d2c8468101bb22c48275ef]
+link db1 to Network--><path d="M153.207,128.402 C158.152,146.647 165.485,173.705 173.089,201.758 " fill="none" id="db1-&gt;Network" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="174.41,206.635,175.9151,196.9018,173.1014,201.8093,168.194,198.9956,174.41,206.635" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[800aedf82e7eef867a9325b96c85c707]
+link db2 to Network--><path d="M256.793,128.402 C251.848,146.647 244.515,173.705 236.911,201.758 " fill="none" id="db2-&gt;Network" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="235.59,206.635,241.806,198.9956,236.8986,201.8093,234.0849,196.9018,235.59,206.635" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[66c44df79cef868d34337126e86c388b]
+link Network to Volumes--><path d="M283.797,320.5 C293.717,320.5 303.636,320.5 313.556,320.5 " fill="none" id="Network-&gt;Volumes" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="318.743,320.5,309.743,316.5,313.743,320.5,309.743,324.5,318.743,320.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[898f79093f32ba94ddc2427ee7838772]
+@startuml
+
+actor User
+node Database {
+    database db2 [
+        db2 (RW)
+    ]
+    database db1 [
+        db1 (RW)
+    ]
+}
+
+node Network [
+    <b>Network Storage
+    - - - -
+    NFS
+    ....
+    AFS
+    ....
+    GlusterFS
+    ....
+    DRBD
+    ....
+    Ceph
+    ....
+    S3
+    ....
+    . . .
+]
+
+node Volumes [
+    <b>Volumes
+    - - - -
+    data
+    ....
+    backup
+    . . .
+]
+
+User -> Database
+db1 - -> Network
+db2 - -> Network
+Network -> Volumes
+
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 13.0.1+9
+Operating System: Windows 10
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

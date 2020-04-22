@@ -1,24 +1,26 @@
-:highlightjsdir: highlight
-:source-highlighter: highlight.js
-:icons: font
-:imagesdir: images
-
 = Systems Integration: A Project Based Approach
 Ryan Tolboom <Ryan.Tolboom@njit.edu>
+:icons: font
+:imagesdir: images
 :toc: left
+:sourceroot: ../
+ifdef::ebook-format[:doctype: book]
+ifndef::ebook-format[:highlightjsdir: highlight]
+ifndef::ebook-format[:source-highlighter: highlight.js]
 
-== Legal
-
-This work is licensed under a
-http://creativecommons.org/licenses/by-sa/4.0/[Creative Commons
-Attribution-ShareAlike 4.0 International License.]
-
-image:https://i.creativecommons.org/l/by-sa/4.0/88x31.png[Creative Commons License]
+ifndef::ebook-format[]
+image::logo.png[width=33%,align=center]
+endif::ebook-format[]
 
 :leveloffset: +1
+
+include::legal.adoc[]
+
+include::preface.adoc[]
+
 :sectnums:
 
-// include::tools.adoc[]
+//include::tools.adoc[]
 
 include::midterm_checkin.adoc[]
 
@@ -26,8 +28,8 @@ include::replication.adoc[]
 
 include::kubernetes.adoc[]
 
-include::database_k8s.adoc[]
+include::database-in-kubernetes.adoc[]
 
-include::rabbitmq_k8s.adoc[]
+include::messaging-in-kubernetes.adoc[]
 
-:leveloffset: -1
+include::front-end-in-kubernetes.adoc[]
