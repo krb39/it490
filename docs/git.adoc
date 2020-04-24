@@ -1,0 +1,239 @@
+[#git]
+= Git
+
+image::git.png[align=center, width=25%]
+
+== Version Control
+
+In the simplest sense, version control tracks changes to a group of files.
+Building off of this premise, teams can use version control to cooperative
+change a group of files and revert to a previous state if needed.
+
+Some of the benefits of a version control system can be understood if you
+consider a few examples:
+
+.Programming Project
+====
+You are working on a project for your CS101 class and you need to write a
+Python program that plays tic-tac-toe. It must support player-vs-computer
+_and_ player-vs-player. It's due in two days. On the first day you write the
+initial code and implement player-vs-player. It works great and you fall asleep
+knowing tomorrow you will finish it and turn it in on time. The next morning
+you update it to support player-vs-computer and _everything_ stops working.
+What do you do now? 
+====
+
+If you were working with a version control system, you could easily roll-back
+your changes and see what went wrong.
+
+.Working with a Team
+====
+You are working working with a team of people to implement a complex system
+that utilizes several files in several different directories. How do you make
+sure everyone has the most up-to-date version of the files? What happens if two
+people work on the same file at the same time?
+====
+
+In a version control system, you could set up a centralized repository for the
+files and have everyone pull from one location. In the case of two people
+working on the same thing at the same time, a version control system could
+handle merging their changes.
+
+== Getting Git
+
+Depending on the OS you are using, there are a few different ways to install
+git on your machine:
+
+Windows::
+* https://gitforwindows.org/[git for windows]: Installs git, git BASH, and a
+GUI. The git command can then be run from PowerShell, CMD, or the BASH shell
+(which it installs).
+Mac::
+* https://sourceforge.net/projects/git-osx-installer/files/[git for Mac Installer]:
+  Provides an easy installer for git on MacOS. 
+* https://developer.apple.com/xcode/[Xcode]: Xcode installs a command line git
+  and you may have it installed already. 
+Linux::
+* Basically all distributions have git available in their standard package
+  manager. Chances are, if you're running Linux you have it installed already,
+  so I'll take the opportunity to highlight the strangest distro I can think of:
+  You can install git in http://hannahmontana.sourceforge.net/[Hannah Montana
+  Linux] with the command `apt-get install git`.
+
+== Basic Git Actions
+
+=== Creating a Repository
+
+Any directory can be made into a git repository by running the `git init`
+command. This will add the `.git` directory which stores information about the
+state of the repository and certain user variables.
+
+=== Cloning a Repository
+
+If you want to make a copy of an already existing repository, typically done
+when you _start_ working on a project, the `git clone` command will make a copy
+of a repository using any supported protocol.
+
+=== Tracking / Staging Files
+
+You need to tell git which files you want to keep track of and when you want to
+stage them to be committed. These both use the same command `git add`. The
+first time you call `git add` it begins tracking the file and stages it for a
+commit. The second time you call `git add` it tells git that you want to commit
+any changes to that file.
+
+=== Committing Changes to a Repository
+
+Once you have made some changes to your repository and staged those files with
+`git add` you can use the `git commit` command to _commit_ your changes. All
+commits must have a message, and git will use a default editor depending on
+your installation.
+https://help.github.com/en/github/using-git/associating-text-editors-with-git[
+This can be changed.] To complete the commit, add a message, save the file, and
+exit the editor.
+
+=== Setting Up a Remote
+
+Git repositories are often linked to a remote repository. This could be a
+service, like https://github.com[GitHub], https://gitlab.com[GitLab], or
+https://sr.ht[SourceHut] or more simply another server that the team has
+access to. The `git remote add origin` command adds a remote URL that is the
+default target for actions. You can then `git push` your changes to the remote
+or `git pull` to get the latest changes from the remote. The `git clone`
+command automatically sets the origin.
+
+== Example
+
+Let's take a look at an example of two people, Jessica and Darsh, working with
+the same remote repository:
+
+.Jessica's First Session (PowerShell)
+[source, shell]
+----
+PS jess> mkdir example <1>
+
+
+    Directory: jess
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        4/22/2020  10:02 PM                example
+
+
+PS jess> cd example
+PS jess\example> git init <2>
+Initialized empty Git repository in jess/example/.git/
+PS jess\example> Set-Content -Path 'test.txt' -Value 'Hello from git!' <3>
+PS jess\example> git add . <4>
+PS jess\example> git commit -m "Initial Commit" <5>
+[master (root-commit) 46c7c75] Initial Commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 test.txt
+PS jess\example> git remote add origin ssh://git@192.168.10.1/home/git/example.git <6>
+PS jess\example> git push origin master <7>
+git@192.168.10.1's password:
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 249 bytes | 249.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To ssh://192.168.10.1/home/git/example.git
+ * [new branch]      master -> master
+----
+<1> Jessica will be creating the repository, so she makes a new directory
+<2> Inside the directory, she uses `git init` to initialize it
+<3> https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-content?view=powershell-7[
+She adds some content so she has something to commit]
+<4> The form `git add .` means _stage all files in this directory_. It is the
+most common invokation of `git add`.
+<5> Jessica commits her work. The `-m` option allows her to add a commit
+message without needing to open an editor.
+<6> She adds a remote as the default. This _does_ require configuration on the
+remote server, a local machine in our case, but we will talk about how that is
+usually handled in the <<GitHub>> section.
+<7> Finally she pushes her changes to the remote so that Darsh can get them.  
+
+.Darsh's Session (BASH)
+[source, shell]
+----
+darsh@laptop:~$ git clone ssh://git@192.168.10.1:/home/git/example.git <1>
+Cloning into 'example'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (3/3), done.
+darsh@laptop:~$ cd example <2>
+darsh@laptop:~/example$ cat test.txt
+Hello from git! <3>
+darsh@laptop:~/example$ echo "Hello Jess!" >> test.txt <4>
+darsh@laptop:~/example$ git add . <5>
+darsh@laptop:~/example$ git commit -m "Added my message"
+[master 55dc946] Added my message
+ 1 file changed, 1 insertion(+)
+darsh@laptop:~/example$ git push
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 271 bytes | 271.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To ssh://192.168.10.1:/home/git/example.git
+   182a481..55dc946  master -> master
+----
+<1> Darsh isn't creating a new repository so he uses the `git clone` command to
+clone the repository Jessica has made.
+<2> By default, cloned repositories are put in their own directory based on the
+repository name. You can specify a different directory by adding an argument
+after the URL: `git clone ssh://git@192.168.10.1:/home/git/example.git
+new-directory`
+<3> Jess's content is there!
+<4> Darsh appends a message of his own.
+<5> Then he follows the standard add, commit, push work flow to sync his
+changes.
+
+.Jessica's Second Session (PowerShell)
+[source, shell]
+----
+PS jess\example> Get-Content -Path 'test.txt'
+Hello from git! <1>
+PS jess\example> git pull origin master <2>
+git@192.168.10.1's password:
+From ssh://192.168.10.1/home/git/example
+ * branch            master     -> FETCH_HEAD
+Updating 182a481..55dc946
+Fast-forward
+ test.txt | 1 +
+ 1 file changed, 1 insertion(+)
+PS jess\example> Get-Content -Path 'test.txt'
+Hello from git! <3>
+Hello Jess!
+----
+<1> When Jess goes to check on Darsh's work, it isn't there! Why?
+<2> Because she hasn't pulled from the remote yet.
+<3> Once she does, she can see Darsh's addition
+
+This scenario begs the question, "What would happen if Jess didn't pull Darsh's
+work and kept working on her local, unsynced copy?" Assuming they were both
+working on the same file, when Jess goes to push there would be a
+https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts[merge
+conflict.] Git is very good at resolving conflicts and team members tend to be
+working on different parts of the codebase, making the resolution simpler.
+
+== Resources
+
+* The entire https://git-scm.com/book/en/v2[Pro Git Book] can be found online.
+  It is a comprehensive text that will cover much more than the brief outline
+  presented here.
+* GitHub has some https://try.github.io[excellent and interactive resources]
+  for learning to use git.
+
+== Questions
+
+[qanda]
+What are the advantages of using version control?::
+    {empty}
+What does it mean that files are _staged_ for a _commit_?::
+    {empty}
+What are the two things that the `git add` command can do?::
+    {empty}
+How do you create a new repository in a directory?::
+    {empty}
+What is a _remote_ and what does the `git push` command do?::
+    {empty}

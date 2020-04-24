@@ -5,11 +5,17 @@ Ryan Tolboom <Ryan.Tolboom@njit.edu>
 :toc: left
 :sourceroot: ../
 ifdef::ebook-format[:doctype: book]
+ifdef::ebook-format[:front-cover-image: image:cover.png[Front Cover,1050,1600]]
 ifndef::ebook-format[:highlightjsdir: highlight]
 ifndef::ebook-format[:source-highlighter: highlight.js]
 
 ifndef::ebook-format[]
+
 image::logo.png[width=33%,align=center]
+
+[.text-center]
+eBook versions: link:systems-integration.epub[ePub] | link:systems-integration.mobi[mobi]
+
 endif::ebook-format[]
 
 :leveloffset: +1
@@ -20,7 +26,13 @@ include::preface.adoc[]
 
 :sectnums:
 
-//include::tools.adoc[]
+include::git.adoc[]
+
+include::github.adoc[]
+
+include::yaml.adoc[]
+
+include::docker.adoc[]
 
 include::midterm_checkin.adoc[]
 
@@ -33,3 +45,7 @@ include::database-in-kubernetes.adoc[]
 include::messaging-in-kubernetes.adoc[]
 
 include::front-end-in-kubernetes.adoc[]
+
+include::back-end-in-kubernetes.adoc[]
+
+include::google_cloud_platform.adoc[]

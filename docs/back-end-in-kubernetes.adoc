@@ -1,0 +1,65 @@
+= Back End in Kubernetes
+
+The last key to our Kubernetes migration is a functioning *Back End*. In this
+section we will build the Kubernetes objects needed to support this role.
+
+== Introduction
+
+*Back End* is our conduit between *Messaging* and *Database* and we have
+implemented it as a Python script. Replicas of *Back End* can function
+independently since messages can only be pulled off the queue one-at-a-time,
+they are removed after they are pulled, and an exclusive response queue is
+created for the response:
+
+.*Back End* Architecture
+[plantuml, backend-arch, svg]
+....
+@startuml
+
+rectangle "Front End" as frontend {
+    node frontend1 as "Front End 1"
+    node frontend2 as "Front End 2"
+}
+
+rectangle Messaging as messaging {
+    queue Requests [
+        Requests
+        ====
+        FE1
+        ----
+        FE2
+        ----
+        . . .
+    ]    
+    queue response1 as "Response 1"
+    queue response2 as "Response 2"
+}
+
+rectangle "Back End" {
+    node backend1 as "Back End 1"
+    node backend2 as "Back End 2"
+}
+
+frontend1 --> Requests: FE1
+frontend2 --> Requests: FE2
+
+response1 --> frontend1
+response2 --> frontend2
+
+Requests --> backend1: FE1
+Requests --> backend2: FE2
+
+backend1 --> response1
+backend2 --> response2
+
+@enduml
+....
+
+In the above diagram two different *Front Ends* are communicating with
+*Messaging*. Two different *Back Ends* are pulling requests (FE1, FE2, etc.)
+out of the requests queue and processing them. Notice that each *Front End* has
+a separate response queue (that can be derived from the message in the requests
+queue). This architecture allows multiple *Backends* to run at the same time
+without needing to be in communication with eachother.
+
+== Questions
