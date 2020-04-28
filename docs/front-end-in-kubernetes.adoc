@@ -258,13 +258,15 @@ Let's take a look at our *Service* definition:
 include::{sourceroot}/{sourcedir}/front-end-k8s.yml[tags=service]
 ----
 
-The only new thing in this definition is `type: LoadBalancer` in the `spec`.
-This allows us to access this service externally. It is worth noting that in a
-real-life scenario, this will create a load balancer with an external IP via
-your IaaS provider. These cost money and it can add up as you expose more
-services to the outside world. Fortunately, as explained in the previous
-<<_kubernetes_3,Kubernetes>> section, we can still use minikube to test externally connecting
-to our service with the `minikube service` command.
+The only new things in this definition are `type: LoadBalancer` in the `spec`
+and `targetPort` in the `ports` list. This allows us to access this service
+externally on port 80 and have it routed internally to port 5000 on one of the
+pods. It is worth noting that in a real-life scenario, this will create a load
+balancer with an external IP via your IaaS provider. These cost money and it can
+add up as you expose more services to the outside world. Fortunately, as
+explained in the previous <<_kubernetes_3,Kubernetes>> section, we can still use
+minikube to test externally connecting to our service with the `minikube
+service` command.
 
 === Deployment
 

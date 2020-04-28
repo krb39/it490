@@ -1,1 +1,154 @@
 = YAML
+
+image::yaml.png[align=center, width=25%]
+
+== Introduction
+
+In the long-standing tradition of
+https://en.wikipedia.org/wiki/Recursive_acronym#Early_computer-related_examples[
+informal, recursive acronyms], YAML stands for YAML Ain't Markup Language. It
+is designed to be a plain text way to represent complex objects. It is easier to
+read than JSON, but not as complex as XML. YAML uses indentation to specify scope,
+like Python, and therefore _spacing matters_.
+
+The vast majority of what we will be creating is written in YAML so it pays to
+give it at least a cursory treatment. It's even become a bit of an inside joke
+that modern system architects are simply https://yaml.engineering/[YAML
+engineers].
+
+== Parts of a YAML Stream
+
+NOTE: This section is parts of a YAML _stream_, not a YAML _document_ because
+technically a single YAML file could have multiple Documents.
+
+Let's look at some sample streams to get a clearer picture of how YAML is used:
+
+.Sample Docker Compose YAML
+[source, YAML]
+----
+# source: https://docs.docker.com/compose/gettingstarted/ <1>
+--- # <2>
+version: '3' <3>
+services: <4>
+  web:
+    build: .
+    ports:
+    - "5000:5000" <5>
+  redis:
+    image: "redis:alpine"
+----
+<1> Anything following a `#` in YAML is considered a comment. Don't be afraid to
+use them!
+<2> YAML documents start with `---` and optionally end with `...`. This allows
+multiple documents to included in a stream.
+<3> `keyword: value` signals a mapping. This mapping maps the keyword `version`
+to the string `'3'`.
+<4> Mappings can be nested. This mapping maps the keyword `services` to
+mappings with keywords `web` and `redis`.
+<5> Sequences can be shown as a block of lines starting with `-`. In this case
+`ports` is mapping to a sequence with one item, the string `"5000:5000"`.
+
+.Sample Kubernetes YAML
+[source, YAML]
+----
+# source: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: 2016-02-18T18:52:05Z <1>
+  name: game-config
+  namespace: default
+  resourceVersion: "516"
+  uid: b4952dc3-d670-11e5-8cd0-68f728db1985
+data:
+  game.properties: | <2>
+    enemies=aliens
+    lives=3
+    enemies.cheat=true
+    enemies.cheat.level=noGoodRotten
+    secret.code.passphrase=UUDDLRLRBABAS
+    secret.code.allowed=true
+    secret.code.lives=30
+  ui.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true
+    how.nice.to.look=fairlyNice
+----
+<1> YAML supports timestamp types.
+<2> The `|` indicates block scalar style. The keyword `game.properties` is
+mapped to a string where the newlines are preserved but the leading spaces are
+removed. The string, with newlines shown as '\n', is
+'enemies=aliens\nlives=3\nenemies.cheat=true\n...'. This is a common way of
+defining files or scripts within YAML.
+
+== Editors
+
+Given YAML's strict whitespace requirements, you will need to use a text editor
+that supports configuring spacing and expanding tabs into spaces. At a minimum,
+you should be able to do the following with your text editor:
+
+* Translate tab keystrokes into spaces. This is sometimes referred to as
+  _expanding tabs_. YAML files that mix tabs and spaces will not work.
+* Adjust tab spacing. Typically you will see YAML files with two spaces of
+  indentation for their blocks. This allows you to have many nested blocks and
+  not have to worry about lines wrapping or scrolling to the right.
+* Increase / Decrease the indentation level of several lines at once. As you
+  make changes, you may have to change the indentation level of a block being
+  able to do this quickly, without having to visit every line will save you
+  time.
+* Cut/Copy/Paste - You should be able to copy things between your web browser
+  and the file your are editing. If you can copy things between multiple
+  tabs/buffers in your text editor, even better.
+* Convert between DOS/UNIX line endings. Most of the tools you will be working
+  with come from the UNIX world, where a line ends with '\n'. Some older DOS
+  utilities still end lines with '\r\n'. You need to be able to save documents
+  with UNIX line endings in your text editor.
+
+There are many editors that meet these requirements. Choosing an editor is a
+matter of personal taste and the subject of
+https://en.wikipedia.org/wiki/Editor_war[unending flame wars]. With this in
+mind the following list is not meant to be exhaustive and I'm sure the comments
+may be subject of some debate. Popular editor choices:
+
+* *link:https://www.vim.org/download.php[vim]/link:https://neovim.io/[neovim]/
+link:http://ex-vi.sourceforge.net/[vi]* - Some form of vi is almost always
+installed on any *NIX/BSD system. Knowing how to use it can be a major
+lifesaver. You can also find versions for Windows. Since most of your work will
+be in a terminal, having an editor that runs directly inside a terminal can be
+an advantage. All that being said,
+https://twitter.com/iamdevloper/status/435555976687923200[
+the learning curve is steep]. If you are interested in learning vi, I'd suggest
+either vimtutor or `:Tutor` inside neovim.
+
+* *https://code.visualstudio.com/[Visual Studio Code]* - vscode is more akin to
+a modern IDE. It is rapidly gaining more adoption and is certainly worth
+checking out if that is the type of experience you are looking for.
+
+* *https://notepad-plus-plus.org/downloads/[Notepad{plus}{plus}]* -
+Notepad{plus}{plus} is a popular Windows GUI text editor. It starts quickly, and
+many things work right out of the box. If you want something like notepad, but a
+little more versatile (the next iteration you could say... get it?), then this
+is for you.
+
+* *https://macromates.com/[TextMate]* - TextMate is a popular MacOS GUI text
+editor. It is simple to get started, but offers the advanced features you may
+need as you progress.
+
+== Resources
+
+* https://yaml.org/[The Official YAML Web Site]
+* https://yaml-multiline.info/[YAML Multiline Strings]
+
+== Questions
+[qanda]
+How does YAML signify different blocks?::
+    {empty}
+Are nested structures possible in YAML?::
+    {empty}
+What are the two components of a YAML mapping?::
+    {empty}
+How would you comment out a line in a YAML file?::
+    {empty}
+What does the expandtab or "replace by spaces" option do in a text editor and why is it important for YAML?::
+    {empty}

@@ -66,6 +66,8 @@ def login():
         msg = messaging.Messaging()
         msg.send('GETHASH', { 'email': email })
         response = msg.receive()
+        if response == None:
+            return "No response from back end."
         if response['success'] != True:
             return "Login failed."
         if check_password_hash(response['hash'], password):

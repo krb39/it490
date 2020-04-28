@@ -91,7 +91,7 @@ spec:
       serviceAccountName: messaging
       containers:
         - name: rabbitmq
-          image: rabbitmq:management
+          image: rabbitmq:3.8.3-management
           env:
             - name: MY_POD_NAME
               valueFrom:

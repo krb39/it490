@@ -367,6 +367,14 @@ ess to the resource is denied
 As you can see there, is lots of useful information here including a full
 history of events that have occured.
 
+TIP: Seeing `ErrImagePull` or `ImagePullBackOff` in the status section of
+`kubectl get pod` is a common problem. Check to make sure you've set up your
+environment correctly to use the Docker daemon _in_ minikube and then try the
+`docker pull <image>` command yourself. If Docker can't pull it check to see
+that you are connected to the network and if it's a custom image check to see
+that you built it. `docker images` will show you all of the images minikube can
+access.
+
 Many of the same techniques used for debugging Docker images can be used for
 debugging Kubernetes objects. For example you can execute interactive commands
 (including a shell) on running docker images with `kubectl exec -it`:

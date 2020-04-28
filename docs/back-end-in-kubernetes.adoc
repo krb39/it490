@@ -1,7 +1,9 @@
 = Back End in Kubernetes
+:sourcedir: example-final
 
 The last key to our Kubernetes migration is a functioning *Back End*. In this
-section we will build the Kubernetes objects needed to support this role.
+section we will build the Kubernetes object (yes, singular) needed to support
+this role.
 
 == Introduction
 
@@ -60,6 +62,211 @@ In the above diagram two different *Front Ends* are communicating with
 out of the requests queue and processing them. Notice that each *Front End* has
 a separate response queue (that can be derived from the message in the requests
 queue). This architecture allows multiple *Backends* to run at the same time
-without needing to be in communication with eachother.
+without needing to be in communication with each other.
+
+We do not need to learn about any new Kubernetes objects to migrate *Back End*.
+It does not require an external connection to any port or even an internal
+connection to a port, therefore a *Service* object isn't even required.
+
+== Example
+
+The only changes you will see in *Back Ends* application code is separating
+database requests into read and read / write, to correspond to our
+<<Database in Kubernetes, new load-balanced service>>. Here is the new connect
+sequence:
+
+.{sourcedir}/back-end/app.py (excerpted)
+[source, python]
+----
+include::{sourceroot}/{sourcedir}/back-end/app.py[tags=updated_db]
+----
+
+This makes `curr_r`, `conn_r`, `curr_rw`, `conn_rw` available for read and
+read / write requests respectively. `process_request` then uses correct
+connection depending on the action:
+
+.{sourcedir}/back-end/app.py (excerpted)
+[source, python]
+----
+include::{sourceroot}/{sourcedir}/back-end/app.py[tags=process_request]
+----
+
+The Dockerfile does not require any changes, but minikube does requires that an
+image be built and available. The only object we need to create is a
+*Deployment*:
+
+.{sourcedir}/back-end-k8s.yml
+[source, YAML]
+----
+include::{sourceroot}/{sourcedir}/back-end-k8s.yml[]
+----
+
+Now let's build and tag our back-end:v1 image to make it available to minikube:
+
+[source, shell]
+----
+PS example-final> minikube docker-env | Invoke-Expression <1>
+PS example-final> cd .\back-end\
+PS example-final\back-end> docker build -t back-end:v1 . <2>
+Sending build context to Docker daemon  7.168kB
+Step 1/5 : FROM python
+ ---> b55669b4130e
+Step 2/5 : COPY . /app
+ ---> 6aacbd4f55d8
+Step 3/5 : WORKDIR /app
+ ---> Running in 5f993e9c691d
+Removing intermediate container 5f993e9c691d
+ ---> c8b736fd9f9c
+Step 4/5 : RUN pip install -r requirements.txt
+ ---> Running in f423d983860c
+Collecting pika
+  Downloading pika-1.1.0-py2.py3-none-any.whl (148 kB)
+Collecting psycopg2
+  Downloading psycopg2-2.8.5.tar.gz (380 kB)
+Building wheels for collected packages: psycopg2
+  Building wheel for psycopg2 (setup.py): started
+  Building wheel for psycopg2 (setup.py): finished with status 'done'
+  Created wheel for psycopg2: filename=psycopg2-2.8.5-cp38-cp38-linux_x86_64.whl size=500514 sha256=6a53ea80799efeaeb8f4aeec9b7e
+b4d7fe0451d9efb02258f9a57801fa5d1b0a
+  Stored in directory: /root/.cache/pip/wheels/35/64/21/9c9e2c1bb9cd6bca3c1b97b955615e37fd309f8e8b0b9fdf1a
+Successfully built psycopg2
+Installing collected packages: pika, psycopg2
+Successfully installed pika-1.1.0 psycopg2-2.8.5
+Removing intermediate container f423d983860c
+ ---> af068e0b4647
+Step 5/5 : CMD ["python", "app.py"]
+ ---> Running in 969562a251ec
+Removing intermediate container 969562a251ec
+ ---> a1f03249f42c
+Successfully built a1f03249f42c
+Successfully tagged back-end:v1
+----
+<1> Don't forget to have your environment set up to build for the minikube
+docker daemon. I started a new terminal to run this, so I had to set up the
+environment again.
+<2> Don't forget to use a tag, back-end:v1 in this case.
+
+Now we'll apply our minikube objects for the *Back End*:
+
+[source, shell]
+----
+PS example-final> kubectl apply -f .\back-end-k8s.yml
+deployment.apps/back-end created
+PS example-final> kubectl get pod
+NAME                         READY   STATUS             RESTARTS   AGE
+back-end-7685957868-fbzqk    1/1     Running            0          3s
+back-end-7685957868-t4n9x    1/1     Running            0          3s
+back-end-7685957868-ws2ss    1/1     Running            0          3s
+PS example-final> kubectl logs back-end-7685957868-fbzqk
+INFO:root:Waiting 1s...
+INFO:root:Connecting to the database...
+INFO:root:Waiting 2s...
+INFO:root:Connecting to the database...
+INFO:root:Waiting 4s...
+INFO:root:Connecting to the database...
+INFO:root:Waiting 8s...
+INFO:root:Connecting to the database...
+INFO:root:Waiting 16s...
+----
+
+As you can see, it is waiting for *Database* to start up. Since we have all of
+the components, why don't we try bringing the entire system up?
+`kubectl apply -f .` will apply _all_ of the YAML files in the current
+directory. Since we are using the `apply` command, only changes that are needed
+to reach the state of the objects in the files will be made. Lastly, we need to
+make sure that the `front-end:v1` image is built and available:
+
+[source, shell]
+----
+PS example-final> docker build -t front-end:v1 ./front-end
+Sending build context to Docker daemon   16.9kB
+Step 1/6 : FROM python
+latest: Pulling from library/python
+90fe46dd8199: Pull complete
+35a4f1977689: Pull complete
+bbc37f14aded: Pull complete
+74e27dc593d4: Pull complete
+4352dcff7819: Pull complete
+deb569b08de6: Pull complete
+98fd06fa8c53: Pull complete
+7b9cc4fdefe6: Pull complete
+e8e1fd64f499: Pull complete
+Digest: sha256:adcfb73e4ca83b126cc3275f3851c73aecca20e59a48782e9ddebb3a88e57f96
+Status: Downloaded newer image for python:latest
+ ---> a6be143418fc
+Step 2/6 : COPY . /app
+ ---> d0441d56a485
+Step 3/6 : WORKDIR /app
+ ---> Running in 31809274a574
+Removing intermediate container 31809274a574
+ ---> 4cd78efa655a
+Step 4/6 : RUN pip install -r requirements.txt
+ ---> Running in 7c1603cf2503
+Collecting Flask
+  Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+Collecting pika
+  Downloading pika-1.1.0-py2.py3-none-any.whl (148 kB)
+Collecting Werkzeug>=0.15
+  Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Collecting Jinja2>=2.10.1
+  Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting click>=5.1
+  Downloading click-7.1.1-py2.py3-none-any.whl (82 kB)
+Collecting itsdangerous>=0.24
+  Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting MarkupSafe>=0.23
+Installing collected packages: Werkzeug, MarkupSafe, Jinja2, click, itsdangerous, Flask, pika
+Successfully installed Flask-1.1.2 Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 click-7.1.1 itsdangerous-1.1.0 pika-1.1.0
+Removing intermediate container 7c1603cf2503
+ ---> a6a9f8d6b40c
+Step 5/6 : ENV FLASK_APP=app.py
+ ---> Running in 008548ce7dfb
+Removing intermediate container 008548ce7dfb
+ ---> 28fce011bbd3
+Step 6/6 : CMD ["flask", "run", "--host=0.0.0.0"]
+ ---> Running in 7adb0edc6b4e
+Removing intermediate container 7adb0edc6b4e
+ ---> 34f3b5c20f75
+Successfully built 34f3b5c20f75
+Successfully tagged front-end:v1
+----
+
+Now we can bring everything in the directory up with the `kubectl apply -f .`
+command:
+
+[source, shell]
+----
+PS C:\Users\rxt1077\it490\example-final> kubectl apply -f .
+deployment.apps/back-end unchanged
+persistentvolumeclaim/db-primary-pv-claim created
+service/db-rw created
+service/db-r created
+deployment.apps/db-rw created
+deployment.apps/db-r created
+service/front-end created
+deployment.apps/front-end created
+serviceaccount/messaging created
+role.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+configmap/rabbitmq-config created
+service/messaging created
+statefulset.apps/messaging created
+----
+
+Finally, running the `minikube service front-end` command should start the
+default browser with the URL needed to access *Front End*. You can test
+registering and logging in as a user.
 
 == Questions
+
+[qanda]
+Why did we have to change the application code for *Back End*?::
+    {empty}
+Why _doesn't_ *Back End* need a *Service*?::
+    {empty}
+How do we make sure that the `back-end:v1` image is available to minikube?::
+    {empty}
+What particular issues, with regard to the entire system, might horizontally scaling *Back End* help with?::
+    {empty}
+How can you apply more than one YAML file with the `kubectl` command?::
+    {empty}

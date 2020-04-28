@@ -63,7 +63,7 @@ spec:
     spec:
       containers:
         - name: db-rw
-          image: postgres
+          image: postgres:12.2
           env:
             - name: POSTGRES_PASSWORD
               value: "changeme"
@@ -86,9 +86,16 @@ spec:
                 # Start a temporary server listening on localhost
                 su -c "pg_ctl -D /var/lib/postgresql/data -w start" postgres
 
-                # Create a user for replication operations
+                # Create a user for replication operations and initialize our
+                # example database
                 psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<EOF
                   CREATE USER repuser REPLICATION LOGIN ENCRYPTED PASSWORD '$POSTGRES_REPLICA_PASSWORD';
+                  CREATE DATABASE example;
+                  \c example
+                  CREATE TABLE users(
+                    email VARCHAR(255) PRIMARY KEY,
+                    hash VARCHAR(255) NOT NULL
+                  );
               EOF
               # ^ this EOF has to be in line with the YAML scalar block
 
@@ -131,7 +138,7 @@ spec:
     spec:
       containers:
         - name: db-r
-          image: postgres
+          image: postgres:12.2
           env:
             - name: POSTGRES_REPLICA_PASSWORD
               value: "changeme"
