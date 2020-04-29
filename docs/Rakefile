@@ -1,0 +1,60 @@
+require 'asciidoctor'
+require 'asciidoctor-diagram'
+require 'asciidoctor-epub3'
+require 'asciidoctor-pdf'
+
+output = 'output'
+
+desc 'Builds output directories'
+task :dirs do
+  mkdir_p "#{output}/images"
+end
+
+desc 'Copies over the images directory for HTML5 output'
+task :images => [:dirs] do
+  cp Dir.glob('images/*'), "#{output}/images"
+end
+
+desc 'Builds the HTML5 version of the book'
+task :html5 => [:images] do
+  Asciidoctor.convert_file(
+    'index.adoc',
+    to_dir: output,
+    safe: :unsafe
+  )
+end
+
+desc 'Builds the epub3 version of the book'
+task :epub3 => [:dirs] do
+  Asciidoctor.convert_file(
+    'index.adoc',
+    safe: :unsafe,
+    backend: 'epub3',
+    to_file: "#{output}/systems-integration.epub"
+  )
+end
+
+desc 'Builds the MOBI version of the book'
+task :mobi => [:dirs] do
+  Asciidoctor.convert_file(
+    'index.adoc',
+    safe: :unsafe,
+    backend: 'epub3',
+    to_file: "#{output}/systems-integration.mobi",
+    attributes: 'ebook-format=kf8'
+  )
+  rm "#{output}/systems-integration-kf8.epub"
+end
+
+desc 'Builds the PDF version of the book'
+task :mobi => [:dirs] do
+  Asciidoctor.convert_file(
+    'index.adoc',
+    safe: :unsafe,
+    backend: 'pdf',
+    to_file: "#{output}/systems-integration.pdf",
+  )
+end
+
+desc 'Builds all versions of the book'
+task :default => [:html5, :epub3, :mobi]

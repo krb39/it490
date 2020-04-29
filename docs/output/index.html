@@ -542,6 +542,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_questions_9">10.3. Questions</a></li>
 </ul>
 </li>
+<li><a href="#_google_kubernetes_engine">11. Google Kubernetes Engine</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_6">11.1. Introduction</a></li>
+<li><a href="#_installing_gcloud">11.2. Installing gcloud</a></li>
+<li><a href="#_switching_clusters_in_kubectl">11.3. Switching Clusters in Kubectl</a></li>
+<li><a href="#_resources_5">11.4. Resources</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -5323,6 +5331,70 @@ registering and logging in as a user.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_google_kubernetes_engine">11. Google Kubernetes Engine</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><img src="images/gke.svg" alt="gke" width="25%"></span></p>
+</div>
+<div class="sect2">
+<h3 id="_introduction_6">11.1. Introduction</h3>
+<div class="paragraph">
+<p>Several times over the course of this text you probably asked yourself, "Why
+are we doing it this way?" Hopefully the chapters answered most of those
+questions. This chapter hopes to answer the question, "Why did we migrate to
+Kubernetes?" The answer being, "To create a scalable system that can be run on
+enterprise-grade hardware." The best way to see what that looks like is to
+actually do it.</p>
+</div>
+<div class="paragraph">
+<p>In this chapter we will deploy our full system on Google Kubernetes Engine. If
+you want to follow through the examples on your own, you will need to sign up
+for a <a href="https://cloud.google.com/gpc">Google Cloud login</a>. Please note that while
+Google Cloud does have a <a href="https://cloud.google.com">free tier</a>, you will still
+need to a credit card to your account and <em>you can be charged money for the
+services you use</em>. If you are worried about incuring an expense, feel free to
+simple read through the examples.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installing_gcloud">11.2. Installing gcloud</h3>
+<div class="paragraph">
+<p>We will be doing as much of this is possible from the command line, but we will
+need to install a CLI to interact with Google cloud. The <code>gcloud</code> command is
+installed as part of the Google Cloud SDK. Install it using the
+<a href="https://cloud.google.com/sdk/docs/downloads-interactive">Google Cloud SDK
+Interactive Installer</a> and follow the prompts to run <code>gcloud init</code> once it is
+installed (this is the default).</p>
+</div>
+<div class="paragraph">
+<p>The init procedure will open the default browser and prompt you to sign in with
+a Google account that you created a Google Cloud login on.  Once authenticated,
+you can refer back to the terminal it opened and <code>Create a new project</code>, with
+any unique name you can think of. The project id <em>must</em> be globally unique, so
+you may want to use the date as part of your ID: <code>example-2020428</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_switching_clusters_in_kubectl">11.3. Switching Clusters in Kubectl</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_resources_5">11.4. Resources</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/quickstart">Google Kubernetes Engine
+Quickstart</a></p>
+</li>
+<li>
+<p><a href="https://cloud.google.com/sdk/docs/downloads-interactive">Google Cloud SDK Interactive Installer</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes">
 <hr>
@@ -5341,7 +5413,7 @@ registering and logging in as a user.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-04-27 21:46:57 -0400
+Last updated 2020-04-28 14:40:20 -0400
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

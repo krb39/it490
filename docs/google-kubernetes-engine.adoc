@@ -1,0 +1,43 @@
+= Google Kubernetes Engine
+
+image:gke.svg[align=center, width=25%]
+
+== Introduction
+
+Several times over the course of this text you probably asked yourself, "Why
+are we doing it this way?" Hopefully the chapters answered most of those
+questions. This chapter hopes to answer the question, "Why did we migrate to
+Kubernetes?" The answer being, "To create a scalable system that can be run on
+enterprise-grade hardware." The best way to see what that looks like is to
+actually do it.
+
+In this chapter we will deploy our full system on Google Kubernetes Engine. If
+you want to follow through the examples on your own, you will need to sign up
+for a https://cloud.google.com/gpc[Google Cloud login]. Please note that while
+Google Cloud does have a https://cloud.google.com[free tier], you will still
+need to a credit card to your account and _you can be charged money for the
+services you use_. If you are worried about incuring an expense, feel free to
+simple read through the examples.
+
+== Installing gcloud
+
+We will be doing as much of this is possible from the command line, but we will
+need to install a CLI to interact with Google cloud. The `gcloud` command is
+installed as part of the Google Cloud SDK. Install it using the 
+https://cloud.google.com/sdk/docs/downloads-interactive[Google Cloud SDK
+Interactive Installer] and follow the prompts to run `gcloud init` once it is
+installed (this is the default).
+
+The init procedure will open the default browser and prompt you to sign in with
+a Google account that you created a Google Cloud login on.  Once authenticated,
+you can refer back to the terminal it opened and `Create a new project`, with
+any unique name you can think of. The project id _must_ be globally unique, so
+you may want to use the date as part of your ID: `example-2020428`.
+
+== Switching Clusters in Kubectl
+
+== Resources
+
+* https://cloud.google.com/kubernetes-engine/docs/quickstart[Google Kubernetes Engine
+Quickstart]
+* https://cloud.google.com/sdk/docs/downloads-interactive[Google Cloud SDK Interactive Installer]

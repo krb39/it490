@@ -1,4 +1,0 @@
-= Google Cloud Platform
-
-In this section we will deploy our full system on Google Cloud Platform to see
-what the differences between our production and development environments are.
