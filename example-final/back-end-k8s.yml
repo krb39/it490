@@ -18,6 +18,7 @@ spec:
       containers:
         - name: back-end
           image: back-end:v1
+          #image: gcr.io/example-20200503/back-end:v1
           env:
             - name: RABBITMQ_DEFAULT_USER
               value: "guest"

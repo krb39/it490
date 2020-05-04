@@ -36,6 +36,14 @@ include::yaml.adoc[]
 
 //include::docker.adoc[]
 
+include::messaging.adoc[]
+
+//include::database.adoc[]
+
+//include::front-end.adoc[]
+
+//include::back-end.adoc[]
+
 include::midterm_checkin.adoc[]
 
 include::replication.adoc[]

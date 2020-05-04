@@ -117,10 +117,10 @@ GitHub web interface. If a file named `README.md` exists in a directory, it
 will be automatically displayed at the bottom of a directory listing. This
 makes it easy to build documentation right into your repository. Learn markdown
 and be sure to have a `README.md` in your repository.footnote:[If you're looking
-to take things a bit further https://asciidoctor.org/docs/asciidoc-writers-guide/[asciidoc],
+to take things a bit further https://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc],
 https://docutils.sourceforge.io/rst.html[reStructuredText], and
 https://docs.racket-lang.org/scribble/[scribble] are worth exploring too. This
-book is written in asciidoc.]
+book is written in AsciiDoc.]
 
 == Resources
 

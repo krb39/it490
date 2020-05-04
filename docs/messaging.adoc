@@ -1,0 +1,240 @@
+= Messaging
+
+image::messaging.png[width=25%, align=center]
+
+== Purpose
+
+Messaging allows multiple components to use a common medium to exchange
+information. The goal is to create a system that is more extensible,
+future proof, and scalable. By using a messaging framework you can focus on the
+interfaces between components and worry less about individual idiosyncrasies.
+
+One of the easiest ways to understand the advantages of a messaging layer is to
+view it as a bus carrying information between components. While you may only
+have a few components now, what happens if you want to expand?
+
+[plantuml, messaging-bus, svg]
+....
+@startuml
+nwdiag {
+    network Messaging {
+        iOS_Client
+        Android_Client
+        MacOS_Client
+        Linux_Client
+        Windows_Client
+        Web_Interface
+        Point_of_Sale
+        Back_End
+    }
+}
+@enduml
+....
+
+If the interfaces are well thought out, messaging frameworks can take advantage
+of caching. Examine the following scenario:
+
+[plantuml, messaging-cache, svg]
+....
+@startuml
+"Front End" -> Messaging: GET Picture USER 42
+Messaging -> "Back End": GET Picture USER 42
+"Back End" -> Database: "SELECT Picture FROM Users WHERE id=42;"
+Database -> "Back End": 1KB of Data
+"Back End" -> Messaging: 1KB of Data
+Messaging -> "Front End": 1KB of Data
+"Front End" -> Messaging: GET Picture USER 42
+Messaging -> "Front End": 1KB of Data (cached)
+@enduml
+....
+
+For the second request, `GET Picture USER 42`, Messaging already knows the
+answer and can respond with a cached copy. A well-designed messaging framework
+will allow you to adjust cache parameters to achieve significant performance
+gains without serving stale data. Cache invalidation is a
+https://martinfowler.com/bliki/TwoHardThings.html[famously difficult] problem,
+but at least with a messaging framework you are not trying to solve it by
+yourself.
+
+Messaging frameworks allow components to be built and profiled independent of
+other components. Want to know how many requests a client is generating so you
+can better build a back end to support it? Check the statistics of the messaging
+queues you are using. Want to be able to completely swap out a component without
+any of the other components noticing? Use a messaging framework.
+
+That's not to say that all projects take advantage of a messaging layer. Often
+it's viewed as "just another thing to get in the way" or another possible
+bottleneck. Many projects attempt to shoe horn the messaging framework in later
+on, a difficult feat. We will avoid that here by mandating that a messaging
+framework be used from the start.
+
+== Frameworks
+
+The two most popular messaging frameworks are https://www.rabbitmq.com/[
+RabbitMQ] and https://kafka.apache.org/[Kafka]. We will briefly discuss each
+platform, but it is important to note that we will be using RabbitMQ in this
+text. Milestones and deliverables in the project will require things specific
+to RabbitMQ. All systems must function within constraints and one of the
+constraints on the system we are going to design is that it _must_ use
+RabbitMQ.
+
+RabbitMQ is built with https://www.erlang.org/[Erlang] and
+https://erlang.org/doc/design_principles/users_guide.html[OTP], a system meant
+for solving the large-scale, distributed problems that are prevalent in the
+telecom industry. It is hard to think of a platform more suited to the task of
+messaging. RabbitMQ supports traditional messaging paradigms and uses a
+standard messaging protocol: https://www.amqp.org/[AMQP]. This allows for
+application libraries in _many_ different languages including Python, Java,
+Ruby, PHP, C#, JavaScript, Go, Elixir, Objective-C, Swift, and Spring AMQP.
+
+Kafka was built by the Apache project in Java. It uses the publish and subscribe
+model, the most common messaging model. It includes a broker by default meaning
+it often requires less set up for standard messaging scenarios. While it may not
+offer as much choice in _exactly_ how messages are handled it does support large
+data streams incredibly well.
+
+== RabbitMQ and Docker
+
+The https://hub.docker.com/_/rabbitmq[documentation for the official RabbitMQ
+Docker image] is quite good and covers many of the topics we will touch on in
+here in greater detail.
+
+The stock RabbitMQ image uses different versions to specify if the management
+interface should be enabled. You will probably want to use the web-based
+management interface at first to see what is going on. You will also need to
+expose port `15672` on your container to your local machine.
+
+RabbitMQ can also use a few different environment variables to store secrets:
+
+RABBITMQ_DEFAULT_USER:: By default, RabbitMQ will use the user name `guest`.
+Technically we should only be able access our RabbitMQ container internally,
+but it is still a good practice to change this to something specific to our
+project.
+RABBITMQ_DEFAULT_PASS:: By default, RabbitMQ will use the password `guest`. It
+would be a good idea to change this as well.
+RABBITMQ_ERLANG_COOKIE:: Erlang nodes use this for authentication. As far as we
+are concerned this will only become important when we run multiple instances of
+a RabbitMQ container and they need to communicate with each other.
+
+Let's start up a container running the management interface and take a look:
+
+[source, shell]
+----
+PS > docker run --env RABBITMQ_DEFAULT_USER=example --env RABBITMQ_DEFAULT_PASS=example -p 15672:15672 rabbitmq:3.8.3-management<1>
+Unable to find image 'rabbitmq:3.8.3-management' locally <2>
+3.8.3-management: Pulling from library/rabbitmq
+23884877105a: Pull complete
+bc38caa0f5b9: Pull complete
+2910811b6c42: Pull complete
+36505266dcc6: Pull complete
+15c38f93e1dd: Pull complete
+9e0786f6591b: Pull complete
+8b3540df5774: Pull complete
+32ac1b555e0d: Pull complete
+15f10b4062cf: Pull complete
+de41c89084c6: Pull complete
+b7f855bfd426: Pull complete
+3d2f86c64a6d: Pull complete
+Digest: sha256:14453bd6c8c0717053d5cb7fa232f11c83f49b8acd1aff59a9b3e25f79c4f652
+Status: Downloaded newer image for rabbitmq:3.8.3-management
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags: list of feature flags found:
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] drop_unroutable_metric
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] empty_basic_get_metric
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] implicit_default_bindings
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] quorum_queue
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] virtual_host_metadata
+2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags: feature flag states written to disk: yes
+2020-05-02 20:45:37.803 [info] <0.269.0> ra: meta data store initialised. 0 record(s) recovered
+2020-05-02 20:45:37.803 [info] <0.274.0> WAL: recovering []
+2020-05-02 20:45:37.812 [info] <0.278.0>
+ Starting RabbitMQ 3.8.3 on Erlang 22.3.3 <3>
+ Copyright (c) 2007-2020 Pivotal Software, Inc.
+ Licensed under the MPL 1.1. Website: https://rabbitmq.com
+
+  ##  ##      RabbitMQ 3.8.3
+  ##  ##
+  ##########  Copyright (c) 2007-2020 Pivotal Software, Inc.
+  ######  ##
+  ##########  Licensed under the MPL 1.1. Website: https://rabbitmq.com
+
+  Doc guides: https://rabbitmq.com/documentation.html
+  Support:    https://rabbitmq.com/contact.html
+  Tutorials:  https://rabbitmq.com/getstarted.html
+  Monitoring: https://rabbitmq.com/monitoring.html
+
+  Logs: <stdout>
+
+  Config file(s): /etc/rabbitmq/rabbitmq.conf
+
+  Starting broker...2020-05-02 20:45:37.814 [info] <0.278.0>
+ node           : rabbit@53c4ff237fcd
+ home dir       : /var/lib/rabbitmq
+ config file(s) : /etc/rabbitmq/rabbitmq.conf
+ cookie hash    : mCbpvRz5+sUotXe8uIyiKQ== <4>
+ log(s)         : <stdout>
+ database dir   : /var/lib/rabbitmq/mnesia/rabbit@53c4ff237fcd
+2020-05-02 20:45:37.827 [info] <0.278.0> Running boot step pre_boot defined by app rabbit
+<snip> <5>
+2020-05-02 20:45:38.683 [info] <0.9.0> Server startup complete; 3 plugins started.
+ * rabbitmq_management
+ * rabbitmq_management_agent
+ * rabbitmq_web_dispatch
+ completed with 3 plugins. <6>
+----
+<1> Notice how we specify a new user and password, forward a port from our
+local machine, and request the management image.
+<2> Since we don't have the image, it will be pulled from Docker Hub
+automatically.
+<3> RabbitMQ tells you what version of Erlang it is using. Cluster requires
+nodes to run similar versions, so this can be an important bit of information.
+<4> If you don't specify an Erlang cookie, one will be chose randomly. This is
+it, https://en.wikipedia.org/wiki/Base64[base64] encoded.
+<5> There are _a lot_ of startup messages and it can take some time for
+RabbitMQ to start. I've cut them out of the output here.
+<6> Once you see this, you're node is up and running.
+
+Now, we should be able to visit http://localhost:15672 and see the management
+interface running. Using our user name / password of example / example, we can
+sign in. Take a moment to look around the interface. Queues are created
+automatically by applications so you won't need to configure anything, but once
+you have components up and using RabbitMQ you can look here to see the queues
+they've created and to make sure that everything is working. When you are all
+done type Ctrl-C to detach from the `docker run command` and use `docker stop`
+to stop the container:
+
+[source, shell]
+----
+PS > docker ps <1>
+CONTAINER ID        IMAGE                       COMMAND                  CREATED
+53c4ff237fcd        rabbitmq:3.8.3-management   "docker-entrypoint.s…"   12 minutes ago
+PS > docker stop 53c4ff237fcd <2>
+53c4ff237fcd
+PS > docker ps <3>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS
+----
+<1> List all running containers
+<2> Stop rabbitmq by ID
+<3> Double-check to make sure nothing is running
+
+== Resources
+
+* https://www.amqp.org/[AMQP]
+* https://www.rabbitmq.com/getstarted.html[RabbitMQ Getting Started]
+* https://hub.docker.com/_/rabbitmq[RabbitMQ Docker Hub Image]
+* https://docs.docker.com/network/[Docker Networking Overview]
+
+== Questions
+
+[qanda]
+Why would a project choose to use a messaging framework?::
+    {empty}
+What is caching and what are its benefits?::
+    {empty}
+What is AMQP?::
+    {empty}
+How can you specify that you want to enable the management interface in the official RabbitMQ Docker image?::
+    {empty}
+Why should you change the RabbitMQ default password and how do you change it?::
+    {empty}
+How would you start up a RabbitMQ instance in Docker Compose, with the same options we used in the example?::
+    {empty}

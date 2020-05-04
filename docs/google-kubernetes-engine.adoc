@@ -1,6 +1,6 @@
 = Google Kubernetes Engine
 
-image:gke.svg[align=center, width=25%]
+image::gke.svg[width=25%, align=center]
 
 == Introduction
 
@@ -11,33 +11,424 @@ Kubernetes?" The answer being, "To create a scalable system that can be run on
 enterprise-grade hardware." The best way to see what that looks like is to
 actually do it.
 
-In this chapter we will deploy our full system on Google Kubernetes Engine. If
-you want to follow through the examples on your own, you will need to sign up
-for a https://cloud.google.com/gpc[Google Cloud login]. Please note that while
-Google Cloud does have a https://cloud.google.com[free tier], you will still
-need to a credit card to your account and _you can be charged money for the
-services you use_. If you are worried about incuring an expense, feel free to
-simple read through the examples.
+In this chapter we will deploy our full system on Google Kubernetes Engine
+(GKE). If you want to follow along with the examples on your own, you will need
+to sign up for a https://cloud.google.com/gpc[Google Cloud login]. Please note
+that while Google Cloud does have a https://cloud.google.com/free[free tier],
+you will still need to add a credit card to your account and _you can be charged
+money for the services you use_. If you are worried about incurring an expense,
+feel free to simply read through the examples.
 
-== Installing gcloud
+Google Cloud provides many services that work with each other. We will be using
+GKE and Google Container Registry (GCR) which in-turn will be using other
+supporting services:
 
-We will be doing as much of this is possible from the command line, but we will
-need to install a CLI to interact with Google cloud. The `gcloud` command is
+[plantuml, google-cloud, svg]
+....
+@startuml
+cloud "Google Cloud" {
+    rectangle "Compute" {
+        rectangle "Compute Engine" as gce
+    }
+    rectangle "Storage" {
+        rectangle "Cloud Storage" as cs
+    }
+    rectangle "Networking" {
+        rectangle "Load Balancer" as lb
+        rectangle "Virtual Private Cloud" as vpc
+        rectangle "Egress" as egress
+    }
+    node "Google Kubernetes Engine (GKE)" as gke
+    node "Google Container Registry (GCR)" as gcr
+
+    gcr --> egress: external pulls
+    gcr --> cs: image storage
+
+    gke --> gce: VMs for Kubernetes nodes
+    gke --> cs: storage for VolumeClaims
+    gke --> lb: LoadBalancer Services
+    gke <- gcr: container images
+    gke --> vpc: networking
+}
+@enduml
+....
+
+== Setting up gcloud
+
+We will be doing as much of this is possible from the command line so we will
+need to install a CLI to interact with Google Cloud. The `gcloud` command is
 installed as part of the Google Cloud SDK. Install it using the 
 https://cloud.google.com/sdk/docs/downloads-interactive[Google Cloud SDK
 Interactive Installer] and follow the prompts to run `gcloud init` once it is
 installed (this is the default).
 
 The init procedure will open the default browser and prompt you to sign in with
-a Google account that you created a Google Cloud login on.  Once authenticated,
-you can refer back to the terminal it opened and `Create a new project`, with
-any unique name you can think of. The project id _must_ be globally unique, so
-you may want to use the date as part of your ID: `example-2020428`.
+a Google account.  Once authenticated, you can refer back to the terminal it
+opened and `Create a new project`, with any unique name you can think of. The
+project id _must be globally unique_, so you may want to use a timestamp as part
+of your ID: `example-2020428`.
 
-== Switching Clusters in Kubectl
+Now that we have gcloud installed and we have a project, we need to specify
+what zone/region we would like to use for the project. Google Cloud has
+https://cloud.google.com/compute/docs/regions-zones#available[many geographic
+regions with multiple zones available] depending on where you are expecting
+your application to be used and what you're computer needs are, respectively.
+In this example we will set it to `us-central1-c` with the following command:
+
+[source, shell]
+----
+PS example-final> gcloud config set compute/zone us-central1-c
+Updated property [compute/zone].
+----
+
+Now let's try to add a Kubernetes cluster named `example` and see what happens:
+
+[source, shell]
+----
+PS example-final> gcloud container clusters create example
+WARNING: Currently VPC-native is not the default mode during cluster creation. In the future, this will become the default mode
+and can be disabled using `--no-enable-ip-alias` flag. Use `--[no-]enable-ip-alias` flag to suppress this warning.
+WARNING: Newly created clusters and node-pools will have node auto-upgrade enabled by default. This can be disabled using the `-
+-no-enable-autoupgrade` flag.
+WARNING: Starting with version 1.18, clusters will have shielded GKE nodes by default.
+WARNING: Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
+This will enable the autorepair feature for nodes. Please see https://cloud.google.com/kubernetes-engine/docs/node-auto-repair f
+or more information on node autorepairs.
+ERROR: (gcloud.container.clusters.create) ResponseError: code=403, message=Kubernetes Engine API is not enabled for this project
+. Please ensure it is enabled in Google Cloud Console and try again: visit https://console.cloud.google.com/apis/api/container.g
+oogleapis.com/overview?project=example-20200428 to do so.
+----
+
+Follow the directions in the error, visit the URL specified (it will be
+different depending on your project name), and enable the GKE API for this
+project.
+
+WARNING: Make sure you are signed in with the Google account that you linked to
+Google Cloud. If you want to be certain, you can open an incognito / private
+browsing tab and paste the URL in there. That will force you to have to log in.
+
+Once we've enabled the GKE API, let's try our `create cluster` command again:
+
+[source, shell]
+----
+PS example-final> gcloud container clusters create example
+WARNING: Currently VPC-native is not the default mode during cluster creation. In the future, this will become the default mode
+and can be disabled using `--no-enable-ip-alias` flag. Use `--[no-]enable-ip-alias` flag to suppress this warning.
+WARNING: Newly created clusters and node-pools will have node auto-upgrade enabled by default. This can be disabled using the `-
+-no-enable-autoupgrade` flag.
+WARNING: Starting with version 1.18, clusters will have shielded GKE nodes by default.
+WARNING: Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
+This will enable the autorepair feature for nodes. Please see https://cloud.google.com/kubernetes-engine/docs/node-auto-repair f
+or more information on node autorepairs.
+Creating cluster example in us-central1-c... Cluster is being health-checked (master is healthy)...done.
+Created [https://container.googleapis.com/v1/projects/example-20200428/zones/us-central1-c/clusters/example].
+To inspect the contents of your cluster, go to: https://console.cloud.google.com/kubernetes/workload_/gcloud/us-central1-c/examp
+le?project=example-20200428
+kubeconfig entry generated for example.
+NAME     LOCATION       MASTER_VERSION  MASTER_IP       MACHINE_TYPE   NODE_VERSION    NUM_NODES  STATUS
+example  us-central1-c  1.14.10-gke.27  35.223.164.188  n1-standard-1  1.14.10-gke.27  3          RUNNING
+----
+
+Our last step will be setting up Docker to use our gcloud credentials:
+
+[source, shell]
+----
+PS example-final> gcloud auth configure-docker
+Adding credentials for all GCR repositories.
+WARNING: A long list of credential helpers may cause delays running 'docker build'. We recommend passing the registry name to co
+nfigure only the registry you are using.
+After update, the following will be written to your Docker config file
+ located at [.docker\config.json]:
+ {
+  "credHelpers": {
+    "gcr.io": "gcloud",
+    "marketplace.gcr.io": "gcloud",
+    "eu.gcr.io": "gcloud",
+    "us.gcr.io": "gcloud",
+    "staging-k8s.gcr.io": "gcloud",
+    "asia.gcr.io": "gcloud"
+  }
+}
+
+Do you want to continue (Y/n)?  Y
+
+Docker configuration file updated.
+----
+
+Congratulations! You've now downloaded and installed gcloud and built your first
+cluster in Google Cloud. From here on, we will be working with more familiar
+utilities: kubectl and Docker.
+
+== Pushing Images
+
+Unlike minikube, which we set up to use images from its native Docker daemon
+(remember `minikube docker-env`?), GKE expects to be able to pull custom images
+from an actual repository. Since we're already using Google Cloud, it makes
+sense to push our custom images to
+https://cloud.google.com/container-registry[GCR]. Here is how we do that:
+
+[source, shell]
+----
+PS example-final> docker build -t gcr.io/example-20200428/front-end:v1 ./front-end/ <1>
+Sending build context to Docker daemon   16.9kB
+Step 1/6 : FROM python:3.9.0a5-buster
+3.9.0a5-buster: Pulling from library/python
+90fe46dd8199: Pull complete
+35a4f1977689: Pull complete
+bbc37f14aded: Pull complete
+74e27dc593d4: Pull complete
+4352dcff7819: Pull complete
+deb569b08de6: Pull complete
+c7360a3495cf: Pull complete
+f58442eaf6a4: Pull complete
+617f2eb777a8: Pull complete
+Digest: sha256:f7251883daa3d6484055af80ebcd72f083d58de9276ee772d95d2dc50e0ea951
+Status: Downloaded newer image for python:3.9.0a5-buster
+ ---> b5f66cb660dd
+Step 2/6 : COPY . /app
+ ---> f288da00c29c
+Step 3/6 : WORKDIR /app
+ ---> Running in 40540d7524d3
+Removing intermediate container 40540d7524d3
+ ---> 1da446e063c3
+Step 4/6 : RUN pip install -r requirements.txt
+ ---> Running in 0873978faef8
+Collecting Flask
+  Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+Collecting pika
+  Downloading pika-1.1.0-py2.py3-none-any.whl (148 kB)
+Collecting Werkzeug>=0.15
+  Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Collecting Jinja2>=2.10.1
+  Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting click>=5.1
+  Downloading click-7.1.2-py2.py3-none-any.whl (82 kB)
+Collecting itsdangerous>=0.24
+  Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting MarkupSafe>=0.23
+  Downloading MarkupSafe-1.1.1.tar.gz (19 kB)
+Building wheels for collected packages: MarkupSafe
+  Building wheel for MarkupSafe (setup.py): started
+  Building wheel for MarkupSafe (setup.py): finished with status 'done'
+  Created wheel for MarkupSafe: filename=MarkupSafe-1.1.1-cp39-cp39-linux_x86_64.whl size=32073 sha256=ff3d6994faed1b54ea40c09ef
+64f972aec74cb3f3d77fbdc55335143c959bcea
+  Stored in directory: /root/.cache/pip/wheels/e0/19/6f/6ba857621f50dc08e084312746ed3ebc14211ba30037d5e44e
+Successfully built MarkupSafe
+Installing collected packages: Werkzeug, MarkupSafe, Jinja2, click, itsdangerous, Flask, pika
+Successfully installed Flask-1.1.2 Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 click-7.1.2 itsdangerous-1.1.0 pika-1.1.0
+Removing intermediate container 0873978faef8
+ ---> d77de60ef20e
+Step 5/6 : ENV FLASK_APP=app.py
+ ---> Running in d8af1dd55084
+Removing intermediate container d8af1dd55084
+ ---> 69ae9b270fb9
+Step 6/6 : CMD ["flask", "run", "--host=0.0.0.0"]
+ ---> Running in c7c300db2f56
+Removing intermediate container c7c300db2f56
+ ---> a8f79c7b4cd1
+Successfully built a8f79c7b4cd1
+Successfully tagged gcr.io/example-20200428/front-end:v1
+PS example-final> docker push gcr.io/example-20200428/front-end:v1 <2>
+The push refers to repository [gcr.io/example-20200428/front-end]
+aae3053b9026: Pushed
+07a7dd71e46e: Pushed
+62cc2f2db459: Pushed
+f3f43710db31: Pushed
+e68e29bcc308: Pushed
+baf481fca4b7: Layer already exists
+3d3e92e98337: Layer already exists
+8967306e673e: Layer already exists
+9794a3b3ed45: Layer already exists
+5f77a51ade6a: Layer already exists
+e40d297cf5f8: Layer already exists
+v1: digest: sha256:ab9c121705a4f4c47b7e32012d13da96cf0e8e2bc807c49a37b04c2099c7fb2e size: 2636
+PS example-final> docker build -t gcr.io/example-20200428/back-end:v1 ./back-end/ <3>
+Sending build context to Docker daemon   7.68kB
+Step 1/5 : FROM python:3.9.0a5-buster
+ ---> b5f66cb660dd
+Step 2/5 : COPY . /app
+ ---> a8faf7d98529
+Step 3/5 : WORKDIR /app
+ ---> Running in 385122bd0d0e
+Removing intermediate container 385122bd0d0e
+ ---> 7e517e6b75b1
+Step 4/5 : RUN pip install -r requirements.txt
+ ---> Running in a28a17d13909
+Collecting pika
+  Downloading pika-1.1.0-py2.py3-none-any.whl (148 kB)
+Collecting psycopg2
+  Downloading psycopg2-2.8.5.tar.gz (380 kB)
+Building wheels for collected packages: psycopg2
+  Building wheel for psycopg2 (setup.py): started
+  Building wheel for psycopg2 (setup.py): finished with status 'done'
+  Created wheel for psycopg2: filename=psycopg2-2.8.5-cp39-cp39-linux_x86_64.whl size=498130 sha256=6a715ba7fcf21deca5712a1e404c
+51b1b0168ad64c7612890f30935845a6562f
+  Stored in directory: /root/.cache/pip/wheels/c2/17/82/f619fa1d1a361445c4ff28634f734936f2d54891c79840b345
+Successfully built psycopg2
+Installing collected packages: pika, psycopg2
+Successfully installed pika-1.1.0 psycopg2-2.8.5
+Removing intermediate container a28a17d13909
+ ---> 53827a4ffaea
+Step 5/5 : CMD ["python", "app.py"]
+ ---> Running in 5aef1da46ef1
+Removing intermediate container 5aef1da46ef1
+ ---> 65c9dfe66eb8
+Successfully built 65c9dfe66eb8
+Successfully tagged gcr.io/example-20200428/back-end:v1
+PS C:\Users\rxt1077\it490\example-final> docker push gcr.io/example-20200428/back-end:v1 <4>
+The push refers to repository [gcr.io/example-20200428/back-end]
+303c8c71682c: Pushed
+50f2e9234064: Pushed
+62cc2f2db459: Layer already exists
+f3f43710db31: Layer already exists
+e68e29bcc308: Layer already exists
+baf481fca4b7: Layer already exists
+3d3e92e98337: Layer already exists
+8967306e673e: Layer already exists
+9794a3b3ed45: Layer already exists
+5f77a51ade6a: Layer already exists
+e40d297cf5f8: Layer already exists
+v1: digest: sha256:9446a3d91fa555a84457e51ba2ac3b8e2821f31a531ab21d0e85cd9e37e11dbb size: 2636
+----
+<1> Build/tag the front-end image for GCR. Notice how we use the project-id. 
+<2> Push the front-end image.
+<3> Build/tag the back-end image for GCR.
+<4> Push the back-end image.
+
+We will also need to change the `image` mapping to point to the image on GCR in
+`back-end-k8s.yml` and `front-end-k8s.yml`. You can see them there, commented
+out, if you check the source repository.
+
+== Creating Objects
+
+At this point, we should have access to two Kubernetes clusters: our local
+minikube cluster and a cluster we created in Google Cloud called `example`.
+Fortunately for us, gcloud has already configured our
+https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/[
+kubeconfig] file for access to the `example` cluster. kubectl refers to these
+different clusters as `contexts` and we can see what is available with the
+following command:
+
+[source, shell]
+----
+PS example-final> kubectl config get-contexts
+CURRENT NAME                                       CLUSTER
+*       gke_example-20200428_us-central1-c_example gke_example-20200428_us-central1-c_example<1>
+        minikube                                   minikube
+----
+<1> We are currently using the Google Cloud context, but if you need to switch
+contexts, you can use the `kubectl config use-context` command.
+
+We've already pushed our images to GCR and updated the *Front End* and
+*Back End* objects to reflect that. Now all we need to do to create objects is
+use the kubectl commands we're familiar with:
+
+[source, shell]
+----
+PS example-final> kubectl get pod
+No resources found in default namespace. <1>
+PS C:\Users\rxt1077\it490\example-final> kubectl apply -f . <2>
+deployment.apps/back-end created
+persistentvolumeclaim/db-primary-pv-claim created
+service/db-rw created
+service/db-r created
+deployment.apps/db-rw created
+deployment.apps/db-r created
+service/front-end created
+deployment.apps/front-end created
+serviceaccount/messaging created
+role.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-peer-discovery-rbac created
+configmap/rabbitmq-config created
+service/messaging created
+statefulset.apps/messaging created
+PS example-final> kubectl get pod <3>
+NAME                         READY   STATUS    RESTARTS   AGE
+back-end-84cd7447d-6j7b7     1/1     Running   0          5s
+back-end-84cd7447d-lthqc     1/1     Running   0          5s
+back-end-84cd7447d-vlrqz     1/1     Running   0          5s
+db-r-5b9977874b-ghj54        1/1     Running   2          13m
+db-r-5b9977874b-ngbs5        1/1     Running   2          13m
+db-rw-7755dddd76-f9krt       1/1     Running   0          13m
+front-end-856bc468cc-dddh4   1/1     Running   0          13m
+front-end-856bc468cc-f9ltq   1/1     Running   0          13m
+front-end-856bc468cc-rm6dg   1/1     Running   0          13m
+messaging-0                  1/1     Running   0          13m
+messaging-1                  1/1     Running   0          13m
+messaging-2                  1/1     Running   0          13m
+PS example-final> kubectl get service <4>
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)              AGE
+db-r         ClusterIP      10.47.242.137   <none>          5432/TCP             14m
+db-rw        ClusterIP      10.47.252.2     <none>          5432/TCP             14m
+front-end    LoadBalancer   10.47.244.185   35.238.67.247   80:30337/TCP         14m <5>
+kubernetes   ClusterIP      10.47.240.1     <none>          443/TCP              21m
+messaging    ClusterIP      10.47.253.17    <none>          5672/TCP,15672/TCP   14m
+----
+<1> Checking to see what is running initially shows that there are no pods on
+our cluster. 
+<2> Applying all of the YAML files in our current, `example-final`, directory.
+<3> Running `kubectl get pod` shows all our replicated components.
+<4> Checking to see what services are running
+<5> The only external, LoadBalancer, service is `front-end`. A quick visit to
+http://35.238.67.247 will give you front-end access to the
+system.footnote:[By the time you're reading this, this site should be
+unavailable. If it's still available, let me know because it's costing me
+money!]
+
+We now have a scalable system running on enterprise-grade hardware.
+
+== Cleaning Up
+
+Don't forget that Google Cloud is not a free platform. While we do have free
+credits to experiment with, the compute and storage resources that we are using
+are very real. Once we are done, we have to remember to delete our cluster and
+the resources that our project uses. That can be done with the following
+commands:
+
+[source, shell]
+----
+PS example-final> gcloud container clusters delete example
+The following clusters will be deleted.
+ - [example] in [us-central1-c]
+
+Do you want to continue (Y/n)?
+
+Deleting cluster example...done.
+Deleted [https://container.googleapis.com/v1/projects/example-20200428/zones/us-central1-c/clusters/example].
+PS example-final> gcloud projects delete example-20200428
+Your project will be deleted.
+
+Do you want to continue (Y/n)?  Y
+
+Deleted [https://cloudresourcemanager.googleapis.com/v1/projects/example-20200428].
+
+You can undo this operation for a limited period by running the command below.
+    $ gcloud projects undelete example-20200428
+
+See https://cloud.google.com/resource-manager/docs/creating-managing-projects for information on shutting down projects.
+----
 
 == Resources
 
-* https://cloud.google.com/kubernetes-engine/docs/quickstart[Google Kubernetes Engine
-Quickstart]
-* https://cloud.google.com/sdk/docs/downloads-interactive[Google Cloud SDK Interactive Installer]
+* https://cloud.google.com/kubernetes-engine/docs/quickstart[Google Kubernetes
+Engine Quickstart]
+* https://cloud.google.com/sdk/docs/downloads-interactive[Google Cloud SDK
+Interactive Installer]
+* https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl[
+Configuring cluster access for kubectl]
+* https://cloud.google.com/container-registry/docs/pushing-and-pulling[Pushing
+and pulling images]
+
+== Questions
+
+[qanda]
+Name at least two Google Cloud services that GKE uses.::
+    {empty}
+What does GCR do and why does GKE use it?::
+    {empty}
+What is the difference between the gcloud and kubectl commands?::
+    {empty}
+Compare and contrast the gcloud and minikube commands.::
+    {empty}
+In the output for `kubectl get service`, why is `front-end` the only service with an external IP?::
+    {empty}
