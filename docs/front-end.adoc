@@ -1,0 +1,278 @@
+= Front End
+:sourceroot: ..
+:sourcedir: front-end-demo
+
+image::front-end.png[align=center, width=25%]
+
+== Introduction
+
+The purpose of a front end is to interact with the user. Web applications are
+applications that use a web server to present their front end. In our case, we
+will build a web application that uses our messaging framework for any
+communication that isn't with the user:
+
+[plantuml, front-end, svg]
+----
+@startuml
+
+actor "User" as user
+node "Front End" as frontend
+node "Messaging" as messaging
+
+user <-> frontend : web interface
+frontend <-> messaging : messaging library
+
+@enduml
+----
+
+To provide the web interface, most applications use some sort of web framework.
+The decision of which web framework to use depends largely on the language(s)
+the *Front End* developer is comfortable working with and what features they
+would like. The most common web frameworks for various languages are shown
+below. You are encouraged to research them and determine what would best fit
+your needs.
+
+https://www.python.org/[Python]::
+* https://flask.palletsprojects.com/en/1.1.x/[Flask]
+* https://www.djangoproject.com/[Django]
+* https://bottlepy.org/docs/dev/[Bottle]
+https://en.wikipedia.org/wiki/JavaScript[JavaScript]::
+* https://nodejs.org/en/[Plain NodeJS]
+* https://expressjs.com/[Express]
+* https://koajs.com/[Koa]
+https://www.php.net/[PHP]:: Originally a templating language, PHP is still
+popular and can be used as a framework.
+
+To communicate with *Messaging* a library is used. Ultimately this will allow
+for a more scalable application. The decision of which library to use is mostly
+dependant on what language *Front End* is using. Fortunately RabbitMQ has
+extensive documentation on using the most popular messaging libraries for
+various languages:
+
+[horizontal]
+Python:: https://www.rabbitmq.com/tutorials/tutorial-one-python.html[pika]
+JavaScript:: https://www.rabbitmq.com/tutorials/tutorial-one-javascript.html[
+amqp]
+PHP:: https://www.rabbitmq.com/tutorials/tutorial-one-php.html[php-amqplib]
+
+A *Front End* developer should be comfortable with HTML for the creation of
+views that the user will see and they should keep in mind that at some point
+their code will need to be run on a production server. There are many options
+for production servers depending on what language *Front End* is using:
+
+[horizontal]
+Python:: Frameworks use https://www.fullstackpython.com/wsgi-servers.html[WSGI]
+for which there are many options.
+JavaScript:: Frameworks make use of Node and typically use a
+https://deploybot.com/blog/guest-post-how-to-set-up-and-deploy-nodejs-express-application-for-production[
+managed node processes].
+PHP:: Usually served using CGI or a module for a standard web server.
+
+== Example
+
+As an example, we are going to set up a PHP application that presents a web
+interface _and_ communicates with a messaging container. We will be following
+along with the https://www.rabbitmq.com/tutorials/tutorial-six-php.html[
+RabbitMQ RPC tutorial for PHP] and using the https://hub.docker.com/_/php[
+official PHP Docker Hub image].
+
+The first problem we have to solve is how to include
+https://github.com/php-amqplib/php-amqplib[php-amqplib] with our application. To
+do this, we will follow php-amqplib's recommendation and use
+https://getcomposer.org/[composer]. No matter what language you are using for
+*Front End* it is _very_ important that you learn to use its package management
+system. To start, we create a `composer.json` file that lists what version of
+PHP we wish to build for, what PHP extensions are needed, and what our
+application's requirements are:
+
+.{sourcedir}/web/app/composer.json
+[source, json]
+----
+include::{sourceroot}/{sourcedir}/web/app/composer.json[]
+----
+
+Now we need to use composer to download and install packages in the `vendor`
+directory of our application. Fortunately the official composer Docker image
+makes this easy. We can run composer on the image and store the output through
+careful use of a bind mount:
+
+[source, console]
+----
+PS front-end-demo\web\app> docker run --rm -it -v "$(pwd):/app" composer install <1>
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 2 installs, 0 updates, 0 removals
+  - Installing phpseclib/phpseclib (2.0.27): Downloading (100%)
+  - Installing php-amqplib/php-amqplib (v2.11.2): Downloading (100%)
+phpseclib/phpseclib suggests installing ext-libsodium (SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.)
+phpseclib/phpseclib suggests installing ext-mcrypt (Install the Mcrypt extension in order to speed up a few other cryptographic operations.)
+phpseclib/phpseclib suggests installing ext-gmp (Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.)
+Writing lock file
+Generating autoload files
+1 package you are using is looking for funding.
+Use the `composer fund` command to find out more!
+----
+<1> The `--rm` option removes the container after it finishes. Notice how we
+bind link the app directory `front-end-demo/web/app` (which we are in) with the
+`/app` directory on the container. This way all the files that composer creates
+are stored locally in our app directory.
+
+We will also need a PHP image with some extra PHP extensions enabled and our
+application code in the `/var/www/html` directory. To do this, we use a simple
+Dockerfile:
+
+.{sourcedir}/web/Dockerfile
+[source, docker]
+----
+include::{sourceroot}/{sourcedir}/web/Dockerfile[]
+----
+
+Since we are using a container for *Messaging* as well as one for *Front End*,
+it would be easiest to use Docker Compose to bring them both up at the same
+time. For that, we need to create a `docker-compose.yml` file:
+
+.{sourcedir}/docker-compose.yml
+[source, yml]
+----
+include::{sourceroot}/{sourcedir}/docker-compose.yml[]
+----
+
+Notice how even though the `Dockerfile` copies the app files to `/var/www/html`
+the `docker-compose.yml` still creates a bind mount. This allows us to actively
+develop the PHP code while the container is running. When we are done
+developing we can comment out the bind mount.
+
+You may also notice that `docker-compose.yml` uses some environment variables.
+It sets them in the container, which we have seen before, _and_ it uses the
+`USER` and `PASS` variables from its own environment. These variables are set
+in the `.env` file, which Docker Compose reads by default:
+
+.{sourcedir}/.env
+[source, shell]
+----
+include::{sourceroot}/{sourcedir}/.env[]
+----
+
+Now that our environment is set up. We can develop our PHP application. We start
+by augmenting the example `RpcClient` class to use environment variables for
+the username and password and `messaging` for the hostname. We will also add an
+`echo` method that sends JSON data.
+
+TIP: Within the Docker Compose environment, service names will resolve to the IP
+addresses of the container within that service. This makes service discovery
+_much_ easier.
+
+TIP: Give some thought to your exchange formats. Try to use something that both
+*Front End* and *Back End* can support. JSON is currently the most common
+choice.
+
+.{sourcedir}/web/app/rpc_client.php
+[source, php]
+----
+include::{sourceroot}/{sourcedir}/web/app/rpc_client.php[]
+----
+
+To test out our `RpcClient` class, let's create a `echo.php` endpoint that takes
+a POST parameter of msg and calls the echo procedure with msg's contents:
+
+.{sourcedir}/web/app/echo.php
+[source, php]
+----
+include::{sourceroot}/{sourcedir}/web/app/echo.php[]
+----
+
+We'll also need a basic form to test it out:
+
+.{sourcedir}/web/app/echo.html
+[source, html]
+----
+include::{sourceroot}/{sourcedir}/web/app/echo.html[]
+----
+
+WARNING: Try to avoid using GET parameters for these kinds of endpoints. It
+makes it too easy for a third party to give a user (presumably authenticated)
+a link that they can just click on and take an action, ie:
+http://localhost:8080/echo.php?msg=do+bad+things.
+
+Now with these components we should be able to run `docker-compose up` in our
+`{sourcedir}` directory, watch the services start up, and then open up
+http://localhost:8080/echo.html to test the functionality:
+
+[source, console]
+----
+PS C:\Users\rxt1077\it490\front-end-demo> docker-compose up
+Starting front-end-demo_web_1       ... done
+Starting front-end-demo_messaging_1 ... done
+Attaching to front-end-demo_messaging_1, front-end-demo_web_1
+web_1        | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
+web_1        | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
+web_1        | [Thu May 14 01:24:32.120352 2020] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.38 (Debian) PHP/7.4.5 configured -- resuming normal operations
+web_1        | [Thu May 14 01:24:32.120940 2020] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+messaging_1  | 2020-05-14 01:24:37.668 [info] <0.9.0> Feature flags: list of feature flags found:
+<snip>
+messaging_1  | 2020-05-14 01:24:38.252 [info] <0.9.0> Server startup complete; 0 plugins started.
+messaging_1  |  completed with 0 plugins.
+web_1        | 172.19.0.1 - - [14/May/2020:01:36:09 +0000] "GET /echo.html HTTP/1.1" 200 484 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0" <1>
+web_1        | 172.19.0.1 - - [14/May/2020:01:36:09 +0000] "GET /favicon.ico HTTP/1.1" 404 489 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0"
+messaging_1  | 2020-05-14 01:36:13.729 [info] <0.1183.0> accepting AMQP connection <0.1183.0> (172.19.0.3:60104 -> 172.19.0.2:5672) <2>
+messaging_1  | 2020-05-14 01:36:13.731 [info] <0.1183.0> connection <0.1183.0> (172.19.0.3:60104 -> 172.19.0.2:5672): user ''front-end-demo'' authenticated and granted access to vhost '/'
+messaging_1  | 2020-05-14 01:36:23.756 [warning] <0.1183.0> closing AMQP connection <0.1183.0> (172.19.0.3:60104 -> 172.19.0.2:5672, vhost: '/', user: ''front-end-demo''):
+messaging_1  | client unexpectedly closed TCP connection <3>
+web_1        | 172.19.0.1 - - [14/May/2020:01:36:13 +0000] "POST /echo.php HTTP/1.1" 200 718 "http://localhost:8080/echo.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0" <4>
+----
+<1> The web service will report the pages being served as you are testing it.
+<2> The messaging service will show you the PHP code connecting.
+<3> At some point we should make `RpcClient` shut down gracefully.
+<4> Because of how logging is handled, you may not see log messages in the order
+you expect.
+
+If you test it, I used the text "This is a test", you should see the following
+output after 10 seconds:
+
+[source, plaintext]
+----
+Establishing connection to messaging service... [SUCCESS] <1>
+Sending "This is a test" to the echo procedure and waiting for response...
+Fatal error: Uncaught PhpAmqpLib\Exception\AMQPTimeoutException: The connection timed out after 10 sec while awaiting incoming data in /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Wire/AMQPReader.php:141 Stack trace: #0 /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Wire/AMQPReader.php(163): PhpAmqpLib\Wire\AMQPReader->wait() #1 /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Wire/AMQPReader.php(106): PhpAmqpLib\Wire\AMQPReader->rawread(7) #2 /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Connection/AbstractConnection.php(566): PhpAmqpLib\Wire\AMQPReader->read(7) #3 /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Connection/AbstractConnection.php(623): PhpAmqpLib\Connection\AbstractConnection->wait_frame(10) #4 /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Channel/AbstractChannel.php(234): PhpAmqpLib\Connection\AbstractConnection->wait_channel(1, 10) #5 /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Channel/AbstractChannel.php(352): PhpAmqpLib\Channel\Abstrac in /var/www/html/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Wire/AMQPReader.php on line 141 <2>
+----
+<1> We can connect to messaging, so we know that works
+<2> But there is nothing listening and responding to our RPC request... yet.
+
+== Resources
+
+=== Python
+
+* https://runnable.com/docker/python/dockerize-your-flask-application[Dockerize
+  Your Flask Application]
+* https://www.palletsprojects.com/p/flask/[Flask Web Framework]
+* https://www.rabbitmq.com/tutorials/tutorial-six-python.html[Python: RabbitMQ
+  Tutorial 6 - Remote Procedure Call]
+
+=== JavaScript
+
+* https://hub.docker.com/_/node/[node - Docker Hub]
+* https://www.rabbitmq.com/tutorials/tutorial-six-node.html[Node: RabbitMQ
+  Tutorial 6 - Remote Procedure Call]
+
+=== PHP
+
+* https://hub.docker.com/_/php[php - Docker Hub]
+* https://github.com/mlocati/docker-php-extension-installer[Easy installation
+  of PHP extensions in official PHP Docker images]
+* https://hub.docker.com/_/composer[composer - Docker Hub]
+* https://www.rabbitmq.com/tutorials/tutorial-six-php.html[PHP: RabbitMQ
+  Tutorial 6 - Remote Procedure Call]
+
+== Questions
+
+[qanda]
+Why are we using a messaging layer between for communications to / from *Front End*?::
+    {empty}
+What does RPC stand for and what is it?::
+    {empty}
+What are the most important criteria when picking a language to develop a front end in?::
+    {empty}
+Describe the most common package management option for _one_ of the following environments: Python, PHP, or JavaScript.::
+    {empty}
+How are environment variables used in Docker Compose and what kinds of things can they be used for?::
+    {empty}

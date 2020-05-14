@@ -21,7 +21,7 @@ To set up a remote repository in GitHub, follow these steps:
 
 . Create a local git repository as shown in the <<git, previous section>>.
   Choose a repository name that is simple. Avoid spaces or trailing dashes as
-  Docker Compose may have troulbe with them.
+  Docker Compose may have trouble with them.
 . Sign in to GitHub and navigate to https://github.com/new[Create a New
   Repository]
 . Put in the your repository name (make sure it matches your local repository

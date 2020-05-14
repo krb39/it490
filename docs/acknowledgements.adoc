@@ -1,0 +1,5 @@
+= Acknowledgements
+
+The author would like to acknowledge the hard work of DJ Kehoe, whose devotion
+to the success of his students led him to create a rigorous, project-based
+Systems Integration course. Without his work, none of this would be possible.

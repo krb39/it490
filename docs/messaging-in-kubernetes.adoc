@@ -1,19 +1,12 @@
 = Messaging in Kubernetes
 :sourcedir: example-final
 
+image::messaging.png[align=center, width=25%]
+
+== Introduction
+
 In this section we will build a RabbitMQ cluster in Kubernetes to support our
 application.
-
-== Resources
-
-Before we get started, there are some excellent resources for what we are going
-to be covering. You should read / explore _all_ of the following resources:
-
-* https://www.rabbitmq.com/clustering.html[RabbitMQ Clustering Guide]
-* https://www.rabbitmq.com/cluster-formation.html[RabbitMQ Cluster Formation and Peer Discovery]
-* https://hub.docker.com/_/rabbitmq[RabbitMQ Documentation on Docker Hub]
-* https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples[
-Deploy RabbitMQ on Kubernetes with the Kubernetes Peer Discovery Plugin]
 
 == RabbitMQ
 
@@ -195,24 +188,18 @@ PS C:\Users\rxt1077\it490\example-final> kubectl logs messaging-0
 <snip>
  cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<1>
 <snip>
-2020-04-11 18:38:08.301 [info] <0.278.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-0.messaging.default.
-svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
+2020-04-11 18:38:08.301 [info] <0.278.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-0.messaging.default.svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
 2020-04-11 18:38:08.301 [info] <0.278.0> Configured peer discovery backend: rabbit_peer_discovery_k8s
 2020-04-11 18:38:08.301 [info] <0.278.0> Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
 2020-04-11 18:38:08.301 [info] <0.278.0> Peer discovery backend does not support locking, falling back to randomized delay
 2020-04-11 18:38:08.301 [info] <0.278.0> Peer discovery backend rabbit_peer_discovery_k8s supports registration.
 2020-04-11 18:38:08.302 [info] <0.278.0> Will wait for 1638 milliseconds before proceeding with registration...<2>
-2020-04-11 18:38:09.975 [info] <0.278.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
-ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
-2020-04-11 18:38:09.975 [info] <0.278.0> Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, r
-abbit@messaging-1.messaging.default.svc.cluster.local<3>
-2020-04-11 18:38:09.981 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.loca
-l: {error,mnesia_not_running}
-2020-04-11 18:38:09.985 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-1.messaging.default.svc.cluster.loca
-l: {error,tables_not_present}
+2020-04-11 18:38:09.975 [info] <0.278.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.local, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:09.975 [info] <0.278.0> Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, rabbit@messaging-1.messaging.default.svc.cluster.local<3>
+2020-04-11 18:38:09.981 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.local: {error,mnesia_not_running}
+2020-04-11 18:38:09.985 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-1.messaging.default.svc.cluster.local: {error,tables_not_present}
 2020-04-11 18:38:09.985 [warning] <0.278.0> Could not successfully contact any node of: rabbit@messaging-2.messaging.default.svc.c
-luster.local,rabbit@messaging-1.messaging.default.svc.cluster.local (as in Erlang distribution). Starting as a blank standalone no
-de...<4>
+luster.local,rabbit@messaging-1.messaging.default.svc.cluster.local (as in Erlang distribution). Starting as a blank standalone node...<4>
 <snip>
 2020-04-11 18:38:11.041 [info] <0.9.0> Server startup complete; 5 plugins started.
  * rabbitmq_management
@@ -242,21 +229,16 @@ PS example-final> kubectl logs messaging-1
 <snip>
  cookie hash    : TLnIqASP0CKUR3/LGkEZGg==<1>
 <snip>
-2020-04-11 18:38:09.790 [info] <0.278.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-1.messaging.default.
-svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
+2020-04-11 18:38:09.790 [info] <0.278.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@messaging-1.messaging.default.svc.cluster.local is empty. Assuming we need to join an existing cluster or initialise from scratch...
 2020-04-11 18:38:09.790 [info] <0.278.0> Configured peer discovery backend: rabbit_peer_discovery_k8s
 2020-04-11 18:38:09.791 [info] <0.278.0> Will try to lock with peer discovery backend rabbit_peer_discovery_k8s
 2020-04-11 18:38:09.791 [info] <0.278.0> Peer discovery backend does not support locking, falling back to randomized delay
 2020-04-11 18:38:09.791 [info] <0.278.0> Peer discovery backend rabbit_peer_discovery_k8s supports registration.
 2020-04-11 18:38:09.791 [info] <0.278.0> Will wait for 855 milliseconds before proceeding with registration...
-2020-04-11 18:38:10.670 [info] <0.278.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
-ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
-2020-04-11 18:38:10.670 [info] <0.278.0> Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, r
-abbit@messaging-0.messaging.default.svc.cluster.local
-2020-04-11 18:38:10.673 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.loca
-l: {error,tables_not_present}
-2020-04-11 18:38:10.696 [info] <0.278.0> Node 'rabbit@messaging-0.messaging.default.svc.cluster.local' selected for auto-clusterin
-g<2>
+2020-04-11 18:38:10.670 [info] <0.278.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.local, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.670 [info] <0.278.0> Peer nodes we can cluster with: rabbit@messaging-2.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.673 [warning] <0.278.0> Could not auto-cluster with node rabbit@messaging-2.messaging.default.svc.cluster.local: {error,tables_not_present}
+2020-04-11 18:38:10.696 [info] <0.278.0> Node 'rabbit@messaging-0.messaging.default.svc.cluster.local' selected for auto-clustering<2>
 <snip>
 2020-04-11 18:38:12.118 [info] <0.9.0> Server startup complete; 5 plugins started.
  * rabbitmq_management
@@ -285,12 +267,9 @@ PS example-final> kubectl logs messaging-2
 2020-04-11 18:38:10.279 [info] <0.287.0> Peer discovery backend does not support locking, falling back to randomized delay
 2020-04-11 18:38:10.279 [info] <0.287.0> Peer discovery backend rabbit_peer_discovery_k8s supports registration.
 2020-04-11 18:38:10.279 [info] <0.287.0> Will wait for 598 milliseconds before proceeding with registration...
-2020-04-11 18:38:10.891 [info] <0.287.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.l
-ocal, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
-2020-04-11 18:38:10.891 [info] <0.287.0> Peer nodes we can cluster with: rabbit@messaging-1.messaging.default.svc.cluster.local, r
-abbit@messaging-0.messaging.default.svc.cluster.local<2>
-2020-04-11 18:38:10.946 [info] <0.287.0> Node 'rabbit@messaging-1.messaging.default.svc.cluster.local' selected for auto-clusterin
-g
+2020-04-11 18:38:10.891 [info] <0.287.0> All discovered existing cluster peers: rabbit@messaging-2.messaging.default.svc.cluster.local, rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local
+2020-04-11 18:38:10.891 [info] <0.287.0> Peer nodes we can cluster with: rabbit@messaging-1.messaging.default.svc.cluster.local, rabbit@messaging-0.messaging.default.svc.cluster.local<2>
+2020-04-11 18:38:10.946 [info] <0.287.0> Node 'rabbit@messaging-1.messaging.default.svc.cluster.local' selected for auto-clustering
 <snip>
 2020-04-11 18:38:12.009 [info] <0.9.0> Server startup complete; 5 plugins started.
  * rabbitmq_management
@@ -344,20 +323,14 @@ Network Partitions
 
 Listeners
 
-Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
-ode and CLI tool communication
-Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
- AMQP 1.0
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
 Node: rabbit@messaging-0.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
-Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
-ode and CLI tool communication
-Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
- AMQP 1.0
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
 Node: rabbit@messaging-1.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
-Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-n
-ode and CLI tool communication
-Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and
- AMQP 1.0
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
 Node: rabbit@messaging-2.messaging.default.svc.cluster.local, interface: [::], port: 15672, protocol: http, purpose: HTTP API
 
 Feature flags
@@ -372,6 +345,14 @@ Flag: virtual_host_metadata, state: enabled
 This shows us that there are three nodes, the nodes are all running the same
 version of RabbitMQ and Erlang, and that they are listening for AMQP and admin
 interface connections.
+
+== Resources
+
+* https://www.rabbitmq.com/clustering.html[RabbitMQ Clustering Guide]
+* https://www.rabbitmq.com/cluster-formation.html[RabbitMQ Cluster Formation and Peer Discovery]
+* https://hub.docker.com/_/rabbitmq[RabbitMQ Documentation on Docker Hub]
+* https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples[
+Deploy RabbitMQ on Kubernetes with the Kubernetes Peer Discovery Plugin]
 
 == Questions
 

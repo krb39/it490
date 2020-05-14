@@ -6,10 +6,10 @@ image::git.png[align=center, width=25%]
 == Version Control
 
 In the simplest sense, version control tracks changes to a group of files.
-Building off of this premise, teams can use version control to cooperative
+Building off of this premise, teams can use version control to cooperatively
 change a group of files and revert to a previous state if needed.
 
-Some of the benefits of a version control system can be understood if you
+The benefits of a version control system can be more readily understood if you
 consider a few examples:
 
 .Programming Project
@@ -39,7 +39,7 @@ files and have everyone pull from one location. In the case of two people
 working on the same thing at the same time, a version control system could
 handle merging their changes.
 
-== Getting Git
+== Installation
 
 Depending on the OS you are using, there are a few different ways to install
 git on your machine:
@@ -108,7 +108,7 @@ Let's take a look at an example of two people, Jessica and Darsh, working with
 the same remote repository:
 
 .Jessica's First Session (PowerShell)
-[source, shell]
+[source, console]
 ----
 PS jess> mkdir example <1>
 
@@ -145,7 +145,7 @@ To ssh://192.168.10.1/home/git/example.git
 <3> https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-content?view=powershell-7[
 She adds some content so she has something to commit]
 <4> The form `git add .` means _stage all files in this directory_. It is the
-most common invokation of `git add`.
+most common invocation of `git add`.
 <5> Jessica commits her work. The `-m` option allows her to add a commit
 message without needing to open an editor.
 <6> She adds a remote as the default. This _does_ require configuration on the
@@ -154,7 +154,7 @@ usually handled in the <<GitHub>> section.
 <7> Finally she pushes her changes to the remote so that Darsh can get them.  
 
 .Darsh's Session (BASH)
-[source, shell]
+[source, console]
 ----
 darsh@laptop:~$ git clone ssh://git@192.168.10.1:/home/git/example.git <1>
 Cloning into 'example'...
@@ -189,7 +189,7 @@ new-directory`
 changes.
 
 .Jessica's Second Session (PowerShell)
-[source, shell]
+[source, console]
 ----
 PS jess\example> Get-Content -Path 'test.txt'
 Hello from git! <1>

@@ -1,1 +1,501 @@
 = Docker
+:sourceroot: ..
+:sourcedir: docker-demo
+
+image::docker.png[align=center, width=25%]
+
+== Purpose
+
+Traditionally, virtualization has made use of the virtual machine (VM) to
+provide an isolated environment in which an operating system (OS) and
+applications can run. This allows the application to have a completely custom
+environment and ultimately makes it easier to deploy.
+
+.Maintaining a Legacy Application
+====
+Prithi is in charge of maintaining a payroll system written using Perl, a web
+server, and a CGI module. This system requires specific, older versions of each
+of those components to function. Unfortunately all of the web servers that her
+company uses are upgrading to newer versions and removing Perl and the CGI
+module from their environment due to security concerns.
+
+To solve this problem, Prithi asks the team that maintains the servers if they
+will run a VM for her on one of their machines. Prithi can install the version
+of Linux that she needs on the VM and use the packages the payroll system
+requires. If appropriately isolated, a security breach on the VM would be
+limited to just the payroll system. The web servers can still be upgraded _and_
+Prithi can maintain the payroll system thanks to virtualization with VMs.
+====
+
+If you expand this example a bit, and have a team that runs a datacenter,
+provides VMs to customers, and charges for the amount of resources the VM uses,
+you have the beginnings of infrastructure as a service (IaaS). As servers run
+multiple VMs, you end up with a system that looks like this:
+
+.VM Server Architecture
+[plantuml, vms, svg]
+----
+@startuml
+
+rectangle machine1 as "Physical Machine"
+rectangle hos as "Host Operating System"
+
+rectangle vm1 as "Virtual Machine 1"
+rectangle os1 as "Guest Operating System"
+rectangle app1 as "Application"
+
+rectangle vm2 as "Virtual Machine 2"
+rectangle os2 as "Guest Operating System"
+rectangle app2 as "Application"
+
+rectangle vm3 as "Virtual Machine 3"
+rectangle os3 as "Guest Operating System"
+rectangle app3 as "Application"
+
+machine1 --> hos
+
+hos --> vm1
+hos --> vm2
+hos --> vm3
+
+vm1 --> os1
+os1 --> app1
+
+vm2 --> os2
+os2 --> app2
+
+vm3 --> os3
+os3 --> app3
+
+@enduml
+----
+
+Every VM having to run its own OS creates a lot of overhead and you can't fit
+as many VMs on one server. To solve this, containers were created. Containers
+allow for similar isolation as VMs, but at a reduced resource cost. As opposed
+to VMs which emulate a physical machine, containers use
+https://en.wikipedia.org/wiki/Cgroups[control groups],
+https://en.wikipedia.org/wiki/Linux_namespaces[namespaces], and
+https://en.wikipedia.org/wiki/Chroot[chroot] to allow _containers_ to share the
+same operating system, but still be isolated. A server running containers has
+significantly less overhead and looks like this:
+
+.Container Server Architecture
+[plantuml, containers, svg]
+----
+@startuml
+
+rectangle machine1 as "Physical Machine"
+rectangle hos as "Host Operating System"
+rectangle runtime as "Container Runtime"
+
+rectangle container1 as "Container 1"
+rectangle app1 as "Application"
+
+rectangle container2 as "Container 2"
+rectangle app2 as "Application"
+
+rectangle container3 as "Container 3"
+rectangle app3 as "Application"
+
+machine1 --> hos
+hos --> runtime
+
+runtime --> container1
+runtime --> container2
+runtime --> container3
+
+container1 --> app1
+container2 --> app2
+container3 --> app3
+
+@enduml
+----
+
+There are many different container runtime environments including:
+https://linuxcontainers.org/[LXC], https://containerd.io/[containerd], and
+https://www.docker.com/[Docker]. We will be using Docker due to its file format
+popularity and its ability to run on multiple operating systems. By using
+Docker, we will be able to create a system that can easily be tested and used
+on any other machine that runs Docker.
+
+== Installation
+
+There are several options for installing Docker on your device, depending on the
+operating system and hardware that you use:
+
+Linux::
+* Docker can easily be installed natively on Linux and packages for Docker exist
+  for all major distributions.
+Windows::
+* https://hub.docker.com/?overlay=onboarding[Docker Desktop] should run fine
+  on any Windows system that has Hyper-V (a virtualization feature) available.
+* Windows 10 Home _does not_ have Hyper-V available, but you can easily
+  https://answers.microsoft.com/en-us/windows/forum/windows_10-update/how-to-convert-windows-10-home-to-education/5a6e42b0-51fc-4e53-9497-454c3adc671c?auth=1[
+  Upgrade to Windows 10 Education] (typically this is provided by your
+  University) and then try installing it. This should be your first step if
+  Docker Desktop does not work out-of-the-box.
+* https://docs.docker.com/toolbox/[Docker Toolbox] is an older version of
+  Docker, running under a VM in VirtualBox. It can be difficult to work with
+  and I highly recommend Docker Desktop if possible.
+Mac::
+* https://hub.docker.com/?overlay=onboarding>[Docker Desktop] should run fine
+  on most Macs. We will be running it from the terminal so do not be alarmed if
+  you install it and do not see an application running.
+* If for some reason your computer is not supported you can try the macOS version
+  of https://docs.docker.com/toolbox/[Docker Toolbox].
+
+== Concepts
+
+An image is the complete file system of a Linux instance. You can think of it
+like the hard drive of a server that someone has already set up. Images can be
+tagged using the format `name:version`. One of the reasons Docker has become so
+popular is because there are many pre-built images available. If you try to use
+an image that does not exist on the local machine, Docker will automatically
+attempt to `pull` that image from the https://hub.docker.com/[Docker Hub]
+container registry.
+
+Docker can `run` containers by taking images, copying the file system, and
+running commands on that file system within an isolated environment. This is
+called running a container. You can run several containers from the same image
+since the file system is cloned.
+
+.Images, Containers, and the Registry
+[plantuml, images-containers-registry, svg]
+....
+@startuml
+
+rectangle dh as "Container Registry" {
+    rectangle "Image 1" as dhi1
+    rectangle "Image 2" as dhi2
+}
+rectangle lm as "Local Machine" {
+    rectangle "Images" {
+        rectangle "Image 1" as i1
+        rectangle "Image 2" as i2
+        rectangle "Image 3 (locally created)" as i3
+    }
+    rectangle "Containers" {
+        rectangle "Container 1" as c1
+        rectangle "Container 2" as c2
+        rectangle "Container 3" as c3
+        rectangle "Container 4" as c4
+    }
+    i1 ---> c1
+    i1 ---> c2
+    i2 ---> c3
+    i3 ---> c4
+}
+
+dhi1 ---> i1
+dhi2 ---> i2
+
+@enduml
+....
+
+In the above image, you can see that two images were pulled from the container
+registry: Image 1 and Image 2. Once images are pulled, they are locally cached.
+Image 3 was built locally and is available on the local machine, but is not
+available from the registry. From those images, four containers have been run.
+Container 1 and Container 2 are both using the same image, but keep in mind
+they have their own _copy_ of the file system.
+
+== Commands
+
+Docker commands are run via the `docker` command line interface in a terminal.
+Here is a _brief_ listing of some of the most useful commands:
+
+images::
+Lists images that are locally available.
+ps::
+Lists the currently _running_ containers.
+pull::
+Downloads an image from the container registry (Docker Hub by default).
+run::
+Creates a container from an image and starts that container. If a command is
+specified that command is run, otherwise the default command for the image is
+run.
+exec::
+Executes a command on an _already running_ container.
+stop::
+Stops a running container.
+rm::
+Removes a container.
+image rm::
+Removes an image.
+build::
+Builds the Dockerfile in the directory specified into an image.
+
+As you use Docker, it will download / create a lot of resources and it can be
+helpful to clean those resources up periodically. Here are some commands to do
+just that:
+
+system prune::
+Removes resources that aren't in use by any containers. This includes inactive
+containers: stopped containers that may be used again.
+image prune --all::
+Removes all images that aren't _currently_ being used. After you have been
+running Docker for a while, this can free up GB of space.
+
+== Examples
+
+For the following examples, it is assumed that you have Docker installed and
+that you are in a terminal that has access to the Docker command. This may be
+the Docker Quickstart terminal if you installed Docker Toolbox, PowerShell if
+you installed Docker Desktop, or Terminal if you are in MacOS.
+
+=== Running a Web Server
+
+Let's take a look at just how easy it is to run a web server in a Linux
+container with Docker:
+
+[source, console]
+----
+PS > docker run -d -p 8080:80 httpd:2.4.43 <1>
+Unable to find image 'httpd:2.4.43' locally
+2.4.43: Pulling from library/httpd <2>
+54fec2fa59d0: Pull complete
+8219e18ac429: Pull complete
+3ae1b816f5e1: Pull complete
+a5aa59ad8b5e: Pull complete
+4f6febfae8db: Pull complete
+Digest: sha256:c9e4386ebcdf0583204e7a54d7a827577b5ff98b932c498e9ee603f7050db1c1
+Status: Downloaded newer image for httpd:2.4.43
+
+fa13023485993c9ec47c805d0ce06b69b305ddf61657fbb6ec58674abb5a057b <3>
+----
+<1> Here we are telling Docker we want to `run` a container , `-d` in the
+background (daemon mode), `-p 8080:80` with port 8080 on our local machine
+forwarded to port 80 on the container, and the image is version `2.4.43` of
+`httpd`. You can read more about this image https://hub.docker.com/_/httpd[
+here].
+<2> Because we don't have the image locally, it is pulled from the Docker Hub
+container registry.
+<3> Each running container is given a unique hash.
+
+Now let's see what containers we have running with the `docker ps` command: 
+
+[source, console]
+----
+PS > docker ps <1>
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS                  NAMES
+fa1302348599        httpd:2.4.43        "httpd-foreground"   5 seconds ago       Up 5 seconds        0.0.0.0:8080->80/tcp   eager_heyrovsky <2>
+----
+<1> `docker ps` shows all _running_ containers, to see _all_ containers we
+could have used `docker ps -a`.
+<2> This displays the container id (enough of the hash to identify it for
+commands), the image that the container is copied from, when it was started,
+what its status is, which ports are being forwarded, and a friendly name for
+the container (automatically generated if you don't specify one) that you can
+use in place of the container id in commands.
+
+If you've been following along with these commands, you should be able to open
+a web browser and go to http://localhost:8080 and see a page stating, "It
+works!"
+
+Now let's clean up:
+
+[source, console]
+----
+PS > docker stop fa1302348599 <1>
+fa1302348599
+
+PS > docker ps <2>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS
+PS > docker ps -a <3>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS
+fa1302348599        httpd:2.4.43        "httpd-foreground"  18 minutes ago      Exited (0) 5 seconds ago
+
+PS > docker rm fa1302348599 <4>
+fa1302348599
+
+PS > docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS
+----
+<1> We know the id from the previous `docker ps` command, by running
+`docker stop` we can stop the container.
+<2> Now we won't see it in the plain `docker ps` command.
+<3> It is still there, just not running as evidenced by the `docker ps -a`
+command.
+<4> `docker rm` will remove it for good.
+
+In most situations, `docker rm` isn't really necessary. As stopped containers
+do not actively consume resources. The browsing to http://localhost:8080 again
+to confirm that the container is actually shut down.
+
+=== Building a Custom Image
+
+Sometimes the stock images are not enough to do what you want. In this example
+we will be building an image for a web server that still uses `httpd:2.4.43` as
+its base, but adds an extra file to change the default page. To do this, we
+need to create a directory with a Dockerfile and our new index.html page. We'll
+do this in the `{sourcedir}` directory:
+
+.{sourcedir}/index.html
+[source, html]
+----
+include::{sourceroot}/{sourcedir}/index.html[]
+----
+
+.{sourcedir}/Dockerfile
+[source, docker]
+----
+include::{sourceroot}/{sourcedir}/Dockerfile[]
+----
+
+A Dockerfile is a list of basic instructions for building an image. Instructions
+are typically capitalized and in this case our Dockerfile is using two of them:
+FROM and COPY. FROM tells Docker that you want to build an image on top of
+another image. In this case we want to build our image on top of the
+httpd:2.4.43 image. We also use the COPY instruction to copy a local file into
+the image we are building. In this case we copy a custom index.html into the
+directory that the https://httpd.apache.org/[Apache web server] serves files
+from.
+
+NOTE: Details about what directories an image uses can often be found in the
+image's documentation on Docker Hub.
+
+To build our Dockerfile into an image, we are going to use the `build` command:
+
+[source, console]
+----
+PS docker-demo> docker build -t docker-demo:v1 . <1>
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM httpd:2.4.43 <2>
+ ---> b2c2ab6dcf2e
+Step 2/2 : COPY index.html /usr/local/apache2/htdocs/
+ ---> Using cache
+ ---> 7a8122895898
+Successfully built 7a8122895898
+Successfully tagged docker-demo:v1
+SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories adde
+d to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive fil
+es and directories. <3>
+
+PS docker-demo> docker images <4>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker-demo         v1                  7a8122895898        17 minutes ago      166MB
+httpd               2.4.43              b2c2ab6dcf2e        2 weeks ago         166MB
+----
+<1> Here we specify that we want to `build` an image and we want to tag it as
+`docker-demo:v1`. This command takes one argument, the directory which contains
+the Dockerfile. In our case we pass it `.` to signify the current directory.
+<2> You can see each instruction and the results as they are performed.
+<3> Windows does not support the same file permissions as Linux so you may see
+this warning.
+<4> Finally we look at the images currently available and see that the one we
+built is available.
+
+Now let's run our custom image in a container with the `docker run` command:
+
+[source, console]
+----
+PS docker-demo> docker run -p 8080:80 docker-demo:v1 <1>
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat May 09 15:09:48.016060 2020] [mpm_event:notice] [pid 1:tid 140614148256896] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Sat May 09 15:09:48.016154 2020] [core:notice] [pid 1:tid 140614148256896] AH00094: Command line: 'httpd -D FOREGROUND'
+----
+<1> Notice that we didn't pass the `-d` option to Docker run, meaning we are
+running in the foreground. This is useful if we want to run something quickly
+as the log messages are printed directly in your terminal.
+
+If you open a web browser and navigate to https://localhost:8080 you should see
+the message "Hello from a container running a custom image!" When you are done,
+you can type Ctrl+C in the terminal to stop running the container, use
+`docker ps` to get its ID, and then use `docker stop` to stop it.
+
+=== Using Docker Compose
+
+Having to specify command line arguments for the docker command can get tedious,
+especially as your environment becomes more complex. Docker compose is a tool
+bundled with Docker that can be used to store the configuration for a
+multi-container setup in a single `docker-compose.yml` file. The best way to
+learn about it is to see it in action, so let's start by looking at an example:
+
+.{sourcedir}/docker-compose.yml
+[source, yml]
+----
+include::{sourceroot}/{sourcedir}/docker-compose.yml[]
+----
+
+This file defines a Docker Compose service named `web` that builds an image
+from the directory that `docker-compose.yml` is in. A container is run with the
+image and local port 8080 is forwarded to port 80 in the container.
+
+Here is a brief listing of some of the most useful docker-compose commands:
+
+up::
+Brings up all services in `docker-compose.yml`
+down::
+Brings down all services in `docker-compose.yml` 
+stop::
+Stops all services or a service specified
+exec::
+Runs a command on _running_ service
+logs::
+Prints the logs for a service
+
+Alright, now let's bring up the web service:
+
+[source, console]
+----
+PS docker-demo> docker-compose up <1>
+Creating network "docker-demo_default" with the default driver <2>
+Building web
+Step 1/2 : FROM httpd:2.4.43
+ ---> b2c2ab6dcf2e
+Step 2/2 : COPY index.html /usr/local/apache2/htdocs/
+ ---> 6ac4e496ced0
+Successfully built 6ac4e496ced0
+Successfully tagged docker-demo_web:latest
+WARNING: Image for service web was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`. <3>
+Creating docker-demo_web_1 ... done
+Attaching to docker-demo_web_1
+web_1  | AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.18.0.2. Set the 'Serve
+rName' directive globally to suppress this message
+web_1  | AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.18.0.2. Set the 'Serve
+rName' directive globally to suppress this message
+web_1  | [Sat May 09 17:05:42.377243 2020] [mpm_event:notice] [pid 1:tid 140538714080384] AH00489: Apache/2.4.43 (Unix) configur
+ed -- resuming normal operations
+web_1  | [Sat May 09 17:05:42.377338 2020] [core:notice] [pid 1:tid 140538714080384] AH00094: Command line: 'httpd -D FOREGROUND
+'
+web_1  | 172.18.0.1 - - [09/May/2020:17:05:57 +0000] "GET / HTTP/1.1" 304 - <4>
+----
+<1> Remember this command brings up _all_ the services in the
+`docker-compose.yml` file in the _current directory_.
+<2> Docker Compose also create a network for your services to run in. This
+helps with service communication later on.
+<3> This often trips up people the first time they use Docker Compose. If you
+make changes to a Dockerfile you will have to rebuild the image, or specify
+--build to `docker-compose up`, otherwise you won't see your changes.
+<4> Docker Compose runs in the foreground by default and displays the aggregate
+log information from all of the services running. Log messages are prefixed by
+the service name. This can be _very_ useful for debugging.
+
+We can test that things are working by going to http://localhost:8080. Then
+when we are all done we can close things down with by typing Ctrl+C in the
+terminal.
+
+== Resources
+
+* https://docs.docker.com/get-started/overview/[Docker overview]
+* https://docs.docker.com/get-started/[Docker Quickstart]
+* https://docs.docker.com/develop/develop-images/dockerfile_best-practices/[
+Best practices for writing Dockerfiles]
+* https://docs.docker.com/engine/reference/builder/[Dockerfile reference]
+* https://docs.docker.com/compose/[Overview of Docker Compose]
+
+== Questions
+
+[qanda]
+What is the difference between a VM and a container?::
+    {empty}
+What is the difference between a Docker image and a Docker container?::
+    {empty}
+How would you run a shell on an already running container?::
+    {empty}
+What does the `-d` option do when passed to the `docker run` command? When may you want to use it? When may you _not_ want to use it?::
+    {empty}
+What does Docker Compose do and how it is different from the `docker` command?::
+    {empty}

@@ -24,7 +24,7 @@ technically a single YAML file could have multiple Documents.
 Let's look at some sample streams to get a clearer picture of how YAML is used:
 
 .Sample Docker Compose YAML
-[source, YAML]
+[source, yaml]
 ----
 # source: https://docs.docker.com/compose/gettingstarted/ <1>
 --- # <2>
@@ -49,7 +49,7 @@ mappings with keywords `web` and `redis`.
 `ports` is mapping to a sequence with one item, the string `"5000:5000"`.
 
 .Sample Kubernetes YAML
-[source, YAML]
+[source, yaml]
 ----
 # source: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
 apiVersion: v1

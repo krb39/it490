@@ -1,0 +1,318 @@
+= Database
+:sourceroot: ..
+:sourcedir: db-demo
+
+image::database.png[align=center, width=25%]
+
+== Introduction
+
+Databases are used to store and organize information in a manner consistent
+with the relationships in that data. This allows for more natural queries to
+retrieve information. For example, if you typically look up a car part by its
+ID, it would make sense to have a table of part IDs with names and
+descriptions. A car can be thought of as a collection of parts, therefore you
+could have a car table and a car_part table that relates a car ID to multiple
+part IDs:
+
+.Tables in a Relational Database
+[plantuml, tables, svg]
+....
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity car {
+  *car_id: INTEGER
+  --
+  *make: VARCHAR(64)
+  *model: VARCHAR(256)
+  *year: DECIMAL(4, 0)
+}
+
+entity car_part {
+  *car_id: INTEGER
+  *part_id: INTEGER
+}
+
+entity part {
+  *part_id: INTEGER
+  --
+  *name: VARCHAR(256)
+  description: VARCHAR(1024)
+  manufacturers_partnum: VARCHAR(256)
+  price: DECIMAL(10, 2)
+}
+
+car ||--|{ car_part
+car_part ||--|| part
+
+@enduml
+....
+
+Relational databases maintain the integrity of their relations at the cost of
+being rigid and requiring more setup. In our system we will employ a relational
+database for multiple reasons:
+
+* Relational databases are the most popular databases in use today.
+* SQL is the most marketable computer language in the world and with the growth
+  of data science, this is not changing any time soon.
+* Relational databases present unique challenges with regard to replication.
+  This will provide a good learning opportunity later in the text.
+
+A database will be used for the _persistent_ storage of information. In a
+container environment, it is very important to make the distinction between
+_ephemeral_ and _persistent_ storage. A container may have lots of information
+on its filesystem but if that container is stopped, that information is lost.
+All _stateful_ information, that is information that needs to survive the
+container lifecycle, should be stored on a database which utilizes an external
+volume.
+
+.Containerized Database using a Volume
+[plantuml, volumes, svg]
+....
+@startuml
+
+storage volume as "Volume" {
+    file dbfiles as "Database Files"
+}
+node container as "Container" {
+    database RDBMS
+}
+
+RDBMS <-> dbfiles
+
+@enduml
+....
+
+As can be seen above, the volume exists _outside_ of the container running the
+relational database management system (RDBMS). The volume holds the database
+files the RDBMS uses to store information and if the container is stopped or
+removed, the files remain.
+
+== Popular RDMS
+
+For our project we can use any one of the following RDMS:
+
+https://www.mysql.com/[MySQL]::
+MySQL is an RDMS that has grown out of the practical need for a relational
+database in Linux. It quite literally puts the 'M' in the venerable LAMP stack
+(Linux Apache MySQL PHP). It has native support for replication and many other
+practical features that make it an excellent choice for any project.
+https://mariadb.org/[MariaDB]::
+MariaDB is a RDMS that aims to be be feature and syntax compliant with MySQL.
+It was originally forked from MySQL and developed as a response to Oracle's
+purchase of Sun Microsystems, who bought MySQL. It as actively developed and
+widely popular.
+https://www.postgresql.org/[PostgreSQL]::
+PostgreSQL is an _object_ relational database management system that aims to
+be more SQL compliant than MySQL. Where MySQL was borne out of workplace need,
+PostgreSQL has an academic lineage. It is enterprise ready, massively scalable
+(although it relies on several other tools for replication), and has fewer
+licensing issues than MySQL. PostgreSQL is seeing growing adoption.
+
+== Example
+
+In this example we will start a MySQL container, initialize it with the
+SQL file shown below, and connect to it with the
+https://dev.mysql.com/doc/refman/8.0/en/mysql.html[mysql client]. The
+`setup.sql` file that initializes our database can be found in the
+`{sourcedir}` directory. It sets up a simple car part database for our example:
+
+.{sourcedir}/setup.sql
+[source, sql]
+----
+include::{sourceroot}/{sourcedir}/setup.sql[]
+----
+
+Be sure to check to https://hub.docker.com/_/mysql[documentation for the Docker
+image you are using] to see how to initialize a database and to learn about
+which environment variables you will need to use. In this case,
+we will bind mount the current directory to `/docker-entrypoint-initdb.d/` on
+the container so our `setup.sql` file is run the first time the container is
+started. We will also use environment variables to set up a database, username,
+and password.
+
+Now let's create a volume, and run our container:
+
+[source, console]
+----
+PS db-demo> docker volume create db-data <1>
+db-data
+PS db-demo> docker volume ls <2>
+DRIVER              VOLUME NAME
+local               db-data
+PS db-demo> docker run -d --mount "type=volume,src=db-data,dst=/var/lib/mysql" --mount "type=bind,src=$(pwd),dst=/docker-entrypoint-initdb.d" -e MYSQL_ROOT_PASSWORD=changeme -e MYSQL_DATABASE=cars -e MYSQL_USER=car_user -e MYSQL_PASSWORD=changeme mysql:8.0.20 <3>
+32193c2a74a16f73c44dc186a9b368fafd4b0d1fadc000c58ee8e3357fc24a6e
+PS db-demo> docker ps <4>
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                 NAMES
+32193c2a74a1        mysql:8.0.20        "docker-entrypoint.s…"   12 seconds ago      Up 12 seconds       3306/tcp, 33060/tcp   youthful_euler
+PS db-demo> docker logs 32193c2a74a1 <5>
+2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.20-1debian10 started.
+2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.20-1debian10 started.
+2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Initializing database files
+2020-05-11T17:04:07.809871Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2020-05-11T17:04:07.809922Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.20) initializing of server in progress as process 42
+2020-05-11T17:04:07.814301Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2020-05-11T17:04:08.700422Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2020-05-11T17:04:10.397851Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switchi
+ng off the --initialize-insecure option.
+2020-05-11 17:04:14+00:00 [Note] [Entrypoint]: Database files initialized
+2020-05-11 17:04:14+00:00 [Note] [Entrypoint]: Starting temporary server
+2020-05-11T17:04:14.850337Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is t
+he default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2020-05-11T17:04:14.850452Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.20) starting as process 89
+2020-05-11T17:04:14.874687Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2020-05-11T17:04:15.108491Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2020-05-11T17:04:15.217674Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock'
+2020-05-11T17:04:15.321264Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2020-05-11T17:04:15.325886Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the p
+ath is accessible to all OS users. Consider choosing a different directory.
+2020-05-11T17:04:15.339834Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/r
+un/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.
+2020-05-11 17:04:15+00:00 [Note] [Entrypoint]: Temporary server started.
+Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/leap-seconds.list' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
+2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating database cars
+2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating user car_user
+2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Giving user car_user access to schema cars
+
+2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/setup.sql <6>
+
+
+2020-05-11 17:04:18+00:00 [Note] [Entrypoint]: Stopping temporary server
+2020-05-11T17:04:18.137760Z 15 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.0.20).
+2020-05-11T17:04:20.277911Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.20)  MySQL Community Server - GPL.
+2020-05-11 17:04:21+00:00 [Note] [Entrypoint]: Temporary server stopped
+
+2020-05-11 17:04:21+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.
+
+2020-05-11T17:04:21.372922Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2020-05-11T17:04:21.373012Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.20) starting as process 1
+2020-05-11T17:04:21.382956Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2020-05-11T17:04:21.590667Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2020-05-11T17:04:21.691458Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock' bind-address: '::' port: 33060
+2020-05-11T17:04:21.767017Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2020-05-11T17:04:21.770819Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2020-05-11T17:04:21.787429Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+----
+<1> We create a volume named `db-data`
+<2> and now we can see it listed in the available volumes.
+<3> This lengthy command translates to:
+* `run`: mysql version 8.0.20
+* `-d`: in the background
+* `--mount "type=volume,src=db-data,dst=/var/lib/mysql"`: mount the volume named
+  db-data to /var/lib/mysql on the container
+* `--mount "type=bind,src=$(pwd),dst=/docker-entrypoint-initdb.d"`: mount the
+  current directory, we have to use pwd here because it wants an absolute path,
+  to /docker-entrypoint-initdb.d on the container. This is a bind mount which
+  is a quick linkage between a directory on the host and a directory on the
+  container. Bind mounts may not support all of the features you need, but for
+  our purposes it works well here. Our current directory has the `setup.sql`
+  file that we use to initialize our database.
+* `-e MYSQL_ROOT_PASSWORD=changeme`: use an environment variable to set the root
+  password for mysql access
+* `-e MYSQL_DATABASE=cars`: use an environment variable to set the database we
+  initialize
+* `-e MYSQL_USER=car_user`: use an environment variable to create a new user
+  that can access the database we set up
+* `-e MYSQL_PASSWORD=changeme`: use an environment variable to set a password
+  for the user we created above
+<4> Check to see that our container is running and get the ID
+<5> Examine the log output for our container (by ID)
+<6> We can see here in the output, that our `setup.sql` script was run
+
+With our container running in the background, we can now connect and make sure
+that our database was initialized. To avoid having to download a mysql client
+on the host, we will `exec` the mysql command on the running container:
+
+[source, console]
+----
+PS db-demo> docker exec -it 32193c2a74a1 mysql -u car_user -p cars
+Enter password: <1>
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.20 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show tables; <2>
++----------------+
+| Tables_in_cars |
++----------------+
+| car            |
+| car_part       |
+| part           |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from car; <3>
++--------+--------+---------+------+
+| car_id | make   | model   | year |
++--------+--------+---------+------+
+|      0 | HONDA  | CIVIC   | 2005 |
+|      1 | TOYOTA | COROLLA | 2010 |
+|      2 | FORD   | F-150   | 2009 |
++--------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT name, description, price
+    -> FROM car, car_part, part
+    -> WHERE car.car_id=car_part.car_id AND
+    -> part.part_id=car_part.part_id AND
+    -> car.make='FORD' AND car.model='F-150' AND car.year='2009'; <4>
++------------------+-----------------------+--------+
+| name             | description           | price  |
++------------------+-----------------------+--------+
+| Radiator Cap     | Duralast Radiator Cap |  10.99 |
+| Rear Leaf Spring | 1500lbs capacity      | 129.99 |
++------------------+-----------------------+--------+
+2 rows in set (0.00 sec)
+----
+<1> recall the we set the password to `changeme` via an environment variable
+<2> check that all the tables were created
+<3> check that the data was inserted into the tables
+<4> perform a sample query looking up all parts for a 2009 Ford F-150
+
+TIP: `docker volume prune` is a useful command for getting rid of volumes not
+in use by any container. Just be sure that you don't need the data on those
+volumes anymore!
+
+== Resources
+
+* https://hub.docker.com/_/mysql[MySQL Docker Image]
+* https://hub.docker.com/_/mariadb[MariaDB Docker Image]
+* https://hub.docker.com/_/postgres[PostgreSQL Docker Image]
+* http://www.daniloaz.com/en/how-to-create-a-user-in-mysql-mariadb-and-grant-permissions-on-a-specific-database/[Creating Users / Granting Privileges in MySQL/MariaDB]
+* https://docs.docker.com/storage/volumes/[Volumes in Docker]
+* https://dev.mysql.com/doc/connector-python/en/[MySQL Connector Python Module]
+* https://www.psycopg.org/[Psycopg Python Module]
+
+== Questions
+
+[qanda]
+What is a Docker volume and why should a containerized RDMS use it?::
+    {empty}
+Pick one RDMS from the <<Popular RDMS, list above>>. What are the advantages of this particular RDMS over the others?::
+    {empty}
+How do you set an environment variable via the `docker` command?::
+    {empty}
+How do you initialize a database in the default MySQL docker image?::
+    {empty}
+The command we used to run our database container was very complex and it would be quite tedious to type it out over and over. How would you run the example in Docker Compose instead?::
+    {empty}

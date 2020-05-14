@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="448px" preserveAspectRatio="none" style="width:612px;height:448px;" version="1.1" viewBox="0 0 612 448" width="612px" zoomAndPan="magnify"><defs><filter height="300%" id="f16i25lsxqck3" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[1e3f95782aa025a0d60ac76fd50e5ec3]
+entity machine1--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="129" x="239" y="8"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="249" y="32.5332">Physical Machine</text><!--MD5=[d55a4441c2532ea01aee1c65284e9521]
+entity hos--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="165" x="221" y="106"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="145" x="231" y="130.5332">Host Operating System</text><!--MD5=[09c5b9f08ba8edaaf1572fde42fdca76]
+entity vm1--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="129" x="52" y="204"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="62" y="228.5332">Virtual Machine 1</text><!--MD5=[52c4dfb455d40dc24f53f503c3bc5701]
+entity os1--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="175" x="6" y="302"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="155" x="16" y="326.5332">Guest Operating System</text><!--MD5=[019f6774f902f72c488c9dcee70d4d6c]
+entity app1--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="89" x="49" y="400"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="69" x="59" y="424.5332">Application</text><!--MD5=[9d435489ff8c5ec1c515258ba349b06d]
+entity vm2--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="129" x="239" y="204"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="249" y="228.5332">Virtual Machine 2</text><!--MD5=[9c51130f65f42595ffedd3be347983ea]
+entity os2--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="175" x="216" y="302"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="155" x="226" y="326.5332">Guest Operating System</text><!--MD5=[81be28259591a23f63462d93727ccfe3]
+entity app2--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="89" x="259" y="400"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="69" x="269" y="424.5332">Application</text><!--MD5=[3e2588bee781c9fb96c797edaac63eb0]
+entity vm3--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="129" x="426" y="204"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="436" y="228.5332">Virtual Machine 3</text><!--MD5=[affb25e1df3a891aab812b5448c50144]
+entity os3--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="175" x="426" y="302"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="155" x="436" y="326.5332">Guest Operating System</text><!--MD5=[640bfebe45159a20e5557f42971d9afe]
+entity app3--><rect fill="#FEFECE" filter="url(#f16i25lsxqck3)" height="37.6094" style="stroke: #000000; stroke-width: 1.5;" width="89" x="469" y="400"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="69" x="479" y="424.5332">Application</text><!--MD5=[ce1599b41b40f9482de6222d4f81328f]
+link machine1 to hos--><path d="M303.5,46.057 C303.5,61.513 303.5,83.865 303.5,100.673 " fill="none" id="machine1-&gt;hos" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="303.5,105.698,307.5,96.698,303.5,100.698,299.5,96.698,303.5,105.698" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[4243e8d91449005821c56df788c24f2e]
+link hos to vm1--><path d="M268.327,144.057 C236.562,160.364 189.844,184.348 156.632,201.398 " fill="none" id="hos-&gt;vm1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="151.833,203.861,161.6664,203.3094,156.2812,201.5776,158.013,196.1924,151.833,203.861" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[8b2559497dad8fcf90e4723147e5a5ac]
+link hos to vm2--><path d="M303.5,144.057 C303.5,159.513 303.5,181.865 303.5,198.673 " fill="none" id="hos-&gt;vm2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="303.5,203.698,307.5,194.698,303.5,198.698,299.5,194.698,303.5,203.698" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[dbb22317fb1be0af124314b43e8ae59d]
+link hos to vm3--><path d="M338.673,144.057 C370.438,160.364 417.156,184.348 450.368,201.398 " fill="none" id="hos-&gt;vm3" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="455.167,203.861,448.987,196.1924,450.7188,201.5776,445.3336,203.3094,455.167,203.861" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[4569228769cc72833f3d3784d57aa43a]
+link vm1 to os1--><path d="M112.174,242.057 C108.471,257.513 103.1157,279.865 99.0887,296.673 " fill="none" id="vm1-&gt;os1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="97.8849,301.698,103.8707,293.8769,99.0492,296.8355,96.0906,292.014,97.8849,301.698" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[641fe3d1091a1cbbb7137f223ae08b7c]
+link os1 to app1--><path d="M93.5,340.0569 C93.5,355.5126 93.5,377.8647 93.5,394.6731 " fill="none" id="os1-&gt;app1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="93.5,399.6977,97.5,390.6977,93.5,394.6977,89.5,390.6977,93.5,399.6977" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1d66145176cf8dd0eb4f90604ed993cf]
+link vm2 to os2--><path d="M303.5,242.057 C303.5,257.513 303.5,279.865 303.5,296.673 " fill="none" id="vm2-&gt;os2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="303.5,301.698,307.5,292.698,303.5,296.698,299.5,292.698,303.5,301.698" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[eb2a3cc936125e7ecce1202ecaf3ecd0]
+link os2 to app2--><path d="M303.5,340.0569 C303.5,355.5126 303.5,377.8647 303.5,394.6731 " fill="none" id="os2-&gt;app2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="303.5,399.6977,307.5,390.6977,303.5,394.6977,299.5,390.6977,303.5,399.6977" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[f6c067282c7858c2ad73cd23b0a68e4d]
+link vm3 to os3--><path d="M494.826,242.057 C498.529,257.513 503.884,279.865 507.911,296.673 " fill="none" id="vm3-&gt;os3" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="509.115,301.698,510.9095,292.014,507.9508,296.8354,503.1294,293.8767,509.115,301.698" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[73bb5331d45fec0ed55756e2d31b00f9]
+link os3 to app3--><path d="M513.5,340.0569 C513.5,355.5126 513.5,377.8647 513.5,394.6731 " fill="none" id="os3-&gt;app3" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="513.5,399.6977,517.5,390.6977,513.5,394.6977,509.5,390.6977,513.5,399.6977" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ee21129b390a1999cf9fb171ff5ef1c2]
+@startuml
+
+rectangle machine1 as "Physical Machine"
+rectangle hos as "Host Operating System"
+
+rectangle vm1 as "Virtual Machine 1"
+rectangle os1 as "Guest Operating System"
+rectangle app1 as "Application"
+
+rectangle vm2 as "Virtual Machine 2"
+rectangle os2 as "Guest Operating System"
+rectangle app2 as "Application"
+
+rectangle vm3 as "Virtual Machine 3"
+rectangle os3 as "Guest Operating System"
+rectangle app3 as "Application"
+
+machine1 - -> hos
+
+hos - -> vm1
+hos - -> vm2
+hos - -> vm3
+
+vm1 - -> os1
+os1 - -> app1
+
+vm2 - -> os2
+os2 - -> app2
+
+vm3 - -> os3
+os3 - -> app3
+
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 13.0.1+9
+Operating System: Windows 10
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>
