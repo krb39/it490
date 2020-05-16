@@ -115,7 +115,7 @@ were running before. We can remove the `wait-for-it.sh` script and we no longer
 have to call it from the Dockerfile:
 
 .{sourcedir}/front-end/Dockerfile
-[source, Dockerfile]
+[source, docker]
 ----
 include::{sourceroot}/{sourcedir}/front-end/Dockerfile[]
 ----
@@ -132,7 +132,7 @@ and make it available to the Docker daemon running _inside_ minikube. With
 minikube started, but without the environment set up correctly, `docker ps`
 will only show the containers you have running natively on the host:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> docker ps
 CONTAINER ID  IMAGE                                COMMAND               
@@ -149,7 +149,7 @@ Now if we execute the `minikube docker-env` command and follow the directions,
 `docker ps` should show the entire Kubernetes environment running in containers
 as it is querying the Docker daemon running _inside_ minikube:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> minikube docker-env <1>
 $Env:DOCKER_TLS_VERIFY = "1"
@@ -187,7 +187,7 @@ d05cf6dbe82a        k8s.gcr.io/pause:3.2   "/pause"                 15 hours ago
 
 Now we can build our front-end image and it will be available to minikube:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> docker build -t front-end:v1 ./front-end
 Sending build context to Docker daemon  9.728kB
@@ -253,7 +253,7 @@ that pull will fail.
 Let's take a look at our *Service* definition:
 
 .{sourcedir}/front-end-k8s.yml (excerpted)
-[source, YAML]
+[source, yml]
 ----
 include::{sourceroot}/{sourcedir}/front-end-k8s.yml[tags=service]
 ----
@@ -285,7 +285,7 @@ if the *Front End* serves web pages _and_ if the *Front End* can connect to
 *Messaging* and create queues. We won't be able to login / register users
 entirely yet because we don't have *Back End* running.
 
-[source, shell]
+[source, console]
 ----
 PS example-final> kubectl apply -f messaging-k8s.yml -f front-end-k8s.yml <1>
 serviceaccount/messaging created
@@ -342,7 +342,7 @@ testing. Try `curl $(minikube service --url front-end)`.
 Now let's run a shell in our RabbitMQ cluster and use the `rabbitmqctl` command
 to verify that a `requests` queue has actually been created:
 
-[source, shell]
+[source, console]
 ----
 PS C:\Users\rxt1077\it490\example-final> kubectl exec -it messaging-0 -- bash <1>
 root@messaging-0:/# rabbitmqctl list_queues

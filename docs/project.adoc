@@ -1,0 +1,167 @@
+= Project
+
+image::all.png[align=center, width=25%]
+
+This text is meant to accompany the creation of a group project. The project is
+designed to be completed by a four person group over a 15 week semester. If you
+are using this text as part of a course, all parts of this section are subject
+to change / augmentation by your instructor. If you are using this text as an
+independent, self-study tool you should still be able to complete all of the
+milestones and create the deliverables although it may take you longer. What
+follows is the typical assignment schedule for developing the project:
+
+== Project Proposal
+
+The project proposal and the comments on it function as a record of dialog
+between the instructor and the group. You can think of the proposal as a
+contract showing what is required to achieve a good grade on the project. The
+instructor may specify additional deliverables depending on what your group has
+chosen to work on, or they may walk-back your proposal if they believe it is
+too difficult to achieve in the time frame.
+
+=== Developing a Proposal
+
+Think of a data source that you can use to create a marketable software as a
+service (SaaS) product. This data source needs to be freely available for the
+purposes of this project. Use the following questions to guide your proposal:
+
+* What data will you use?
+* What service will you offer with this data?
+* Why would people be willing to pay money for your service?
+* Who would be willing to pay money for your service?
+
+Here is an example that you can _not_ use:
+
+.Project Proposal
+====
+My group will design a web app that allows people in New Jersey to create
+itineraries for upcoming events based on what the weather is. We will use data
+from https://openweathermaps.org[OpenWeatherMaps.org] as well
+https://www.nj.com[NJ.com] to plan separate events based on how filled people
+want their schedule and what the weather is going to be like. Our target
+demographic is busy professionals who are comfortable using technology. Since
+they already use services like Google Calendar for keeping track of their
+events, why not try using a service that will suggest upcoming events?
+====
+
+== Milestones
+
+The goal of the milestones are to encourage group members to keep pace with the
+project. This is not the kind of project that can be completed in the last week
+of class. All milestones should be entered in GitHub and linked with Issues
+assigned to specific members of the group. Individual contributions of group
+members will be assessed through GitHub activity so be sure you are actively
+participating.
+
+=== One
+
+* Form a group of four members.
+* Each member of the group should read the <<Git>>, <<GitHub>>, <<YAML>>, and
+  <<Docker>> chapters.
+* Each member of the group should have Docker up and running on their machine.
+* Each member of the group should have a GitHub login that utilizes their school
+  email.
+* As a group, design and submit a <<Project Proposal>>.
+* As a group, create a GitHub project with all of the members as collaborators.
+
+=== Two
+
+* Each member of the group should read the <<Messaging>>, <<Database>>,
+  <<Front End>>, and <<Back End>> chapters.
+* As a group, create a `docker-compose.yml` file in your group repository that
+  brings up a messaging service, database service, front end service, and back
+  end service.
+* *Front End* should at least have at a "Hello World" page available a port
+  accessible from the local host.
+* *Back End* should be able to read from and write to a queue on *Messaging*.
+* The completion of this milestone should be documented through the use of
+  Issues in your GitHub project.
+
+=== Three
+
+* *Back End* should be able to read and write from *Database*.
+* *Front End* should have a register new user page and a login page. They do not
+  have to be functional, but the HTML development should be done.
+* *Database* should at least have a `user` table on a persistent volume that can
+  be accessed by *Back End*.
+* Documentation should be developed that describes how to use the RabbitMQ
+  management interface to check to see if queues are being created. The
+  documentation should take the form of a README file in any GitHub supported
+  format within the messaging directory.
+* The completion of this milestone should be documented through the use of
+  Issues in your GitHub project.
+
+=== Four
+
+* Each member of the group should read the <<Replication>> and <<Kubernetes>>
+  chapters.
+* Each member of the group needs to have minikube up and running on their
+  machine.
+* *Database* needs to move from a single instance to a replicated, high
+  availability, load balancing cluster. For now, the instances can be statically
+  configured inside a `docker-compose.yml` file.
+* The completion of this milestone should be documented through the use of
+  Issues in your GitHub project.
+
+=== Five
+
+* Each member of the group should read the <<Database in Kubernetes>> and
+  <<Messaging in Kubernetes>> chapters.
+* Migrate *Database* to Kubernetes using the minikube environment. Put all of
+  your Kubernetes objects in one file named <component>-k8s.yml in your
+  repository (where <component> is your component name.
+* Migrate *Messaging* to Kubernetes using the minikube environment. Put all of
+  your Kubernetes objects in one file named <component>-k8s.yml in your
+  repository (where <component> is your component name.
+* The completion of this milestone should be documented through the use of
+  Issues in your GitHub project.
+
+=== Six
+
+* Each member of the group should read the <<Front End in Kubernetes>> and
+  <<Back End in Kubernetes>> chapters.
+* Migrate *Front End* to Kubernetes using the minikube environment. Put all of
+  your Kubernetes objects in one file named <component>-k8s.yml in your
+  repository (where <component> is your component name.
+* Migrate *Back End* to Kubernetes using the minikube environment. Put all of
+  your Kubernetes objects in one file named <component>-k8s.yml in your
+  repository (where <component> is your component name.
+* The completion of this milestone should be documented through the use of
+  Issues in your GitHub project.
+
+== Deliverables
+
+Deliverables are larger assessments designed to show a running system. Given
+deployment-centric nature of the project, it should be easy to bring up the
+deliverables on any system to test them. Groups are encouraged to test running
+their system on new a different machines to make sure that everything will go
+well when it is time to assess their project. Groups are also encouraged and
+_expected_ to keep the deliverables in mind over the course of the entire
+project.
+
+=== Midterm
+
+* *Front End* (Python, PHP, or Node) interacts with the user via HTTP and
+  communicates with *Messaging* via a messaging library.
+* *Messaging* (RabbitMQ) brokers the exchange of information between *Front End*
+  and *Back End*.
+* *Database* (PostgreSQL, MariaDB, or MySQL) is used by *Back End* uses for the
+  storage of persistent information. All database files are stored in a Docker
+  volume.
+* *Back End* container that gathers information from your data sources, stores
+  information on *Database*, and interacts with *Messaging*.
+* These four services will be working with each other to provide a registration
+  and authentication system for your users.
+* The project should be fully testable on any machine running Docker by simply
+  cloning the git repository and running `docker up` in the root of the project.
+
+=== Final Deliverables
+
+* *Front End*, *Database*, *Messaging*, and *Back End* should all be running in
+  pods on the minikube Kubernetes Cluster. Each should have three replicas.
+* *Front End*, *Database*, *Messaging*, and *Back End* should all be able to
+  scale horizontally and recover from the failure of pods.
+* The project should be fully testable on any machine running minikube by simply
+  cloning the git repository and running, building the custom images locally
+  (with an environment configured for the Docker daemon running _within_
+  minikube), and running `kubectl apply -f .` in the root of the project.

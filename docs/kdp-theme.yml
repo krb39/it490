@@ -1,0 +1,5 @@
+extends: default
+#page:
+#    background-color: #ff0000
+footer:
+  padding: [0,0,15,0]

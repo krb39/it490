@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  front-end:
+    build: ../front-end-demo/web
+    ports:
+      - "8080:80"
+    environment:
+      - RABBITMQ_USER=${USER}
+      - RABBITMQ_PASS=${PASS}
+    # uncomment for development
+    # volumes:
+    #  - "./web/app:/var/www/html"
+  messaging:
+    image: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${USER}
+      - RABBITMQ_DEFAULT_PASS=${PASS}
+  back-end:
+    image: node:12.16.3
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+      - RABBITMQ_USER=${USER}
+      - RABBITMQ_PASS=${PASS}
+    volumes:
+      - ./app:/home/node/app
+    command: "sh -c 'sleep 10; npm start'"

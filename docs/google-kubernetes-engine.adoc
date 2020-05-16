@@ -75,7 +75,7 @@ regions with multiple zones available] depending on where you are expecting
 your application to be used and what you're computer needs are, respectively.
 In this example we will set it to `us-central1-c` with the following command:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> gcloud config set compute/zone us-central1-c
 Updated property [compute/zone].
@@ -83,7 +83,7 @@ Updated property [compute/zone].
 
 Now let's try to add a Kubernetes cluster named `example` and see what happens:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> gcloud container clusters create example
 WARNING: Currently VPC-native is not the default mode during cluster creation. In the future, this will become the default mode
@@ -109,7 +109,7 @@ browsing tab and paste the URL in there. That will force you to have to log in.
 
 Once we've enabled the GKE API, let's try our `create cluster` command again:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> gcloud container clusters create example
 WARNING: Currently VPC-native is not the default mode during cluster creation. In the future, this will become the default mode
@@ -131,7 +131,7 @@ example  us-central1-c  1.14.10-gke.27  35.223.164.188  n1-standard-1  1.14.10-g
 
 Our last step will be setting up Docker to use our gcloud credentials:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> gcloud auth configure-docker
 Adding credentials for all GCR repositories.
@@ -167,7 +167,7 @@ from an actual repository. Since we're already using Google Cloud, it makes
 sense to push our custom images to
 https://cloud.google.com/container-registry[GCR]. Here is how we do that:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> docker build -t gcr.io/example-20200428/front-end:v1 ./front-end/ <1>
 Sending build context to Docker daemon   16.9kB
@@ -309,7 +309,7 @@ kubeconfig] file for access to the `example` cluster. kubectl refers to these
 different clusters as `contexts` and we can see what is available with the
 following command:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> kubectl config get-contexts
 CURRENT NAME                                       CLUSTER
@@ -323,7 +323,7 @@ We've already pushed our images to GCR and updated the *Front End* and
 *Back End* objects to reflect that. Now all we need to do to create objects is
 use the kubectl commands we're familiar with:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> kubectl get pod
 No resources found in default namespace. <1>
@@ -385,7 +385,7 @@ are very real. Once we are done, we have to remember to delete our cluster and
 the resources that our project uses. That can be done with the following
 commands:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> gcloud container clusters delete example
 The following clusters will be deleted.

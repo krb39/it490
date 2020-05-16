@@ -1,0 +1,77 @@
+= Back End
+
+image::back-end.png[align=center, width=25%]
+
+== Introduction
+
+*Back End* is responsible for reading messages from *Front End*, storing
+things in *Database*, and acquiring any other data needed. It has no
+user-facing component, which spares us the trouble of having to run another
+web server. Everything can basically be done with a single script.
+
+== Example
+
+For this example we will be implementing a script in JavaScript that reads and
+replies to messages via *Messaging*, reads and writes from *Database*, and
+performs some demo web scraping. JavaScript is being used because our previous
+*Front End* example used PHP. One of the benefits of having a *Messaging*
+component is that we can allow developers to use different languages. We will be
+basing this code off of the
+https://www.rabbitmq.com/tutorials/tutorial-six-javascript.html[RabbitMQ
+Javascript RPC Tutorial].
+
+[source, console]
+----
+PS C:\Users\rxt1077\it490\back-end-demo> docker run -it --rm -v "$(pwd)/app:/home/node/app" -w /home/node/app node npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (app) back-end
+version: (1.0.0)
+description: Example back end for Systems Integration
+entry point: (index.js)
+test command:
+git repository:
+keywords:
+author: Ryan Tolboom
+license: (ISC)
+About to write to /home/node/app/package.json:
+
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Example back end for Systems Integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Tolboom",
+  "license": "ISC"
+}
+
+
+Is this OK? (yes)
+----
+
+== Resources
+
+* https://hub.docker.com/_/node/[node - Docker Hub]
+* https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image[
+  docker-node/README - How to use this image]
+* https://www.sitepoint.com/beginners-guide-node-package-manager/[Beginners
+Guide to Node Package Manager]
+
+=== RabitMQ Messaging Libraries
+
+=== Web Scraping
+
+https://www.nj.com/web/gateway.php?affil=nj&site=default&hidemap=1&tpl=v3_regular_event_grid&date=2020-05-16
+
+== Questions

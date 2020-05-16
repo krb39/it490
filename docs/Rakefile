@@ -47,7 +47,7 @@ task :mobi => [:dirs] do
 end
 
 desc 'Builds the PDF version of the book'
-task :mobi => [:dirs] do
+task :pdf => [:dirs] do
   Asciidoctor.convert_file(
     'index.adoc',
     safe: :unsafe,
@@ -56,5 +56,17 @@ task :mobi => [:dirs] do
   )
 end
 
+desc 'Builds a PDF version for upload to Kindle Direct Publishing'
+task :kdp => [:dirs] do
+  Asciidoctor.convert_file(
+    'index.adoc',
+    safe: :unsafe,
+    backend: 'pdf',
+    to_file: "#{output}/systems-integration-kdp.pdf",
+    attributes: ['media=prepress', '!front-cover-image',
+                 'pdf-theme=kdp-theme.yml'],
+  )
+end
+
 desc 'Builds all versions of the book'
-task :default => [:html5, :epub3, :mobi]
+task :default => [:html5, :epub3, :mobi, :pdf]

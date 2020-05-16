@@ -96,14 +96,14 @@ image be built and available. The only object we need to create is a
 *Deployment*:
 
 .{sourcedir}/back-end-k8s.yml
-[source, YAML]
+[source, yml]
 ----
 include::{sourceroot}/{sourcedir}/back-end-k8s.yml[]
 ----
 
 Now let's build and tag our back-end:v1 image to make it available to minikube:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> minikube docker-env | Invoke-Expression <1>
 PS example-final> cd .\back-end\
@@ -148,7 +148,7 @@ environment again.
 
 Now we'll apply our minikube objects for the *Back End*:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> kubectl apply -f .\back-end-k8s.yml
 deployment.apps/back-end created
@@ -176,7 +176,7 @@ directory. Since we are using the `apply` command, only changes that are needed
 to reach the state of the objects in the files will be made. Lastly, we need to
 make sure that the `front-end:v1` image is built and available:
 
-[source, shell]
+[source, console]
 ----
 PS example-final> docker build -t front-end:v1 ./front-end
 Sending build context to Docker daemon   16.9kB
@@ -234,7 +234,7 @@ Successfully tagged front-end:v1
 Now we can bring everything in the directory up with the `kubectl apply -f .`
 command:
 
-[source, shell]
+[source, console]
 ----
 PS C:\Users\rxt1077\it490\example-final> kubectl apply -f .
 deployment.apps/back-end unchanged

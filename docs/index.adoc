@@ -5,6 +5,7 @@ Ryan Tolboom <Ryan.Tolboom@njit.edu>
 :toc: left
 :sourceroot: ../
 :source-highlighter: rouge
+:pdf-page-size: Letter
 ifdef::ebook-format,backend-pdf[:doctype: book]
 ifdef::ebook-format,backend-pdf[:front-cover-image: image:cover.png[Front Cover,1410,2250]]
 
@@ -27,6 +28,8 @@ include::preface.adoc[]
 
 include::acknowledgements.adoc[]
 
+include::project.adoc[]
+
 :sectnums:
 
 include::git.adoc[]
@@ -43,17 +46,13 @@ include::database.adoc[]
 
 include::front-end.adoc[]
 
-//include::back-end.adoc[]
-
-//include::midterm_deliverables.adoc[]
+include::back-end.adoc[]
 
 include::midterm_checkin.adoc[]
 
 include::replication.adoc[]
 
 include::kubernetes.adoc[]
-
-//include::final_deliverables.adoc[]
 
 include::database-in-kubernetes.adoc[]
 

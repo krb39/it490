@@ -59,18 +59,19 @@ class RpcClient
     {
         $this->response = null;
         $this->corr_id = uniqid();
+        $json = json_encode(array('action'=>'ECHO', 'data'=>$data));
 
         $msg = new AMQPMessage(
-            json_encode(array('command'=>'echo', 'data'=>$data)),
+            $json,
             array(
                 'correlation_id' => $this->corr_id,
                 'reply_to' => $this->callback_queue
             )
         );
-        $this->channel->basic_publish($msg, '', 'rpc_queue');
+        $this->channel->basic_publish($msg, '', 'requests');
         while (!$this->response) {
             $this->channel->wait(null, false, $this->timeout);
         }
-        return intval($this->response);
+        return $this->response;
     }
 }
