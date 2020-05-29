@@ -48,7 +48,7 @@ include::front-end.adoc[]
 
 include::back-end.adoc[]
 
-include::midterm_checkin.adoc[]
+include::midterm-example.adoc[]
 
 include::replication.adoc[]
 

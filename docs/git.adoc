@@ -9,7 +9,7 @@ In the simplest sense, version control tracks changes to a group of files.
 Building off of this premise, teams can use version control to cooperatively
 change a group of files and revert to a previous state if needed.
 
-The benefits of a version control system can be more readily understood if you
+The benefits of a version control system can be more readily understood if we
 consider a few examples:
 
 .Programming Project
@@ -23,31 +23,35 @@ you update it to support player-vs-computer and _everything_ stops working.
 What do you do now? 
 ====
 
-If you were working with a version control system, you could easily roll-back
-your changes and see what went wrong.
+If you were working with a version control system, you could easily see what
+you changed and even roll-back your changes.
 
 .Working with a Team
 ====
-You are working working with a team of people to implement a complex system
-that utilizes several files in several different directories. How do you make
-sure everyone has the most up-to-date version of the files? What happens if two
+You are working working with a team of people to build a complex system that
+utilizes several files in several different directories. How do you make sure
+everyone has the most up-to-date version of the files? What happens if two
 people work on the same file at the same time?
 ====
 
 In a version control system, you could set up a centralized repository for the
-files and have everyone pull from one location. In the case of two people
-working on the same thing at the same time, a version control system could
-handle merging their changes.
+files and have everyone pull from one location.footnote:[It is important to note
+that although this is the dominant way git is used, it is not actually the way
+git was _intended_ to be used. With git you can work in a group, merging changes
+from multiple contibuters, all without a central server.] In the case of two
+people working on the same thing at the same time, a version control system
+could help with merging their changes by examining the lines that where changed,
+finding conflicts, and suggesting resolutions.
 
 == Installation
 
 Depending on the OS you are using, there are a few different ways to install
-git on your machine:
+git.
 
 Windows::
 * https://gitforwindows.org/[git for windows]: Installs git, git BASH, and a
-GUI. The git command can then be run from PowerShell, CMD, or the BASH shell
-(which it installs).
+GUI. The git command is put in your path and can be run from PowerShell, CMD, or
+the BASH shell (which it installs).
 Mac::
 * https://sourceforge.net/projects/git-osx-installer/files/[git for Mac Installer]:
   Provides an easy installer for git on MacOS. 
@@ -66,21 +70,20 @@ Linux::
 
 Any directory can be made into a git repository by running the `git init`
 command. This will add the `.git` directory which stores information about the
-state of the repository and certain user variables.
+state of the repository and configuration.
 
 === Cloning a Repository
 
 If you want to make a copy of an already existing repository, typically done
-when you _start_ working on a project, the `git clone` command will make a copy
-of a repository using any supported protocol.
+when you _start_ working on a project, the `git clone` command will do that
+using any supported protocol.
 
 === Tracking / Staging Files
 
-You need to tell git which files you want to keep track of and when you want to
-stage them to be committed. These both use the same command `git add`. The
-first time you call `git add` it begins tracking the file and stages it for a
-commit. The second time you call `git add` it tells git that you want to commit
-any changes to that file.
+You need to tell git which files you want it to track and when you want to stage
+them to be committed. These both use the same command `git add`. The
+first time you use `git add` it begins tracking the file and stages it for a
+commit. The second time you use `git add` only stages that file for a commit.
 
 === Committing Changes to a Repository
 
@@ -90,17 +93,33 @@ commits must have a message, and git will use a default editor depending on
 your installation.
 https://help.github.com/en/github/using-git/associating-text-editors-with-git[
 This can be changed.] To complete the commit, add a message, save the file, and
-exit the editor.
+exit the editor. If you don't want to use an editor, the `-m` option allows you
+to specify a commit message on the command line.
+
+.Staging and Committing Changes
+[plantuml, git-stage-commit, svg]
+....
+@startuml
+
+rectangle work as "Working Directory"
+rectangle staging as "Staging Area"
+rectangle repo as "Repository"
+
+work -> staging : git add
+staging -> repo : git commit
+
+@enduml
+....
 
 === Setting Up a Remote
 
 Git repositories are often linked to a remote repository. This could be a
 service, like https://github.com[GitHub], https://gitlab.com[GitLab], or
 https://sr.ht[SourceHut] or more simply another server that the team has
-access to. The `git remote add origin` command adds a remote URL that is the
-default target for actions. You can then `git push` your changes to the remote
-or `git pull` to get the latest changes from the remote. The `git clone`
-command automatically sets the origin.
+access to. The `git remote add origin` command adds a remote URL as the default
+target for actions. You can then `git push` your changes to the remote or
+`git pull` to get the latest changes from the remote. The `git clone` command
+automatically sets the origin.
 
 == Example
 
@@ -144,14 +163,14 @@ To ssh://192.168.10.1/home/git/example.git
 <2> Inside the directory, she uses `git init` to initialize it
 <3> https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-content?view=powershell-7[
 She adds some content so she has something to commit]
-<4> The form `git add .` means _stage all files in this directory_. It is the
-most common invocation of `git add`.
+<4> The form `git add .` means _stage all files in this directory_. It is a
+common invocation of `git add`.
 <5> Jessica commits her work. The `-m` option allows her to add a commit
 message without needing to open an editor.
 <6> She adds a remote as the default. This _does_ require configuration on the
 remote server, a local machine in our case, but we will talk about how that is
 usually handled in the <<GitHub>> section.
-<7> Finally she pushes her changes to the remote so that Darsh can get them.  
+<7> She pushes her changes to the remote so that Darsh can get them.  
 
 .Darsh's Session (BASH)
 [source, console]
@@ -185,8 +204,7 @@ after the URL: `git clone ssh://git@192.168.10.1:/home/git/example.git
 new-directory`
 <3> Jess's content is there!
 <4> Darsh appends a message of his own.
-<5> Then he follows the standard add, commit, push work flow to sync his
-changes.
+<5> He follows the standard add, commit, push work flow to sync his changes.
 
 .Jessica's Second Session (PowerShell)
 [source, console]
@@ -207,7 +225,7 @@ Hello Jess!
 ----
 <1> When Jess goes to check on Darsh's work, it isn't there! Why?
 <2> Because she hasn't pulled from the remote yet.
-<3> Once she does, she can see Darsh's addition
+<3> Once she does, she can see Darsh's work.
 
 This scenario begs the question, "What would happen if Jess didn't pull Darsh's
 work and kept working on her local, unsynced copy?" Assuming they were both

@@ -1,6 +1,6 @@
 = Messaging
 
-image::messaging.png[width=25%, align=center]
+image::messaging.png[width=15%, align=center]
 
 == Purpose
 

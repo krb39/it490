@@ -1,5 +1,7 @@
 extends: default
-#page:
-#    background-color: #ff0000
+example:
+  background-color: #fefece
+image:
+  align: center
 footer:
   padding: [0,0,15,0]

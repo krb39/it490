@@ -1,7 +1,7 @@
 = Messaging in Kubernetes
 :sourcedir: example-final
 
-image::messaging.png[align=center, width=25%]
+image::messaging.png[align=center, width=15%]
 
 == Introduction
 

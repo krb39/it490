@@ -1,14 +1,27 @@
 = Preface
 
 The goal of this text is to provide a practical introduction to systems
-integration by designing and implementing an actual system. In accordance with
-the show-me-the-code attitude of the open source software movement, all of the
-code for the text and examples are available at
-https://github.com/rxt1077/it490. The philosophy of this text can probably best
-be summed up in a quote:
+integration by designing and implementing an actual system. Modern tools like
+Docker and Kubernetes are used to allow the reader to develop the system on
+their own machine, but still be able to deploy to an enterprise cluster by the
+end of the text. A computer that meets
+https://ist.njit.edu/fall-2020-recommended-specs/[these] minimum specifications
+will be required to complete the coursework.
+
+The process of systems integration can be thought of as building a jigsaw
+puzzle. Every puzzle is unique because the pieces and the way they fit together
+are different. It would be impossible to create a text that outlines
+step-by-step how to solve every puzzle. In the same way it is impossible to
+create a text that tells you how to integrate all types of systems. This text
+aims to provide the basic scaffolding to build a project with ample materials
+for further research. The readers is expected to use these resources as they
+tackle the issues within their own project.
+
+In accordance with the show-me-the-code attitude of the open source software
+movement, all of the code for the text and examples is available at
+https://github.com/rxt1077/it490.
+
+The philosophy of this text can probably best be summed up in a quote:
 
 [quote, Dale Carnegie]
 Knowledge isn't power until it's applied.
-
-A computer that meets https://ist.njit.edu/fall-2020-recommended-specs/[these]
-minimum specifications will be required to complete the coursework.

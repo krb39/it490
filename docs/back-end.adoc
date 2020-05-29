@@ -1,4 +1,6 @@
 = Back End
+:sourceroot: ..
+:sourcedir: back-end-demo
 
 image::back-end.png[align=center, width=25%]
 
@@ -12,53 +14,109 @@ web server. Everything can basically be done with a single script.
 == Example
 
 For this example we will be implementing a script in JavaScript that reads and
-replies to messages via *Messaging*, reads and writes from *Database*, and
-performs some demo web scraping. JavaScript is being used because our previous
-*Front End* example used PHP. One of the benefits of having a *Messaging*
-component is that we can allow developers to use different languages. We will be
-basing this code off of the
+replies to messages via *Messaging*, reads and writes from / to *Database*, and
+performs some web scraping. JavaScript is being used in contrast to our previous
+*Front End* coding in PHP to highlight one of the benefits of having a
+*Messaging* component: we can use different programming languages but still
+share a common interface. This code is based off of the
 https://www.rabbitmq.com/tutorials/tutorial-six-javascript.html[RabbitMQ
 Javascript RPC Tutorial].
 
-[source, console]
+As stated in <<Front End>>, one of the most important parts of being able to
+work with a programming language is knowing its how it handles package
+mangement. For node (server-side Javascript), that's the https://www.npmjs.com/[
+Node Package Manager (NPM)].  NPM utilizes a `package.json` file that tells it
+what dependencies to install and how to run the application:
+
+.{sourcedir}/app/package.json
+[source, json]
 ----
-PS C:\Users\rxt1077\it490\back-end-demo> docker run -it --rm -v "$(pwd)/app:/home/node/app" -w /home/node/app node npm init
-This utility will walk you through creating a package.json file.
-It only covers the most common items, and tries to guess sensible defaults.
-
-See `npm help json` for definitive documentation on these fields
-and exactly what they do.
-
-Use `npm install <pkg>` afterwards to install a package and
-save it as a dependency in the package.json file.
-
-Press ^C at any time to quit.
-package name: (app) back-end
-version: (1.0.0)
-description: Example back end for Systems Integration
-entry point: (index.js)
-test command:
-git repository:
-keywords:
-author: Ryan Tolboom
-license: (ISC)
-About to write to /home/node/app/package.json:
-
-{
-  "name": "back-end",
-  "version": "1.0.0",
-  "description": "Example back end for Systems Integration",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Ryan Tolboom",
-  "license": "ISC"
-}
-
-
-Is this OK? (yes)
+include::{sourceroot}/{sourcedir}/app/package.json[]
 ----
+
+As you can see, we will be using amqplib to connect to *Messaging* and mariadb
+to connect to *Database*.
+
+It will also make our lives simpler if we create a custom Docker image that uses
+npm to install the packages we need _before_ our app is run. We will base our's
+off of the https://hub.docker.com/_/node/[official node image]:
+
+.{sourcedir}/Dockerfile
+[source, dockerfile]
+----
+include::{sourceroot}/{sourcedir}/Dockerfile[]
+----
+
+NOTE: If *Back End* comes up before *Messaging* it will be unable to connect.
+This can be handled in the code for the component,
+https://docs.docker.com/compose/startup-order/[via a separate script], or
+simply by delaying the start of the component as shown on the CMD line above.
+
+Finally, we will need a `docker-compose.yml` that brings up *Messaging*,
+*Database*, *Front End*, _and_ *Back End*, since *Back End* is the only
+component that actually uses all three. You'll notice we try not to repeat
+ourselves by using images that have already been created in the other demos. As
+we did <<Front End, previously>>, we will be using environment variables to
+store some configuration data. These variables can be found in `.env`.
+
+.{sourcedir}/.env
+[source, shell]
+----
+include::{sourceroot}/{sourcedir}/.env[]
+----
+
+.{sourcedir}/docker-compose.yml
+[source, yml]
+----
+include::{sourceroot}/{sourcedir}/docker-compose.yml[]
+----
+
+NOTE: We use different (albiet bad) passwords for different services. Even
+though no one outside our Docker network should be able to access these
+services this is still a good idea.
+
+Our *Back End* script is a basic dispatcher that listens for commands in the
+*Messaging* `requests` queue, performs actions, and responds via each message's
+exclusive reply-to queue:
+
+.{sourcedir}/app/server.js
+[source, js]
+----
+include::{sourceroot}/{sourcedir}/app/server.js[]
+----
+
+WARNING: You almost certainly want to cache replies that are network or
+computationally intensive. The `SCRAPE` action is a good example of something
+that could benefit from caching. Do you really need to reach out to NJ.com to
+get the daily events _every_ time? Perhaps they're only updated every 24 hours.
+
+WARNING: Web scraping is notoriously difficult to keep up with. What happens if
+NJ.com changes their endpoints? What happens if they detect excessive traffic
+and decide to throttle your connections?
+
+As you can see the three actions it current supports are:
+
+[horizontal]
+ECHO:: reply with whatever data was sent
+CARS:: get list of of cars from our database
+SCRAPE:: get a list of events from NJ.com for a date
+
+While these actions are not particularly useful as currently configured, they
+do demonstrate the tasks that *Back End* needs to perform: reading / writing
+from *Messaging*, reading / writing from *Database*, and obtaining additional
+information from websites.
+
+You should be able to run `docker-compose up` in the `{sourcedir}` and test
+actions with the http://localhost:8080/action.html form. Try the following:
+
+* Action: `ECHO` Data: `This is a test`
+* Action: `CARS` Data: ``
+* Action: `SCRAPE` Data: `2020-05-18`
+
+Take note of the date format, it is the
+https://en.wikipedia.org/wiki/ISO_8601[ISO 8601] standard, very common in web
+development. Also note that JSON is used as the exchange format, which can be
+converted easily into native objects on *Front End* and *Back End*.
 
 == Resources
 
@@ -67,11 +125,21 @@ Is this OK? (yes)
   docker-node/README - How to use this image]
 * https://www.sitepoint.com/beginners-guide-node-package-manager/[Beginners
 Guide to Node Package Manager]
-
-=== RabitMQ Messaging Libraries
-
-=== Web Scraping
-
-https://www.nj.com/web/gateway.php?affil=nj&site=default&hidemap=1&tpl=v3_regular_event_grid&date=2020-05-16
+* https://github.com/mariadb-corporation/mariadb-connector-nodejs/blob/master/documentation/callback-api.md[
+MariaDB Callback API Documentation]
+* https://nodejs.dev/making-http-requests-with-nodejs[Making HTTP Requests with
+Node.js]
 
 == Questions
+
+[qanda]
+What is the common package manager for Node.js?::
+    {empty}
+What three things does *Back End* have to do?::
+    {empty}
+How do *Back End* and *Front End* communicate?::
+    {empty}
+What is an exchange format and why is it important?::
+    {empty}
+In this example, *Back End* is running in an event loop. What main event does it respond to?::
+    {empty}

@@ -2,28 +2,32 @@ version: "3"
 
 services:
   front-end:
-    build: ../front-end-demo/web
+    build: ../front-end-demo
     ports:
       - "8080:80"
     environment:
-      - RABBITMQ_USER=${USER}
-      - RABBITMQ_PASS=${PASS}
-    # uncomment for development
-    # volumes:
-    #  - "./web/app:/var/www/html"
+      - MSG_USER=${MSG_USER}
+      - MSG_PASS=${MSG_PASS}
   messaging:
-    image: rabbitmq
+    image: rabbitmq:3.8.3
     environment:
-      - RABBITMQ_DEFAULT_USER=${USER}
-      - RABBITMQ_DEFAULT_PASS=${PASS}
+      - RABBITMQ_DEFAULT_USER=${MSG_USER}
+      - RABBITMQ_DEFAULT_PASS=${MSG_PASS}
+  db:
+    image: mariadb:10.5.3
+    environment:
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+      - MYSQL_DATABASE=${DB_DATABASE}
+    volumes:
+      - "../db-demo:/docker-entrypoint-initdb.d"
   back-end:
-    image: node:12.16.3
-    user: "node"
-    working_dir: /home/node/app
+    build: .
     environment:
       - NODE_ENV=development
-      - RABBITMQ_USER=${USER}
-      - RABBITMQ_PASS=${PASS}
-    volumes:
-      - ./app:/home/node/app
-    command: "sh -c 'sleep 10; npm start'"
+      - MSG_USER=${MSG_USER}
+      - MSG_PASS=${MSG_PASS}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_DATABASE=${DB_DATABASE}

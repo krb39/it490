@@ -1,7 +1,0 @@
-
-=== Requirements from DB
-
-You database must be either PostgreSQL, MariaDB, or MySQL. You can NOT have multiple.
-You data must be stored on a Docker volume.
-Your DBMS must have a user named ‘test’ with the password ‘test’ that has full permissions to a database named ‘test’. They should be able to connect via the Docker network. This should be set up as part of the database container.
-Your back end must use its own user / password / database to connect. The front end can NOT access this database directly.

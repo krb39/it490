@@ -1,0 +1,49 @@
+version: '3'
+services:
+    # tag::messaging[]
+    messaging:
+        image: 'rabbitmq:3-management'
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+        ports:
+            - 15672:15672
+    # end::messaging[]
+    # tag::adminer[]
+    adminer:
+        image: 'adminer'
+        ports:
+            - 8080:8080
+    # end::adminer[]
+    # tag::db[]
+    db:
+        build: ./db
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        volumes:
+            - data-volume:/var/lib/postgresql/data
+    # end::db[]
+    # tag::front_end[]
+    front_end:
+        build: ./front_end
+        ports:
+            - 5000:5000
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            FLASK_ENV: development
+            FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+        volumes:
+            - "./front_end:/app"
+    # end::front_end[]
+    # tag::back_end[]
+    back_end:
+        build: ./back_end
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # end::back_end[]
+volumes:
+    data-volume:

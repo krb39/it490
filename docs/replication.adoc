@@ -11,7 +11,7 @@ we do not have to introduce a new tool as well.
 == Background
 
 .Basic Replication
-[plantuml, "replication", svg]
+[plantuml, replication, svg]
 ....
 @startuml
 
@@ -28,7 +28,7 @@ component of our system. We can do this in Docker Compose by declaring more
 than one service:
 
 .{sourcedir}/docker-compose.yml (excerpted)
-[source, YAML]
+[source, yml]
 ----
 include::{sourceroot}/{sourcedir}/docker-compose.yml[tags=db_services]
 ----
@@ -163,7 +163,7 @@ A basic Dockerfile that builds from this image and adds some extra needed
 utilities will be used:
 
 .{sourcedir}/db/Dockerfile
-[source, Dockerfile]
+[source, docker]
 ----
 include::{sourceroot}/{sourcedir}/db/Dockerfile[]
 ----
@@ -246,7 +246,7 @@ procedure.
 Let's take a look at the relevant log messages of db1 and db2 when we bring them
 both up with `docker-compose up`:
 
-[source, shell]
+[source, console]
 ----
 db1 - Looking for a primary node...
 db1 - db2:5432 - no response
@@ -350,7 +350,7 @@ captured.  Each command was run with about a minute pause between them:
 
 The relevant, simplified log messages and descriptions follow:
 
-[source, shell]
+[source, console]
 ----
 db2 - Looking for a primary node...
 db1 - Looking for a primary node...
@@ -367,7 +367,7 @@ db2 - Configuring a STANDBY instance...
 Both db1 and db2 are brought up at the same time. db1 ends up being
 the primary.
 
-[source, shell]
+[source, console]
 ----
 db2 - Looking for a primary node...
 db2 - db1:5432 - accepting connections
@@ -379,7 +379,7 @@ db2 - db1 is primary node
 
 db1 begins checking to make sure there is a primary node about every 30s.
 
-[source, shell]
+[source, console]
 ----
 db1 - LOG:  shutting down
 db2 - Looking for a primary node...
@@ -391,7 +391,7 @@ db2 - server promoted
 db1 is shut down. db2 performs its regularly scheduled check and self promotes
 because it cannot find a primary.
 
-[source, shell]
+[source, console]
 ----
 db1 - Looking for a primary node...
 db1 - db2:5432 - accepting connections

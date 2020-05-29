@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  web:
-    build: ./web
+  front-end:
+    build: .
     ports:
       - "8080:80"
     environment:
@@ -10,7 +10,7 @@ services:
       - RABBITMQ_PASS=${PASS}
     # uncomment for development
     volumes:
-      - "./web/app:/var/www/html"
+      - "./app:/var/www/html"
   messaging:
     image: rabbitmq
     environment:

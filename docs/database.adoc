@@ -2,7 +2,7 @@
 :sourceroot: ..
 :sourcedir: db-demo
 
-image::database.png[align=center, width=25%]
+image::database.png[align=center, width=15%]
 
 == Introduction
 

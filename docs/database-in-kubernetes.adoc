@@ -1,6 +1,8 @@
 = Database in Kubernetes
 :sourcedir: example-final
 
+image::database.png[align=center, width=15%]
+
 == Introduction
 
 In this example we implement a primary / standby replication setup for
