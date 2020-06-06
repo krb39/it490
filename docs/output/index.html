@@ -448,7 +448,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_colophon">Colophon</a></li>
 <li><a href="#_legal">Legal</a></li>
 <li><a href="#_preface">Preface</a></li>
 <li><a href="#_acknowledgements">Acknowledgements</a></li>
@@ -628,14 +627,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_colophon">Colophon</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Test test test</p>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_legal">Legal</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -646,6 +637,12 @@ Attribution-ShareAlike 4.0 International License.</a></p>
 <div class="paragraph">
 <p><span class="image"><img src="images/cc.png" alt="Creative Commons License"></span></p>
 </div>
+<div class="paragraph">
+<p>All product names, logos, and brands are property of their respective owners.
+All company, product and service names used in this text are for
+identification purposes only. Use of these names, logos, and brands does not
+imply endorsement.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -653,11 +650,30 @@ Attribution-ShareAlike 4.0 International License.</a></p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The goal of this text is to provide a practical introduction to systems
-integration by designing and implementing an actual system. In accordance with
-the show-me-the-code attitude of the open source software movement, all of the
-code for the text and examples are available at
-<a href="https://github.com/rxt1077/it490" class="bare">https://github.com/rxt1077/it490</a>. The philosophy of this text can probably best
-be summed up in a quote:</p>
+integration by designing and implementing an actual system. Modern tools like
+Docker and Kubernetes are used to allow the reader to develop the system on
+their own machine, but still be able to deploy to an enterprise cluster by the
+end of the text. A computer that meets
+<a href="https://ist.njit.edu/fall-2020-recommended-specs/">these</a> minimum specifications
+will be required to complete the coursework.</p>
+</div>
+<div class="paragraph">
+<p>The process of systems integration can be thought of as building a jigsaw
+puzzle. Every puzzle is unique because the pieces and the way they fit together
+are different. It would be impossible to create a text that outlines
+step-by-step how to solve every puzzle. In the same way it is impossible to
+create a text that tells you how to integrate all types of systems. This text
+aims to provide the basic scaffolding to build a project with ample materials
+for further research. The readers is expected to use these resources as they
+tackle the issues within their own project.</p>
+</div>
+<div class="paragraph">
+<p>In accordance with the show-me-the-code attitude of the open source software
+movement, all of the code for the text and examples is available at
+<a href="https://github.com/rxt1077/it490" class="bare">https://github.com/rxt1077/it490</a>.</p>
+</div>
+<div class="paragraph">
+<p>The philosophy of this text can probably best be summed up in a quote:</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -666,10 +682,6 @@ Knowledge isn&#8217;t power until it&#8217;s applied.
 <div class="attribution">
 &#8212; Dale Carnegie
 </div>
-</div>
-<div class="paragraph">
-<p>A computer that meets <a href="https://ist.njit.edu/fall-2020-recommended-specs/">these</a>
-minimum specifications will be required to complete the coursework.</p>
 </div>
 </div>
 </div>
@@ -680,6 +692,21 @@ minimum specifications will be required to complete the coursework.</p>
 <p>The author would like to acknowledge the hard work of DJ Kehoe, whose devotion
 to the success of his students led him to create a rigorous, project-based
 Systems Integration course. Without his work, none of this would be possible.</p>
+</div>
+<div class="paragraph">
+<p>This book also would not have been possible without
+<a href="https://asciidoctor.org">Asciidoctor</a> an open source text processor and
+publishing toolchain. Thank you to Dan Allen, Sarah White, Ryan Waldron,
+Nick Hengeveld and the Asciidoctor project contributers for making this
+publishing tool free and open.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://plantuml.com">PlantUML</a> was used for diagram creation and the author
+would like to thank Arnaud Roques for creating such a versatile, open source
+diagram tool.</p>
+</div>
+<div class="paragraph">
+<p>The cover photo was taken by Captain Albert E. Theberge, NOAA Corps (ret.)</p>
 </div>
 </div>
 </div>
@@ -698,7 +725,7 @@ are using this text as part of a course, all parts of this section are subject
 to change / augmentation by your instructor. If you are using this text as an
 independent, self-study tool you should still be able to complete all of the
 milestones and create the deliverables although it may take you longer. What
-follows is the typical assignment schedule for developing the project:</p>
+follows is the typical assignment structure for developing the project:</p>
 </div>
 <div class="sect2">
 <h3 id="_project_proposal">Project Proposal</h3>
@@ -708,14 +735,15 @@ between the instructor and the group. You can think of the proposal as a
 contract showing what is required to achieve a good grade on the project. The
 instructor may specify additional deliverables depending on what your group has
 chosen to work on, or they may walk-back your proposal if they believe it is
-too difficult to achieve in the time frame.</p>
+too difficult.</p>
 </div>
 <div class="sect3">
 <h4 id="_developing_a_proposal">Developing a Proposal</h4>
 <div class="paragraph">
-<p>Think of a data source that you can use to create a marketable software as a
-service (SaaS) product. This data source needs to be freely available for the
-purposes of this project. Use the following questions to guide your proposal:</p>
+<p>A data-first approach often helps in coming up with a project. Think of a data
+source that could be used to create a marketable software as a service (SaaS)
+product. For the purposes of this project, the data source needs to be freely
+available. Use the following questions to guide your proposal:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -741,13 +769,14 @@ purposes of this project. Use the following questions to guide your proposal:</p
 <div class="content">
 <div class="paragraph">
 <p>My group will design a web app that allows people in New Jersey to create
-itineraries for upcoming events based on what the weather is. We will use data
-from <a href="https://openweathermaps.org">OpenWeatherMaps.org</a> as well
+itineraries for upcoming events based on the current weather forecast. We will
+use data from <a href="https://openweathermaps.org">OpenWeatherMaps.org</a> as well
 <a href="https://www.nj.com">NJ.com</a> to plan separate events based on how filled people
-want their schedule and what the weather is going to be like. Our target
+want their schedule and what the weather is predicted to be. Our target
 demographic is busy professionals who are comfortable using technology. Since
 they already use services like Google Calendar for keeping track of their
-events, why not try using a service that will suggest upcoming events?</p>
+events, why not try using a service that will suggest upcoming events? The time
+they save planning would easily be worth the cost of the service.</p>
 </div>
 </div>
 </div>
@@ -756,36 +785,35 @@ events, why not try using a service that will suggest upcoming events?</p>
 <div class="sect2">
 <h3 id="_milestones">Milestones</h3>
 <div class="paragraph">
-<p>The goal of the milestones are to encourage group members to keep pace with the
-project. This is not the kind of project that can be completed in the last week
-of class. All milestones should be entered in GitHub and linked with Issues
-assigned to specific members of the group. Individual contributions of group
-members will be assessed through GitHub activity so be sure you are actively
-participating.</p>
+<p>Milestones exist to encourage groups to keep pace with the project. This is not
+the kind of project that can be completed in the last week of class. All
+milestones should be entered in GitHub and linked with Issues assigned to
+specific members of the group. Individual contributions of group members will be
+assessed through GitHub activity so be sure you are actively participating.</p>
 </div>
 <div class="sect3">
 <h4 id="_one">One</h4>
 <div class="ulist">
 <ul>
 <li>
-<p>Form a group of four members.</p>
+<p>The group has four members.</p>
 </li>
 <li>
-<p>Each member of the group should read the <a href="#git">Git</a>, <a href="#_github">GitHub</a>, <a href="#_yaml">YAML</a>, and
+<p>Each member of the group has read the <a href="#git">Git</a>, <a href="#_github">GitHub</a>, <a href="#_yaml">YAML</a>, and
 <a href="#_docker">Docker</a> chapters.</p>
 </li>
 <li>
-<p>Each member of the group should have Docker up and running on their machine.</p>
+<p>Each member of the group has Docker up and running on their machine.</p>
 </li>
 <li>
-<p>Each member of the group should have a GitHub login that utilizes their school
-email.</p>
+<p>Each member of the group has a GitHub login that utilizes their school email.</p>
 </li>
 <li>
-<p>As a group, design and submit a <a href="#_project_proposal">Project Proposal</a>.</p>
+<p>The group has designed and submitted a <a href="#_project_proposal">Project Proposal</a>.</p>
 </li>
 <li>
-<p>As a group, create a GitHub project with all of the members as collaborators.</p>
+<p>The group has created a GitHub repository with all of the members as
+collaborators.</p>
 </li>
 </ul>
 </div>
@@ -795,24 +823,24 @@ email.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Each member of the group should read the <a href="#_messaging">Messaging</a>, <a href="#_database">Database</a>,
+<p>Each member of the group has read the <a href="#_messaging">Messaging</a>, <a href="#_database">Database</a>,
 <a href="#_front_end">Front End</a>, and <a href="#_back_end">Back End</a> chapters.</p>
 </li>
 <li>
-<p>As a group, create a <code>docker-compose.yml</code> file in your group repository that
+<p>The group has created a <code>docker-compose.yml</code> file in the group repository that
 brings up a messaging service, database service, front end service, and back
 end service.</p>
 </li>
 <li>
-<p><strong>Front End</strong> should at least have at a "Hello World" page available a port
-accessible from the local host.</p>
+<p><strong>Front End</strong> has a "Hello World" page available on a port accessible from the
+local host.</p>
 </li>
 <li>
-<p><strong>Back End</strong> should be able to read from and write to a queue on <strong>Messaging</strong>.</p>
+<p><strong>Back End</strong> can read from and write to a queue on <strong>Messaging</strong>.</p>
 </li>
 <li>
-<p>The completion of this milestone should be documented through the use of
-Issues in your GitHub project.</p>
+<p>The completion of this milestone is documented through the use of Issues in
+the group GitHub repository.</p>
 </li>
 </ul>
 </div>
@@ -822,25 +850,25 @@ Issues in your GitHub project.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Back End</strong> should be able to read and write from <strong>Database</strong>.</p>
+<p><strong>Back End</strong> can read and write from <strong>Database</strong>.</p>
 </li>
 <li>
-<p><strong>Front End</strong> should have a register new user page and a login page. They do not
-have to be functional, but the HTML development should be done.</p>
+<p><strong>Front End</strong> has a register new user page and a login page. They do not have to
+be functional, but the HTML for the page is being served.</p>
 </li>
 <li>
-<p><strong>Database</strong> should at least have a <code>user</code> table on a persistent volume that can
-be accessed by <strong>Back End</strong>.</p>
+<p><strong>Database</strong> has a <code>user</code> table in a database on a persistent volume and the
+database can be accessed by <strong>Back End</strong>.</p>
 </li>
 <li>
-<p>Documentation should be developed that describes how to use the RabbitMQ
-management interface to check to see if queues are being created. The
-documentation should take the form of a README file in any GitHub supported
-format within the messaging directory.</p>
+<p>Documentation is developed that describes how to use the RabbitMQ management
+interface to check to see if queues are being created. The documentation
+is in the form of a <code>README</code> file in any GitHub supported format within the
+messaging directory.</p>
 </li>
 <li>
-<p>The completion of this milestone should be documented through the use of
-Issues in your GitHub project.</p>
+<p>The completion of this milestone is documented through the use of Issues in
+the group GitHub repository.</p>
 </li>
 </ul>
 </div>
@@ -850,21 +878,20 @@ Issues in your GitHub project.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Each member of the group should read the <a href="#_replication">Replication</a> and <a href="#_kubernetes">Kubernetes</a>
+<p>Each member of the group has read the <a href="#_replication">Replication</a> and <a href="#_kubernetes">Kubernetes</a>
 chapters.</p>
 </li>
 <li>
-<p>Each member of the group needs to have minikube up and running on their
-machine.</p>
+<p>Each member of the group has minikube up and running on their machine.</p>
 </li>
 <li>
-<p><strong>Database</strong> needs to move from a single instance to a replicated, high
+<p><strong>Database</strong> has moved from a single instance to a replicated, high
 availability, load balancing cluster. For now, the instances can be statically
 configured inside a <code>docker-compose.yml</code> file.</p>
 </li>
 <li>
-<p>The completion of this milestone should be documented through the use of
-Issues in your GitHub project.</p>
+<p>The completion of this milestone is documented through the use of Issues in
+the group GitHub repository.</p>
 </li>
 </ul>
 </div>
@@ -874,22 +901,22 @@ Issues in your GitHub project.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Each member of the group should read the <a href="#_database_in_kubernetes">Database in Kubernetes</a> and
+<p>Each member of the group has read the <a href="#_database_in_kubernetes">Database in Kubernetes</a> and
 <a href="#_messaging_in_kubernetes">Messaging in Kubernetes</a> chapters.</p>
 </li>
 <li>
-<p>Migrate <strong>Database</strong> to Kubernetes using the minikube environment. Put all of
-your Kubernetes objects in one file named &lt;component&gt;-k8s.yml in your
-repository (where &lt;component&gt; is your component name.</p>
+<p><strong>Database</strong> has been migrated to Kubernetes using the minikube environment. All
+of the Kubernetes objects for <strong>Database</strong> are in one file named db-k8s.yml in
+the group GitHub repository.</p>
 </li>
 <li>
-<p>Migrate <strong>Messaging</strong> to Kubernetes using the minikube environment. Put all of
-your Kubernetes objects in one file named &lt;component&gt;-k8s.yml in your
-repository (where &lt;component&gt; is your component name.</p>
+<p><strong>Messaging</strong> has been migrated to Kubernetes using the minikube environment. All
+of the Kubernetes objects are in one file named messaging-k8s.yml in the group
+GitHub repository.</p>
 </li>
 <li>
-<p>The completion of this milestone should be documented through the use of
-Issues in your GitHub project.</p>
+<p>The completion of this milestone is documented through the use of Issues in
+the group GitHub repository.</p>
 </li>
 </ul>
 </div>
@@ -899,22 +926,22 @@ Issues in your GitHub project.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Each member of the group should read the <a href="#_front_end_in_kubernetes">Front End in Kubernetes</a> and
+<p>Each member of the group has read the <a href="#_front_end_in_kubernetes">Front End in Kubernetes</a> and
 <a href="#_back_end_in_kubernetes">Back End in Kubernetes</a> chapters.</p>
 </li>
 <li>
-<p>Migrate <strong>Front End</strong> to Kubernetes using the minikube environment. Put all of
-your Kubernetes objects in one file named &lt;component&gt;-k8s.yml in your
-repository (where &lt;component&gt; is your component name.</p>
+<p><strong>Front End</strong> has been migrated to Kubernetes using the minikube environment.
+All of the Kubernetes objects are in one file in the named front-end-k8s.yml
+in the group GitHub repository.</p>
 </li>
 <li>
-<p>Migrate <strong>Back End</strong> to Kubernetes using the minikube environment. Put all of
-your Kubernetes objects in one file named &lt;component&gt;-k8s.yml in your
-repository (where &lt;component&gt; is your component name.</p>
+<p><strong>Back End</strong> has been migrated to Kubernetes using the minikube environment. All
+of the Kubernetes objects are in one file named back-end-k8s.yml in the group
+GitHub repository.</p>
 </li>
 <li>
-<p>The completion of this milestone should be documented through the use of
-Issues in your GitHub project.</p>
+<p>The completion of this milestone is documented through the use of Issues in
+the group GitHub repository.</p>
 </li>
 </ul>
 </div>
@@ -924,12 +951,11 @@ Issues in your GitHub project.</p>
 <h3 id="_deliverables">Deliverables</h3>
 <div class="paragraph">
 <p>Deliverables are larger assessments designed to show a running system. Given
-deployment-centric nature of the project, it should be easy to bring up the
-deliverables on any system to test them. Groups are encouraged to test running
-their system on new a different machines to make sure that everything will go
-well when it is time to assess their project. Groups are also encouraged and
-<em>expected</em> to keep the deliverables in mind over the course of the entire
-project.</p>
+the containerized nature of the project, it should be easy to bring up the
+deliverables on any system to test them. Groups are encouraged to test their
+system on different machines to make sure that everything will go well when it
+is time to assess their project. Groups are also encouraged and <em>expected</em> to
+keep the deliverables in mind over the course of the entire project.</p>
 </div>
 <div class="sect3">
 <h4 id="_midterm">Midterm</h4>
@@ -944,21 +970,22 @@ communicates with <strong>Messaging</strong> via a messaging library.</p>
 and <strong>Back End</strong>.</p>
 </li>
 <li>
-<p><strong>Database</strong> (PostgreSQL, MariaDB, or MySQL) is used by <strong>Back End</strong> uses for the
+<p><strong>Database</strong> (PostgreSQL, MariaDB, or MySQL) is used by <strong>Back End</strong> for the
 storage of persistent information. All database files are stored in a Docker
 volume.</p>
 </li>
 <li>
-<p><strong>Back End</strong> container that gathers information from your data sources, stores
-information on <strong>Database</strong>, and interacts with <strong>Messaging</strong>.</p>
+<p><strong>Back End</strong> gathers information from data sources, stores information on
+<strong>Database</strong>, and interacts with <strong>Messaging</strong>.</p>
 </li>
 <li>
-<p>These four services will be working with each other to provide a registration
-and authentication system for your users.</p>
+<p>These four services are working with each other to provide a registration and
+authentication system for users.</p>
 </li>
 <li>
-<p>The project should be fully testable on any machine running Docker by simply
-cloning the git repository and running <code>docker up</code> in the root of the project.</p>
+<p>The project is fully testable on any machine running Docker by cloning the
+group git repository and running <code>docker-compose up</code> in the root of the
+project.</p>
 </li>
 </ul>
 </div>
@@ -968,18 +995,18 @@ cloning the git repository and running <code>docker up</code> in the root of the
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Front End</strong>, <strong>Database</strong>, <strong>Messaging</strong>, and <strong>Back End</strong> should all be running in
-pods on the minikube Kubernetes Cluster. Each should have three replicas.</p>
+<p><strong>Front End</strong>, <strong>Database</strong>, <strong>Messaging</strong>, and <strong>Back End</strong> are all running in pods
+on a minikube Kubernetes Cluster. Each has three replicas.</p>
 </li>
 <li>
-<p><strong>Front End</strong>, <strong>Database</strong>, <strong>Messaging</strong>, and <strong>Back End</strong> should all be able to
-scale horizontally and recover from the failure of pods.</p>
+<p><strong>Front End</strong>, <strong>Database</strong>, <strong>Messaging</strong>, and <strong>Back End</strong> are all able to scale
+horizontally and recover from the failure of pods.</p>
 </li>
 <li>
-<p>The project should be fully testable on any machine running minikube by simply
-cloning the git repository and running, building the custom images locally
-(with an environment configured for the Docker daemon running <em>within</em>
-minikube), and running <code>kubectl apply -f .</code> in the root of the project.</p>
+<p>The project is fully testable on any machine running minikube by cloning the
+group git repository, building the custom images locally (with an environment
+configured for the Docker daemon running <em>within</em> minikube), and running
+<code>kubectl apply -f .</code> in the root of the project.</p>
 </li>
 </ul>
 </div>
@@ -1003,7 +1030,7 @@ Building off of this premise, teams can use version control to cooperatively
 change a group of files and revert to a previous state if needed.</p>
 </div>
 <div class="paragraph">
-<p>The benefits of a version control system can be more readily understood if you
+<p>The benefits of a version control system can be more readily understood if we
 consider a few examples:</p>
 </div>
 <div class="exampleblock">
@@ -1021,32 +1048,33 @@ What do you do now?</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If you were working with a version control system, you could easily roll-back
-your changes and see what went wrong.</p>
+<p>If you were working with a version control system, you could easily see what
+you changed and even roll-back your changes.</p>
 </div>
 <div class="exampleblock">
 <div class="title">Example 3. Working with a Team</div>
 <div class="content">
 <div class="paragraph">
-<p>You are working working with a team of people to implement a complex system
-that utilizes several files in several different directories. How do you make
-sure everyone has the most up-to-date version of the files? What happens if two
+<p>You are working working with a team of people to build a complex system that
+utilizes several files in several different directories. How do you make sure
+everyone has the most up-to-date version of the files? What happens if two
 people work on the same file at the same time?</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
 <p>In a version control system, you could set up a centralized repository for the
-files and have everyone pull from one location. In the case of two people
-working on the same thing at the same time, a version control system could
-handle merging their changes.</p>
+files and have everyone pull from one location.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> In the case of two
+people working on the same thing at the same time, a version control system
+could help with merging their changes by examining the lines that where changed,
+finding conflicts, and suggesting resolutions.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_installation">1.2. Installation</h3>
 <div class="paragraph">
 <p>Depending on the OS you are using, there are a few different ways to install
-git on your machine:</p>
+git.</p>
 </div>
 <div class="dlist">
 <dl>
@@ -1056,8 +1084,8 @@ git on your machine:</p>
 <ul>
 <li>
 <p><a href="https://gitforwindows.org/">git for windows</a>: Installs git, git BASH, and a
-GUI. The git command can then be run from PowerShell, CMD, or the BASH shell
-(which it installs).</p>
+GUI. The git command is put in your path and can be run from PowerShell, CMD, or
+the BASH shell (which it installs).</p>
 </li>
 </ul>
 </div>
@@ -1101,25 +1129,24 @@ Linux</a> with the command <code>apt-get install git</code>.</p>
 <div class="paragraph">
 <p>Any directory can be made into a git repository by running the <code>git init</code>
 command. This will add the <code>.git</code> directory which stores information about the
-state of the repository and certain user variables.</p>
+state of the repository and configuration.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_cloning_a_repository">1.3.2. Cloning a Repository</h4>
 <div class="paragraph">
 <p>If you want to make a copy of an already existing repository, typically done
-when you <em>start</em> working on a project, the <code>git clone</code> command will make a copy
-of a repository using any supported protocol.</p>
+when you <em>start</em> working on a project, the <code>git clone</code> command will do that
+using any supported protocol.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_tracking_staging_files">1.3.3. Tracking / Staging Files</h4>
 <div class="paragraph">
-<p>You need to tell git which files you want to keep track of and when you want to
-stage them to be committed. These both use the same command <code>git add</code>. The
-first time you call <code>git add</code> it begins tracking the file and stages it for a
-commit. The second time you call <code>git add</code> it tells git that you want to commit
-any changes to that file.</p>
+<p>You need to tell git which files you want it to track and when you want to stage
+them to be committed. These both use the same command <code>git add</code>. The
+first time you use <code>git add</code> it begins tracking the file and stages it for a
+commit. The second time you use <code>git add</code> only stages that file for a commit.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1131,7 +1158,14 @@ commits must have a message, and git will use a default editor depending on
 your installation.
 <a href="https://help.github.com/en/github/using-git/associating-text-editors-with-git">
 This can be changed.</a> To complete the commit, add a message, save the file, and
-exit the editor.</p>
+exit the editor. If you don&#8217;t want to use an editor, the <code>-m</code> option allows you
+to specify a commit message on the command line.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/git-stage-commit.svg" alt="git stage commit" width="546" height="55">
+</div>
+<div class="title">Figure 1. Staging and Committing Changes</div>
 </div>
 </div>
 <div class="sect3">
@@ -1140,10 +1174,10 @@ exit the editor.</p>
 <p>Git repositories are often linked to a remote repository. This could be a
 service, like <a href="https://github.com">GitHub</a>, <a href="https://gitlab.com">GitLab</a>, or
 <a href="https://sr.ht">SourceHut</a> or more simply another server that the team has
-access to. The <code>git remote add origin</code> command adds a remote URL that is the
-default target for actions. You can then <code>git push</code> your changes to the remote
-or <code>git pull</code> to get the latest changes from the remote. The <code>git clone</code>
-command automatically sets the origin.</p>
+access to. The <code>git remote add origin</code> command adds a remote URL as the default
+target for actions. You can then <code>git push</code> your changes to the remote or
+<code>git pull</code> to get the latest changes from the remote. The <code>git clone</code> command
+automatically sets the origin.</p>
 </div>
 </div>
 </div>
@@ -1204,8 +1238,8 @@ She adds some content so she has something to commit</a></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>The form <code>git add .</code> means <em>stage all files in this directory</em>. It is the
-most common invocation of <code>git add</code>.</td>
+<td>The form <code>git add .</code> means <em>stage all files in this directory</em>. It is a
+common invocation of <code>git add</code>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
@@ -1220,7 +1254,7 @@ usually handled in the <a href="#_github">GitHub</a> section.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>Finally she pushes her changes to the remote so that Darsh can get them.</td>
+<td>She pushes her changes to the remote so that Darsh can get them.</td>
 </tr>
 </table>
 </div>
@@ -1273,8 +1307,7 @@ new-directory</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>Then he follows the standard add, commit, push work flow to sync his
-changes.</td>
+<td>He follows the standard add, commit, push work flow to sync his changes.</td>
 </tr>
 </table>
 </div>
@@ -1308,7 +1341,7 @@ Hello Jess!</span></code></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Once she does, she can see Darsh&#8217;s addition</td>
+<td>Once she does, she can see Darsh&#8217;s work.</td>
 </tr>
 </table>
 </div>
@@ -1382,12 +1415,12 @@ repositories. It features an extensive web interface and several project
 management features.</p>
 </div>
 <div class="paragraph">
-<p>GitHub has become a popular for open-source projects and is a
+<p>GitHub has become a popular service for open source projects and is a
 <a href="https://pydanny.blogspot.com/2011/08/github-is-my-resume.html">great way</a>
 to showcase your projects to prospective employers. It is free to sign up for
-GitHub and we will be using it for project management in this course. I suggest
-you sign up with your .edu email address and UCID as your username to keep
-things simple.</p>
+GitHub and we will be using it for project management. It is recommended that
+you sign up with your .edu email address. This way you will have an <em>academic</em>
+account to showcase your work.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1400,28 +1433,26 @@ things simple.</p>
 <li>
 <p>Create a local git repository as shown in the <a href="#git">previous section</a>.
 Choose a repository name that is simple. Avoid spaces or trailing dashes as
-Docker Compose may have trouble with them.</p>
+various tools may have trouble with them.</p>
 </li>
 <li>
 <p>Sign in to GitHub and navigate to <a href="https://github.com/new">Create a New
 Repository</a></p>
 </li>
 <li>
-<p>Put in the your repository name (make sure it matches your local repository
+<p>Put in the repository name (make sure it matches the local repository
 name) and a description.</p>
 </li>
 <li>
 <p>GitHub now offers unlimited private repositories with unlimited
 collaborators. This means you could complete your project in a private
-repository, just be sure to add your instructor as a collaborator. Later when
-you want to showcase your work, it may be a good idea to make this repository
-public.</p>
-</li>
-<li>
-<p>You can also work in a public repository and it can be good practice for
-learning to separate your secrets from your commits. You will still need to
-add group members as collaborators, but your instructor should be able to
-have ready-only access without any additional setup.</p>
+repository. If you choose to use a private repository, be sure to add your
+instructor as a collaborator. Later when you want to showcase your work you
+can make this repository public. You could also start with a public repository
+which can provide good practice for learning to keep secrets (passwords,
+API keys, etc.) out of your commits. In this case you will still need to add
+group members as collaborators, but your instructor should have read-only
+access without any additional setup.</p>
 </li>
 <li>
 <p>Once you click "Create Repository", instructions will be provided for setting
@@ -1443,20 +1474,21 @@ your group members as collaborators.</p>
 <div class="sect2">
 <h3 id="_issues">2.3. Issues</h3>
 <div class="paragraph">
-<p>GitHub has a built-in bug tracker called <em>Issues</em>. You can find it next to the
+<p>GitHub has a built-in bug tracker called <em>Issues</em>. It can be found next to the
 <em>Code</em> tab, under the repository name when viewing a repository. An issue is
 typically a bug that needs to be fixed or a feature that needs to be
-implemented. It can be assigned to a group member who can then close it when it
-is completed. It can also be linked to a milestone, which can be thought of as
-as group of things that need to be done to reach the next phase.</p>
+implemented. It can be assigned to a project collaborator and it can be closed
+when it is resolved. Issues can also be linked to a milestone, which can be
+thought of as as group of things that need to be done to reach a particular
+phase.</p>
 </div>
 <div class="paragraph">
 <p>We will be using the GitHub Issues to monitor individual contributions to a
-project and to see how well a team functions. Do not be afraid to create issues
-and use the discussion features inside of them. They help document your
-progress. You will also have milestones assigned as you progress through the
-text. You should create those milestones in GitHub and assign the goals
-accordingly.</p>
+project and to assess how well a team functions. Do not be afraid to create
+issues and use the discussion features inside of them. They help groups document
+their progress. Groups will also have milestones assigned as they progress
+through the text. Groups should create those milestones in GitHub and assign
+the goals to collaborators as issues.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1473,9 +1505,9 @@ instructor wants to contribute to your project.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/pr.svg" alt="pr" width="470" height="584">
+<img src="images/pr.svg" alt="pr" width="531" height="571">
 </div>
-<div class="title">Figure 1. Pull Request</div>
+<div class="title">Figure 2. Pull Request</div>
 </div>
 <div class="paragraph">
 <p>A contributer forks a project (makes their own personal copy), which is as easy
@@ -1493,12 +1525,12 @@ merge them with their repository.</p>
 <h3 id="_documentation">2.5. Documentation</h3>
 <div class="paragraph">
 <p>GitHub supports several styles of documentation, but the most common is
-<a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>. Files written in markdown and
+<a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>. Files written in Markdown and
 ending in the <code>.md</code> extension will be rendered and displayed when viewed in the
 GitHub web interface. If a file named <code>README.md</code> exists in a directory, it
 will be automatically displayed at the bottom of a directory listing. This
-makes it easy to build documentation right into your repository. Learn markdown
-and be sure to have a <code>README.md</code> in your repository.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+makes it easy to build documentation right into your repository. Learn Markdown
+and be sure to have a <code>README.md</code> in your repository.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
@@ -1506,7 +1538,7 @@ and be sure to have a <code>README.md</code> in your repository.<sup class="foot
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://guides.github.com/features/issues/">Mastering Issues</a></p>
+<p><a href="https://guides.github.com/features/issues">Mastering Issues</a></p>
 </li>
 <li>
 <p><a href="https://www.atlassian.com/git/tutorials/making-a-pull-request">Making a Pull Request</a></p>
@@ -1516,7 +1548,10 @@ and be sure to have a <code>README.md</code> in your repository.<sup class="foot
 About Pull Requests</a></p>
 </li>
 <li>
-<p><a href="https://www.markdownguide.org/">The Markdown Guide</a></p>
+<p><a href="https://www.markdownguide.org">The Markdown Guide</a></p>
+</li>
+<li>
+<p><a href="https://www.markdowntutorial.com">Markdown Tutorial</a></p>
 </li>
 </ul>
 </div>
@@ -1565,8 +1600,9 @@ About Pull Requests</a></p>
 <a href="https://en.wikipedia.org/wiki/Recursive_acronym#Early_computer-related_examples">
 informal, recursive acronyms</a>, YAML stands for YAML Ain&#8217;t Markup Language. It
 is designed to be a plain text way to represent complex objects. It is easier to
-read than JSON, but not as complex as XML. YAML uses indentation to specify scope,
-like Python, and therefore <em>spacing matters</em>.</p>
+read than JavaScript Object Notation (JSON), but not as complex as Extensible
+Markup Language (XML). YAML uses indentation to specify scope, like Python, and
+therefore <em>spacing matters</em>.</p>
 </div>
 <div class="paragraph">
 <p>The vast majority of what we will be creating is written in YAML so it pays to
@@ -1585,7 +1621,7 @@ engineers</a>.</p>
 </td>
 <td class="content">
 This section is parts of a YAML <em>stream</em>, not a YAML <em>document</em> because
-technically a single YAML file could have multiple Documents.
+technically a single file could have multiple <em>YAML documents</em>.
 </td>
 </tr>
 </table>
@@ -1637,6 +1673,19 @@ mappings with keywords <code>web</code> and <code>redis</code>.</td>
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+YAML strings can use single, <code>'</code>, or double, <code>"</code>, quotes. Double quotes
+support escape sequences: <code>\n</code>, <code>\t</code>, <code>\"</code>, etc.
+</td>
+</tr>
+</table>
+</div>
 <div class="listingblock">
 <div class="title">Sample Kubernetes YAML</div>
 <div class="content">
@@ -1669,7 +1718,7 @@ mappings with keywords <code>web</code> and <code>redis</code>.</td>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>YAML supports timestamp types.</td>
+<td>YAML supports <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO8601</a> date elements.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1678,6 +1727,20 @@ mapped to a string where the newlines are preserved but the leading spaces are
 removed. The string, with newlines shown as '\n', is
 'enemies=aliens\nlives=3\nenemies.cheat=true\n&#8230;&#8203;'. This is a common way of
 defining files or scripts within YAML.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Learn to use <code>|</code> and <code>|-</code> for multiline strings. <code>|-</code> will do the same
+thing as <code>|</code> (as explained above), but will not add the newlines (everything
+will be on one line).
+</td>
 </tr>
 </table>
 </div>
@@ -1697,11 +1760,11 @@ you should be able to do the following with your text editor:</p>
 </li>
 <li>
 <p>Adjust tab spacing. Typically you will see YAML files with two spaces of
-indentation for their blocks. This allows you to have many nested blocks and
-not have to worry about lines wrapping or scrolling to the right.</p>
+indentation for their blocks. This allows you to have many nested blocks
+without the lines becoming too wide.</p>
 </li>
 <li>
-<p>Increase / Decrease the indentation level of several lines at once. As you
+<p>Increase/Decrease the indentation level of several lines at once. As you
 make changes, you may have to change the indentation level of a block being
 able to do this quickly, without having to visit every line will save you
 time.</p>
@@ -1731,13 +1794,14 @@ may be subject of some debate. Popular editor choices:</p>
 <li>
 <p><strong><a href="https://www.vim.org/download.php">vim</a>/<a href="https://neovim.io/">neovim</a>/
 <a href="http://ex-vi.sourceforge.net/">vi</a></strong> - Some form of vi is almost always
-installed on any *NIX/BSD system. Knowing how to use it can be a major
-lifesaver. You can also find versions for Windows. Since most of your work will
-be in a terminal, having an editor that runs directly inside a terminal can be
-an advantage. All that being said,
+installed on any *NIX/BSD system. Knowing how to use it can be a lifesaver when
+remotely logged in to a machine. You can also find versions for Windows. Since
+most of your work will be in a terminal, having an editor that runs directly
+inside a terminal can be an advantage. That being said,
 <a href="https://twitter.com/iamdevloper/status/435555976687923200">
-the learning curve is steep</a>. If you are interested in learning vi, I&#8217;d suggest
-either vimtutor or <code>:Tutor</code> inside neovim.</p>
+the learning curve is steep</a>. If you are interested in learning vi, you may
+want to start with either vimtutor (packaged with vim) or <code>:Tutor</code> inside
+neovim.</p>
 </li>
 <li>
 <p><strong><a href="https://code.visualstudio.com/">Visual Studio Code</a></strong> - vscode is more akin to
@@ -1748,8 +1812,7 @@ checking out if that is the type of experience you are looking for.</p>
 <p><strong><a href="https://notepad-plus-plus.org/downloads/">Notepad&#43;&#43;</a></strong> -
 Notepad&#43;&#43; is a popular Windows GUI text editor. It starts quickly, and
 many things work right out of the box. If you want something like notepad, but a
-little more versatile (the next iteration you could say&#8230;&#8203; get it?), then this
-is for you.</p>
+little more versatile (the next iteration you could say) then this is for you.</p>
 </li>
 <li>
 <p><strong><a href="https://macromates.com/">TextMate</a></strong> - TextMate is a popular MacOS GUI text
@@ -1781,7 +1844,7 @@ need as you progress.</p>
 <p></p>
 </li>
 <li>
-<p><em>Are nested structures possible in YAML?</em></p>
+<p><em>Are nested structures possible in YAML? Give an example.</em></p>
 <p></p>
 </li>
 <li>
@@ -1793,7 +1856,7 @@ need as you progress.</p>
 <p></p>
 </li>
 <li>
-<p><em>What does the expandtab or "replace by spaces" option do in a text editor and why is it important for YAML?</em></p>
+<p><em>What does the expandtab or "replace by spaces" option do in a text editor and why is it important to use when working with YAML?</em></p>
 <p></p>
 </li>
 </ol>
@@ -1812,7 +1875,7 @@ need as you progress.</p>
 <div class="sect2">
 <h3 id="_purpose_2">4.1. Purpose</h3>
 <div class="paragraph">
-<p>Traditionally, virtualization has made use of the virtual machine (VM) to
+<p>Traditionally, virtualization has made use of a virtual machine (VM) to
 provide an isolated environment in which an operating system (OS) and
 applications can run. This allows the application to have a completely custom
 environment and ultimately makes it easier to deploy.</p>
@@ -1821,19 +1884,19 @@ environment and ultimately makes it easier to deploy.</p>
 <div class="title">Example 4. Maintaining a Legacy Application</div>
 <div class="content">
 <div class="paragraph">
-<p>Prithi is in charge of maintaining a payroll system written using Perl, a web
+<p>Prithi is in charge of maintaining a payroll system that uses Perl, a web
 server, and a CGI module. This system requires specific, older versions of each
 of those components to function. Unfortunately all of the web servers that her
 company uses are upgrading to newer versions and removing Perl and the CGI
-module from their environment due to security concerns.</p>
+module from their environment.</p>
 </div>
 <div class="paragraph">
-<p>To solve this problem, Prithi asks the team that maintains the servers if they
-will run a VM for her on one of their machines. Prithi can install the version
-of Linux that she needs on the VM and use the packages the payroll system
-requires. If appropriately isolated, a security breach on the VM would be
-limited to just the payroll system. The web servers can still be upgraded <em>and</em>
-Prithi can maintain the payroll system thanks to virtualization with VMs.</p>
+<p>In order to continue running the system, Prithi asks the team that maintains the
+servers if they will run a VM for her. Prithi can install the version of Linux
+that she needs on the VM and use the packages the payroll system requires. If
+appropriately isolated, any problems on the VM would be limited to just the
+payroll system. The web servers can be upgraded <em>and</em> Prithi can maintain the
+payroll system thanks to virtualization with VMs.</p>
 </div>
 </div>
 </div>
@@ -1845,15 +1908,15 @@ multiple VMs, you end up with a system that looks like this:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/vms.svg" alt="vms" width="612" height="448">
+<img src="images/vms.svg" alt="vms" width="60%" height="439">
 </div>
-<div class="title">Figure 2. VM Server Architecture</div>
+<div class="title">Figure 3. VM Server Architecture</div>
 </div>
 <div class="paragraph">
-<p>Every VM having to run its own OS creates a lot of overhead and you can&#8217;t fit
-as many VMs on one server. To solve this, containers were created. Containers
-allow for similar isolation as VMs, but at a reduced resource cost. As opposed
-to VMs which emulate a physical machine, containers use
+<p>Every VM having to run its own OS creates and emulate a unique machine creates a
+lot of overhead. Containers allow for similar isolation as VMs, but at a reduced
+resource cost since. As opposed to VMs which emulate a physical machine,
+containers use
 <a href="https://en.wikipedia.org/wiki/Cgroups">control groups</a>,
 <a href="https://en.wikipedia.org/wiki/Linux_namespaces">namespaces</a>, and
 <a href="https://en.wikipedia.org/wiki/Chroot">chroot</a> to allow <em>containers</em> to share the
@@ -1862,17 +1925,18 @@ significantly less overhead and looks like this:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/containers.svg" alt="containers" width="369" height="448">
+<img src="images/containers.svg" alt="containers" width="40%" height="439">
 </div>
-<div class="title">Figure 3. Container Server Architecture</div>
+<div class="title">Figure 4. Container Server Architecture</div>
 </div>
 <div class="paragraph">
 <p>There are many different container runtime environments including:
-<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://containerd.io/">containerd</a>, and
-<a href="https://www.docker.com/">Docker</a>. We will be using Docker due to its file format
-popularity and its ability to run on multiple operating systems. By using
-Docker, we will be able to create a system that can easily be tested and used
-on any other machine that runs Docker.</p>
+<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://containerd.io/">containerd</a>,
+<a href="https://coreos.com/rkt">rkt</a>, and <a href="https://www.docker.com/">Docker</a> (on containerd
+at this point). We will be using Docker due to its popularity and its ability be
+easily installed on various operating systems. By using Docker, we will be able
+to create a system that can be tested and used on any other machine that runs
+Docker.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1883,17 +1947,6 @@ operating system and hardware that you use:</p>
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Linux</dt>
-<dd>
-<div class="ulist">
-<ul>
-<li>
-<p>Docker can easily be installed natively on Linux and packages for Docker exist
-for all major distributions.</p>
-</li>
-</ul>
-</div>
-</dd>
 <dt class="hdlist1">Windows</dt>
 <dd>
 <div class="ulist">
@@ -1906,13 +1959,13 @@ on any Windows system that has Hyper-V (a virtualization feature) available.</p>
 <p>Windows 10 Home <em>does not</em> have Hyper-V available, but you can easily
 <a href="https://answers.microsoft.com/en-us/windows/forum/windows_10-update/how-to-convert-windows-10-home-to-education/5a6e42b0-51fc-4e53-9497-454c3adc671c?auth=1">
 Upgrade to Windows 10 Education</a> (typically this is provided by your
-University) and then try installing it. This should be your first step if
+University) and then instal it. This should be your first step if
 Docker Desktop does not work out-of-the-box.</p>
 </li>
 <li>
 <p><a href="https://docs.docker.com/toolbox/">Docker Toolbox</a> is an older version of
 Docker, running under a VM in VirtualBox. It can be difficult to work with
-and I highly recommend Docker Desktop if possible.</p>
+and Docker Desktop is preferred.</p>
 </li>
 </ul>
 </div>
@@ -1927,8 +1980,20 @@ on most Macs. We will be running it from the terminal so do not be alarmed if
 you install it and do not see an application running.</p>
 </li>
 <li>
-<p>If for some reason your computer is not supported you can try the macOS version
-of <a href="https://docs.docker.com/toolbox/">Docker Toolbox</a>.</p>
+<p>If for some reason your computer is not supported you can try the MacOS version
+of <a href="https://docs.docker.com/toolbox/">Docker Toolbox</a>, but Docker Desktop is
+preferred.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Linux</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Docker can easily be installed natively on Linux and packages for Docker exist
+for all major distributions.</p>
 </li>
 </ul>
 </div>
@@ -1941,11 +2006,11 @@ of <a href="https://docs.docker.com/toolbox/">Docker Toolbox</a>.</p>
 <div class="paragraph">
 <p>An image is the complete file system of a Linux instance. You can think of it
 like the hard drive of a server that someone has already set up. Images can be
-tagged using the format <code>name:version</code>. One of the reasons Docker has become so
-popular is because there are many pre-built images available. If you try to use
-an image that does not exist on the local machine, Docker will automatically
-attempt to <code>pull</code> that image from the <a href="https://hub.docker.com/">Docker Hub</a>
-container registry.</p>
+tagged using the format <code>name:version</code>. One of the reasons Docker is so popular
+is because there are many pre-built images available. If you try to use an image
+that does not exist on the local machine, Docker will automatically attempt to
+<code>pull</code> that image from the <a href="https://hub.docker.com/">Docker Hub</a> container
+registry.</p>
 </div>
 <div class="paragraph">
 <p>Docker can <code>run</code> containers by taking images, copying the file system, and
@@ -1955,9 +2020,9 @@ since the file system is cloned.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/images-containers-registry.svg" alt="images containers registry" width="594" height="503">
+<img src="images/images-containers-registry.svg" alt="images containers registry" width="60%" height="422">
 </div>
-<div class="title">Figure 4. Images, Containers, and the Registry</div>
+<div class="title">Figure 5. Images, Containers, and the Registry</div>
 </div>
 <div class="paragraph">
 <p>In the above image, you can see that two images were pulled from the container
@@ -1971,8 +2036,8 @@ they have their own <em>copy</em> of the file system.</p>
 <div class="sect2">
 <h3 id="_commands">4.4. Commands</h3>
 <div class="paragraph">
-<p>Docker commands are run via the <code>docker</code> command line interface in a terminal.
-Here is a <em>brief</em> listing of some of the most useful commands:</p>
+<p>Docker commands are run via the <code>docker</code> command line interface (CLI) in a
+terminal.  Here is a <em>brief</em> listing of some of the most useful commands:</p>
 </div>
 <div class="dlist">
 <dl>
@@ -1982,7 +2047,7 @@ Here is a <em>brief</em> listing of some of the most useful commands:</p>
 </dd>
 <dt class="hdlist1">ps</dt>
 <dd>
-<p>Lists the currently <em>running</em> containers.</p>
+<p>Lists the <em>currently running</em> containers.</p>
 </dd>
 <dt class="hdlist1">pull</dt>
 <dd>
@@ -2016,6 +2081,34 @@ run.</p>
 </dd>
 </dl>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+It is easy to forget that the build command takes an option as that
+option is sometimes the current directory: <code>.</code>. Don&#8217;t forget the period at the
+end of a <code>docker build .</code> command.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Both the <code>run</code> and <code>exec</code> commands need to be passed the <code>-it</code> option if
+you want to run something interactively. This is often the case if you run a
+command like <code>bash</code> where you will by typing in shell commands.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>As you use Docker, it will download / create a lot of resources and it can be
 helpful to clean those resources up periodically. Here are some commands to do
@@ -2031,7 +2124,7 @@ containers: stopped containers that may be used again.</p>
 <dt class="hdlist1">image prune --all</dt>
 <dd>
 <p>Removes all images that aren&#8217;t <em>currently</em> being used. After you have been
-running Docker for a while, this can free up GB of space.</p>
+running Docker for a while, this can free up gigabytes (GB) of space.</p>
 </dd>
 </dl>
 </div>
@@ -2040,9 +2133,10 @@ running Docker for a while, this can free up GB of space.</p>
 <h3 id="_examples">4.5. Examples</h3>
 <div class="paragraph">
 <p>For the following examples, it is assumed that you have Docker installed and
-that you are in a terminal that has access to the Docker command. This may be
-the Docker Quickstart terminal if you installed Docker Toolbox, PowerShell if
-you installed Docker Desktop, or Terminal if you are in MacOS.</p>
+that you are in a terminal with an environment that can run the <code>docker</code>
+command. This may be PowerShell if you installed Docker Desktop on Windows,
+Terminal if you are in MacOS, or even the Docker Quickstart terminal if you
+installed Docker Toolbox on Windows.</p>
 </div>
 <div class="sect3">
 <h4 id="_running_a_web_server">4.5.1. Running a Web Server</h4>
@@ -2102,8 +2196,8 @@ container registry.</td>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>docker ps</code> shows all <em>running</em> containers, to see <em>all</em> containers we
-could have used <code>docker ps -a</code>.</td>
+<td><code>docker ps</code> shows all <em>running</em> containers, to see <em>all</em> containers,
+including stopped containers, we could have used <code>docker ps -a</code>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -2117,8 +2211,7 @@ use in place of the container id in commands.</td>
 </div>
 <div class="paragraph">
 <p>If you&#8217;ve been following along with these commands, you should be able to open
-a web browser and go to <a href="http://localhost:8080" class="bare">http://localhost:8080</a> and see a page stating, "It
-works!"</p>
+a web browser, go to <a href="http://localhost:8080" class="bare">http://localhost:8080</a>, and see a page stating, "It works!"</p>
 </div>
 <div class="paragraph">
 <p>Now let&#8217;s clean up:</p>
@@ -2154,19 +2247,20 @@ fa1302348599        httpd:2.4.43        "httpd-foreground"  18 minutes ago      
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>It is still there, just not running as evidenced by the <code>docker ps -a</code>
+<td>It is still there, but stopped. We can see it with the <code>docker ps -a</code>
 command.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td><code>docker rm</code> will remove it for good.</td>
+<td><code>docker rm</code> will remove the stopped container.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>In most situations, <code>docker rm</code> isn&#8217;t really necessary. As stopped containers
-do not actively consume resources. The browsing to <a href="http://localhost:8080" class="bare">http://localhost:8080</a> again
-to confirm that the container is actually shut down.</p>
+<p>In most situations, <code>docker rm</code> isn&#8217;t really necessary as stopped containers
+do not actively consume resources other than local storage. Try browsing to
+<a href="http://localhost:8080" class="bare">http://localhost:8080</a> again to confirm that the container is not running. You
+should be unable to connect.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2175,8 +2269,8 @@ to confirm that the container is actually shut down.</p>
 <p>Sometimes the stock images are not enough to do what you want. In this example
 we will be building an image for a web server that still uses <code>httpd:2.4.43</code> as
 its base, but adds an extra file to change the default page. To do this, we
-need to create a directory with a Dockerfile and our new index.html page. We&#8217;ll
-do this in the <code>docker-demo</code> directory:</p>
+need to create a directory with a <code>Dockerfile</code> and our new <code>index.html</code> page.
+We&#8217;ll do this in the <code>docker-demo</code> directory:</p>
 </div>
 <div class="listingblock">
 <div class="title">docker-demo/index.html</div>
@@ -2194,10 +2288,10 @@ do this in the <code>docker-demo</code> directory:</p>
 <div class="paragraph">
 <p>A Dockerfile is a list of basic instructions for building an image. Instructions
 are typically capitalized and in this case our Dockerfile is using two of them:
-FROM and COPY. FROM tells Docker that you want to build an image on top of
+<code>FROM</code> and <code>COPY</code>. <code>FROM</code> tells Docker that you want to build an image on top of
 another image. In this case we want to build our image on top of the
-httpd:2.4.43 image. We also use the COPY instruction to copy a local file into
-the image we are building. In this case we copy a custom index.html into the
+<code>httpd:2.4.43</code> image. We also use the <code>COPY</code> instruction to copy a local file
+into the image we are building. In this case we copy our <code>index.html</code> into the
 directory that the <a href="https://httpd.apache.org/">Apache web server</a> serves files
 from.</p>
 </div>
@@ -2253,12 +2347,12 @@ the Dockerfile. In our case we pass it <code>.</code> to signify the current dir
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>Windows does not support the same file permissions as Linux so you may see
-this warning.</td>
+this warning if you are building on Windows.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Finally we look at the images currently available and see that the one we
-built is available.</td>
+<td>Finally we look at the images currently available. We should see that the
+one we built is available.</td>
 </tr>
 </table>
 </div>
@@ -2294,9 +2388,9 @@ you can type Ctrl+C in the terminal to stop running the container, use
 <div class="sect3">
 <h4 id="_using_docker_compose">4.5.3. Using Docker Compose</h4>
 <div class="paragraph">
-<p>Having to specify command line arguments for the docker command can get tedious,
-especially as your environment becomes more complex. Docker compose is a tool
-bundled with Docker that can be used to store the configuration for a
+<p>Having to specify command line arguments for the <code>docker</code> command can get
+tedious, especially as your environment becomes more complex. Docker Compose is
+a tool bundled with Docker that can be used to store the configuration for a
 multi-container setup in a single <code>docker-compose.yml</code> file. The best way to
 learn about it is to see it in action, so let&#8217;s start by looking at an example:</p>
 </div>
@@ -2345,7 +2439,7 @@ image and local port 8080 is forwarded to port 80 in the container.</p>
 </dl>
 </div>
 <div class="paragraph">
-<p>Alright, now let&#8217;s bring up the web service:</p>
+<p>Now that we know a few commands, let&#8217;s bring up the <code>web</code> service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2382,8 +2476,8 @@ web_1  | 172.18.0.1 - - [09/May/2020:17:05:57 +0000] "GET / HTTP/1.1" 304 - <i c
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Docker Compose also create a network for your services to run in. This
-helps with service communication later on.</td>
+<td>Docker Compose also creates a network for your services to run in. This
+provides isolation for your services and helps with service discovery.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -2400,9 +2494,8 @@ the service name. This can be <em>very</em> useful for debugging.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>We can test that things are working by going to <a href="http://localhost:8080" class="bare">http://localhost:8080</a>. Then
-when we are all done we can close things down with by typing Ctrl+C in the
-terminal.</p>
+<p>We can test that things are working by going to <a href="http://localhost:8080" class="bare">http://localhost:8080</a>. When we
+are all done we can close things down with by typing Ctrl+C in the terminal.</p>
 </div>
 </div>
 </div>
@@ -2463,7 +2556,7 @@ Best practices for writing Dockerfiles</a></p>
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/messaging.png" alt="messaging" width="25%">
+<img src="images/messaging.png" alt="messaging" width="15%">
 </div>
 </div>
 <div class="sect2">
@@ -2481,7 +2574,7 @@ have a few components now, what happens if you want to expand?</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/messaging-bus.svg" alt="messaging bus" width="972" height="121">
+<img src="images/messaging-bus.svg" alt="messaging bus" width="1087" height="119">
 </div>
 </div>
 <div class="paragraph">
@@ -2490,7 +2583,7 @@ of caching. Examine the following scenario:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/messaging-cache.svg" alt="messaging cache" width="703" height="344">
+<img src="images/messaging-cache.svg" alt="messaging cache" width="721" height="331">
 </div>
 </div>
 <div class="paragraph">
@@ -2779,7 +2872,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/database.png" alt="database" width="25%">
+<img src="images/database.png" alt="database" width="15%">
 </div>
 </div>
 <div class="sect2">
@@ -2795,9 +2888,9 @@ part IDs:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/tables.svg" alt="tables" width="243" height="414">
+<img src="images/tables.svg" alt="tables" width="269" height="399">
 </div>
-<div class="title">Figure 5. Tables in a Relational Database</div>
+<div class="title">Figure 6. Tables in a Relational Database</div>
 </div>
 <div class="paragraph">
 <p>Relational databases maintain the integrity of their relations at the cost of
@@ -2830,9 +2923,9 @@ volume.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/volumes.svg" alt="volumes" width="350" height="140">
+<img src="images/volumes.svg" alt="volumes" width="331" height="113">
 </div>
-<div class="title">Figure 6. Containerized Database using a Volume</div>
+<div class="title">Figure 7. Containerized Database using a Volume</div>
 </div>
 <div class="paragraph">
 <p>As can be seen above, the volume exists <em>outside</em> of the container running the
@@ -3246,7 +3339,7 @@ server, but uses <strong>Messaging</strong> for any other communication:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/front-end.svg" alt="front end" width="520" height="103">
+<img src="images/front-end.svg" alt="front end" width="553" height="99">
 </div>
 </div>
 <div class="paragraph">
@@ -3841,7 +3934,7 @@ Tutorial 6 - Remote Procedure Call</a></p>
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/back-end.png" alt="back end" width="25%">
+<img src="images/back-end.png" alt="back end" width="15%">
 </div>
 </div>
 <div class="sect2">
@@ -4275,7 +4368,7 @@ communicate directly and <strong>Back End</strong> is the only service that can 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/overview_compose.svg" alt="overview compose" width="587" height="103">
+<img src="images/overview_compose.svg" alt="overview compose" width="612" height="99">
 </div>
 </div>
 <div class="paragraph">
@@ -4347,7 +4440,7 @@ detailed in the diagram below:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/messaging.svg" alt="messaging" width="349" height="293">
+<img src="images/messaging.svg" alt="messaging" width="343" height="260">
 </div>
 </div>
 <div class="paragraph">
@@ -4379,7 +4472,7 @@ uses. It only communicates with <strong>Back End</strong>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/database.svg" alt="database" width="234" height="117">
+<img src="images/database.svg" alt="database" width="244" height="113">
 </div>
 </div>
 <div class="paragraph">
@@ -4515,7 +4608,7 @@ has libraries to interface with <strong>Database</strong> and <strong>Messaging<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/backend.svg" alt="backend" width="693" height="245">
+<img src="images/backend.svg" alt="backend" width="729" height="224">
 </div>
 </div>
 <div class="paragraph">
@@ -4634,7 +4727,7 @@ those libraries.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/frontend.svg" alt="frontend" width="505" height="264">
+<img src="images/frontend.svg" alt="frontend" width="511" height="232">
 </div>
 </div>
 <div class="paragraph">
@@ -4808,7 +4901,7 @@ and <strong>Back End</strong>:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/registration.svg" alt="registration" width="481" height="283">
+<img src="images/registration.svg" alt="registration" width="500" height="273">
 </div>
 </div>
 <div class="paragraph">
@@ -4877,7 +4970,7 @@ default to a lifetime of 31 days.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/login.svg" alt="login" width="426" height="283">
+<img src="images/login.svg" alt="login" width="447" height="273">
 </div>
 </div>
 <div class="paragraph">
@@ -5002,9 +5095,9 @@ we do not have to introduce a new tool as well.</p>
 <h3 id="_background">10.1. Background</h3>
 <div class="imageblock">
 <div class="content">
-<img src="images/replication.svg" alt="replication" width="199" height="140">
+<img src="images/replication.svg" alt="replication" width="185" height="113">
 </div>
-<div class="title">Figure 7. Basic Replication</div>
+<div class="title">Figure 8. Basic Replication</div>
 </div>
 <div class="paragraph">
 <p>In the simplest sense, replication is running more than one service for a given
@@ -5050,15 +5143,15 @@ Standby:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/volshare.svg" alt="volshare" width="441" height="445">
+<img src="images/volshare.svg" alt="volshare" width="426" height="438">
 </div>
-<div class="title">Figure 8. Volume Sharing</div>
+<div class="title">Figure 9. Volume Sharing</div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/standby.svg" alt="standby" width="510" height="311">
+<img src="images/standby.svg" alt="standby" width="515" height="266">
 </div>
-<div class="title">Figure 9. Hot / Warm Standby</div>
+<div class="title">Figure 10. Hot / Warm Standby</div>
 </div>
 <div class="paragraph">
 <p>Volume Sharing has the advantage of being easy to implement <em>if</em> you already
@@ -5132,7 +5225,7 @@ primary or standby node accordingly. The logic for startup is as follows:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/startup_logic.svg" alt="startup logic" width="486" height="530">
+<img src="images/startup_logic.svg" alt="startup logic" width="522" height="521">
 </div>
 </div>
 <div class="paragraph">
@@ -5371,9 +5464,9 @@ let&#8217;s examine the <strong>non-randomized</strong> scenario shown in the fo
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/dualpromotion.svg" alt="dualpromotion" width="487" height="240">
+<img src="images/dualpromotion.svg" alt="dualpromotion" width="487" height="202">
 </div>
-<div class="title">Figure 10. Dual Promotion</div>
+<div class="title">Figure 11. Dual Promotion</div>
 </div>
 <div class="paragraph">
 <p>In the above scenario each standby node is checking to see that there is a
@@ -5573,9 +5666,9 @@ pods, which in turn are running containers:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/k8s_cluster.svg" alt="k8s cluster" width="714" height="262">
+<img src="images/k8s_cluster.svg" alt="k8s cluster" width="756" height="257">
 </div>
-<div class="title">Figure 11. Kubernetes Cluster</div>
+<div class="title">Figure 12. Kubernetes Cluster</div>
 </div>
 <div class="paragraph">
 <p>Kubernetes is designed to solve the hard problems of multi-node deployment,
@@ -5607,9 +5700,9 @@ the host. It provides a several options for how the VM is run:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/minikube_arch.svg" alt="minikube arch" width="645" height="451">
+<img src="images/minikube_arch.svg" alt="minikube arch" width="654" height="386">
 </div>
-<div class="title">Figure 12. Minikube Architecture</div>
+<div class="title">Figure 13. Minikube Architecture</div>
 </div>
 <div class="paragraph">
 <p><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Follow these directions
@@ -5688,7 +5781,7 @@ again. Typically you can restart the applications after minikube is running.
 repository by default. To avoid having to upload our images to a repository, we
 can set environment variables in our terminal so that we interact with the
 Docker daemon <em>inside</em> our minikube virtual
-machine.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> Fortunately, minikube has the
+machine.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> Fortunately, minikube has the
 <code>docker-env</code> command to make this easier:</p>
 </div>
 <div class="listingblock">
@@ -6109,6 +6202,11 @@ de facto standard</a> and knowing how to use it is a <em>very</em> marketable sk
 <div class="sect1">
 <h2 id="_database_in_kubernetes">12. Database in Kubernetes</h2>
 <div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/database.png" alt="database" width="15%">
+</div>
+</div>
 <div class="sect2">
 <h3 id="_introduction_7">12.1. Introduction</h3>
 <div class="paragraph">
@@ -6135,7 +6233,7 @@ storage resources. In this case, we are looking for a place to store our
 primary database files. This claim will be fulfilled by a
 <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/"><strong>StorageClass</strong></a>
 that is built into minikube. As far as we are concerned, we just have to tell
-it what we want and it will make it happen.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>.</p>
+it what we want and it will make it happen.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>.</p>
 </div>
 <div class="listingblock">
 <div class="title">example-final/db-k8s.yml (excerpted)</div>
@@ -6705,7 +6803,7 @@ about it you should be able to revisit and improve this implementation.</p>
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/messaging.png" alt="messaging" width="25%">
+<img src="images/messaging.png" alt="messaging" width="15%">
 </div>
 </div>
 <div class="sect2">
@@ -7313,7 +7411,7 @@ to manage our <strong>Messaging</strong> and <strong>Front End</strong> instance
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/front-end-k8s.svg" alt="front end k8s" width="729" height="383">
+<img src="images/front-end-k8s.svg" alt="front end k8s" width="686" height="344">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -7343,9 +7441,9 @@ balancing isn&#8217;t new to us, we have been using it implicitly when we create
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/loadbalancer.svg" alt="loadbalancer" width="734" height="438">
+<img src="images/loadbalancer.svg" alt="loadbalancer" width="784" height="426">
 </div>
-<div class="title">Figure 13. Load Balancer Architecture</div>
+<div class="title">Figure 14. Load Balancer Architecture</div>
 </div>
 <div class="paragraph">
 <p>Our Flask application will listen on port 5000 by default. In an actual
@@ -7796,13 +7894,18 @@ see all queues. I chose <code>messaging-0</code> because it is easy to remember.
 <div class="sect1">
 <h2 id="_back_end_in_kubernetes">15. Back End in Kubernetes</h2>
 <div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/back-end.png" alt="back end" width="15%">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_introduction_10">15.1. Introduction</h3>
 <div class="paragraph">
 <p>The last key to our Kubernetes migration is a functioning <strong>Back End</strong>. In this
 section we will build the Kubernetes object (yes, singular) needed to support
 this role.</p>
 </div>
-<div class="sect2">
-<h3 id="_introduction_10">15.1. Introduction</h3>
 <div class="paragraph">
 <p><strong>Back End</strong> is our conduit between <strong>Messaging</strong> and <strong>Database</strong> and we have
 implemented it as a Python script. Replicas of <strong>Back End</strong> can function
@@ -7812,9 +7915,9 @@ created for the response:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/backend-arch.svg" alt="backend arch" width="407" height="491">
+<img src="images/backend-arch.svg" alt="backend arch" width="407" height="417">
 </div>
-<div class="title">Figure 14. <strong>Back End</strong> Architecture</div>
+<div class="title">Figure 15. <strong>Back End</strong> Architecture</div>
 </div>
 <div class="paragraph">
 <p>In the above diagram two different <strong>Front Ends</strong> are communicating with
@@ -8186,7 +8289,7 @@ supporting services:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/google-cloud.svg" alt="google cloud" width="1041" height="340">
+<img src="images/google-cloud.svg" alt="google cloud" width="1235" height="348">
 </div>
 </div>
 </div>
@@ -8572,7 +8675,7 @@ our cluster.</td>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
 <td>The only external, LoadBalancer, service is <code>front-end</code>. A quick visit to
 <a href="http://35.238.67.247" class="bare">http://35.238.67.247</a> will give you front-end access to the
-system.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></td>
+system.<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></td>
 </tr>
 </table>
 </div>
@@ -8669,21 +8772,24 @@ and pulling images</a></p>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. If you&#8217;re looking to take things a bit further <a href="https://asciidoctor.org/docs/asciidoc-writers-guide/">AsciiDoc</a>, <a href="https://docutils.sourceforge.io/rst.html">reStructuredText</a>, and <a href="https://docs.racket-lang.org/scribble/">scribble</a> are worth exploring too. This book is written in AsciiDoc.
+<a href="#_footnoteref_1">1</a>. It is important to note that although this is the dominant way git is used, it is not actually the way git was <em>intended</em> to be used. With git you can work in a group, merging changes from multiple contibuters, all without a central server.
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. <a href="https://medium.com/@maumribeiro/running-your-own-docker-images-in-minikube-for-windows-ea7383d931f6"> See this great blog post for more details</a>
+<a href="#_footnoteref_2">2</a>. If you&#8217;re looking to take things a bit further <a href="https://asciidoctor.org/docs/asciidoc-writers-guide/">AsciiDoc</a>, <a href="https://docutils.sourceforge.io/rst.html">reStructuredText</a>, and <a href="https://docs.racket-lang.org/scribble/">scribble</a> are worth exploring too. This book was written using AsciiDoc.
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. <a href="https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-in-kubernetes-with-minikube"> The fascinating details of how this works are revealed in this blog post.</a>
+<a href="#_footnoteref_3">3</a>. <a href="https://medium.com/@maumribeiro/running-your-own-docker-images-in-minikube-for-windows-ea7383d931f6"> See this great blog post for more details</a>
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. By the time you&#8217;re reading this, this site should be unavailable. If it&#8217;s still available, let me know because it&#8217;s costing me money!
+<a href="#_footnoteref_4">4</a>. <a href="https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-in-kubernetes-with-minikube"> The fascinating details of how this works are revealed in this blog post.</a>
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. By the time you&#8217;re reading this, this site should be unavailable. If it&#8217;s still available, let me know because it&#8217;s costing me money!
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-05-26 21:32:28 -0400
+Last updated 2020-05-29 03:20:53 UTC
 </div>
 </div>
 <style>

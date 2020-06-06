@@ -44,6 +44,7 @@ task :mobi => [:dirs] do
     attributes: 'ebook-format=kf8'
   )
   rm "#{output}/systems-integration-kf8.epub"
+  rm "#{output}/systems-integration.mobi8"
 end
 
 desc 'Builds the PDF version of the book'
@@ -68,5 +69,10 @@ task :kdp => [:dirs] do
   )
 end
 
+desc 'Deploys the output directory to https://web.njit.edu/~rxt1077/systems_integration'
+task :deploy do
+  sh "rsync --delete -av #{output}/ rxt1077@afs22.njit.edu:public_html/systems_integration/"
+end
+
 desc 'Builds all versions of the book'
-task :default => [:html5, :epub3, :mobi, :pdf]
+task :default => [:html5, :epub3, :mobi, :pdf, :kdp]

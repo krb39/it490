@@ -1,11 +1,13 @@
 = Back End in Kubernetes
 :sourcedir: example-final
 
+image::back-end.png[align=center, width=15%]
+
+== Introduction
+
 The last key to our Kubernetes migration is a functioning *Back End*. In this
 section we will build the Kubernetes object (yes, singular) needed to support
 this role.
-
-== Introduction
 
 *Back End* is our conduit between *Messaging* and *Database* and we have
 implemented it as a Python script. Replicas of *Back End* can function

@@ -8,12 +8,12 @@ https://github.com[GitHub] is a service that provides a space for remote git
 repositories. It features an extensive web interface and several project
 management features.
 
-GitHub has become a popular for open-source projects and is a
+GitHub has become a popular service for open source projects and is a
 https://pydanny.blogspot.com/2011/08/github-is-my-resume.html[great way]
 to showcase your projects to prospective employers. It is free to sign up for
-GitHub and we will be using it for project management in this course. I suggest
-you sign up with your .edu email address and UCID as your username to keep
-things simple.
+GitHub and we will be using it for project management. It is recommended that
+you sign up with your .edu email address. This way you will have an _academic_
+account to showcase your work.
 
 == Remote Repositories
 
@@ -21,20 +21,20 @@ To set up a remote repository in GitHub, follow these steps:
 
 . Create a local git repository as shown in the <<git, previous section>>.
   Choose a repository name that is simple. Avoid spaces or trailing dashes as
-  Docker Compose may have trouble with them.
+  various tools may have trouble with them.
 . Sign in to GitHub and navigate to https://github.com/new[Create a New
   Repository]
-. Put in the your repository name (make sure it matches your local repository
+. Put in the repository name (make sure it matches the local repository
   name) and a description.
 . GitHub now offers unlimited private repositories with unlimited
   collaborators. This means you could complete your project in a private
-  repository, just be sure to add your instructor as a collaborator. Later when
-  you want to showcase your work, it may be a good idea to make this repository
-  public.
-. You can also work in a public repository and it can be good practice for
-  learning to separate your secrets from your commits. You will still need to
-  add group members as collaborators, but your instructor should be able to
-  have ready-only access without any additional setup.
+  repository. If you choose to use a private repository, be sure to add your
+  instructor as a collaborator. Later when you want to showcase your work you
+  can make this repository public. You could also start with a public repository
+  which can provide good practice for learning to keep secrets (passwords,
+  API keys, etc.) out of your commits. In this case you will still need to add
+  group members as collaborators, but your instructor should have read-only
+  access without any additional setup.
 . Once you click "Create Repository", instructions will be provided for setting
   the remote on your local repository. It is very similar to the scenario
   covered in the <<git, previous section>>. Follow the directions.
@@ -46,19 +46,20 @@ To set up a remote repository in GitHub, follow these steps:
 
 == Issues
 
-GitHub has a built-in bug tracker called _Issues_. You can find it next to the
+GitHub has a built-in bug tracker called _Issues_. It can be found next to the
 _Code_ tab, under the repository name when viewing a repository. An issue is
 typically a bug that needs to be fixed or a feature that needs to be
-implemented. It can be assigned to a group member who can then close it when it
-is completed. It can also be linked to a milestone, which can be thought of as
-as group of things that need to be done to reach the next phase.
+implemented. It can be assigned to a project collaborator and it can be closed
+when it is resolved. Issues can also be linked to a milestone, which can be
+thought of as as group of things that need to be done to reach a particular
+phase.
 
 We will be using the GitHub Issues to monitor individual contributions to a
-project and to see how well a team functions. Do not be afraid to create issues
-and use the discussion features inside of them. They help document your
-progress. You will also have milestones assigned as you progress through the
-text. You should create those milestones in GitHub and assign the goals
-accordingly.
+project and to assess how well a team functions. Do not be afraid to create
+issues and use the discussion features inside of them. They help groups document
+their progress. Groups will also have milestones assigned as they progress
+through the text. Groups should create those milestones in GitHub and assign
+the goals to collaborators as issues.
 
 == Pull requests
 
@@ -111,24 +112,25 @@ merge them with their repository.
 == Documentation
 
 GitHub supports several styles of documentation, but the most common is
-https://en.wikipedia.org/wiki/Markdown[Markdown]. Files written in markdown and
+https://en.wikipedia.org/wiki/Markdown[Markdown]. Files written in Markdown and
 ending in the `.md` extension will be rendered and displayed when viewed in the
 GitHub web interface. If a file named `README.md` exists in a directory, it
 will be automatically displayed at the bottom of a directory listing. This
-makes it easy to build documentation right into your repository. Learn markdown
+makes it easy to build documentation right into your repository. Learn Markdown
 and be sure to have a `README.md` in your repository.footnote:[If you're looking
 to take things a bit further https://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc],
 https://docutils.sourceforge.io/rst.html[reStructuredText], and
 https://docs.racket-lang.org/scribble/[scribble] are worth exploring too. This
-book is written in AsciiDoc.]
+book was written using AsciiDoc.]
 
 == Resources
 
-* https://guides.github.com/features/issues/[Mastering Issues]
+* https://guides.github.com/features/issues[Mastering Issues]
 * https://www.atlassian.com/git/tutorials/making-a-pull-request[Making a Pull Request]
 * https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests[
   About Pull Requests]
-* https://www.markdownguide.org/[The Markdown Guide]
+* https://www.markdownguide.org[The Markdown Guide]
+* https://www.markdowntutorial.com[Markdown Tutorial]
 
 == Questions
 
