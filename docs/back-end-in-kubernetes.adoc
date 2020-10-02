@@ -1,7 +1,7 @@
 = Back End in Kubernetes
 :sourcedir: example-final
 
-image::back-end.png[align=center, width=15%]
+image::back-end.png[align=center, width=10%]
 
 == Introduction
 

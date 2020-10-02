@@ -608,6 +608,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_questions_16">16.7. Questions</a></li>
 </ul>
 </li>
+<li><a href="#_websockets">17. WebSockets</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_12">17.1. Introduction</a></li>
+<li><a href="#_architecture">17.2. Architecture</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -621,7 +627,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="paragraph text-center">
 <p>eBook versions: <a href="systems-integration.epub">ePub</a> |
- <a href="systems-integration.mobi">mobi</a> |
  <a href="systems-integration.pdf">pdf</a></p>
 </div>
 </div>
@@ -2556,7 +2561,7 @@ Best practices for writing Dockerfiles</a></p>
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/messaging.png" alt="messaging" width="15%">
+<img src="images/messaging.png" alt="messaging" width="10%">
 </div>
 </div>
 <div class="sect2">
@@ -2564,8 +2569,9 @@ Best practices for writing Dockerfiles</a></p>
 <div class="paragraph">
 <p>Messaging allows multiple components to use a common medium to exchange
 information. The goal is to create a system that is more extensible,
-future proof, and scalable. By using a messaging framework you can focus on the
-interfaces between components and worry less about individual idiosyncrasies.</p>
+resilient, and scalable. By using a messaging framework you can establish the
+interfaces between components and worry less about idiosyncrasies of
+communication.</p>
 </div>
 <div class="paragraph">
 <p>One of the easiest ways to understand the advantages of a messaging layer is to
@@ -2578,19 +2584,23 @@ have a few components now, what happens if you want to expand?</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If the interfaces are well thought out, messaging frameworks can take advantage
-of caching. Examine the following scenario:</p>
+<p>It would be arduous to have to write unique code for eight components to
+facilitate communication. By using a messaging framework, this is taken care of.</p>
+</div>
+<div class="paragraph">
+<p>If the interfaces are well thought out, messaging frameworks can also take
+advantage of caching. Examine the following scenario:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/messaging-cache.svg" alt="messaging cache" width="721" height="331">
+<img src="images/messaging-cache.svg" alt="messaging cache" width="80%" height="331">
 </div>
 </div>
 <div class="paragraph">
-<p>For the second request, <code>GET Picture USER 42</code>, Messaging already knows the
-answer and can respond with a cached copy. A well-designed messaging framework
-will allow you to adjust cache parameters to achieve significant performance
-gains without serving stale data. Cache invalidation is a
+<p>The second time a <code>GET Picture USER 42</code> request is received, <strong>Messaging</strong> already
+knows the answer and can respond with a cached copy. A well-designed messaging
+framework will allow you to adjust cache parameters to achieve significant
+performance gains without serving stale data. Cache invalidation is a
 <a href="https://martinfowler.com/bliki/TwoHardThings.html">famously difficult</a> problem,
 but at least with a messaging framework you are not trying to solve it by
 yourself.</p>
@@ -2606,8 +2616,8 @@ any of the other components noticing? Use a messaging framework.</p>
 <p>That&#8217;s not to say that all projects take advantage of a messaging layer. Often
 it&#8217;s viewed as "just another thing to get in the way" or another possible
 bottleneck. Many projects attempt to shoe horn the messaging framework in later
-on, a difficult feat. We will avoid that here by mandating that a messaging
-framework be used from the start.</p>
+on, a difficult feat. We will avoid that here by mandating that <em>a messaging
+framework must be used from the start.</em></p>
 </div>
 </div>
 <div class="sect2">
@@ -2644,13 +2654,14 @@ data streams incredibly well.</p>
 <div class="paragraph">
 <p>The <a href="https://hub.docker.com/_/rabbitmq">documentation for the official RabbitMQ
 Docker image</a> is quite good and covers many of the topics we will touch on in
-here in greater detail.</p>
+here in greater detail. Please refer to it for further explanation.</p>
 </div>
 <div class="paragraph">
 <p>The stock RabbitMQ image uses different versions to specify if the management
 interface should be enabled. You will probably want to use the web-based
-management interface at first to see what is going on. You will also need to
-expose port <code>15672</code> on your container to your local machine.</p>
+management interface at first to see what is going on. To do so you will need to
+run a management version and you will also need to expose port <code>15672</code> on your
+container to your local machine.</p>
 </div>
 <div class="paragraph">
 <p>RabbitMQ can also use a few different environment variables to store secrets:</p>
@@ -2686,28 +2697,8 @@ a RabbitMQ container and they need to communicate with each other.</p>
 Unable to find image <span class="s1">'rabbitmq:3.8.3-management'</span> locally <i class="conum" data-value="2"></i><b>(2)</b>
 3.8.3-management: Pulling from library/rabbitmq
 23884877105a: Pull <span class="nb">complete
-</span>bc38caa0f5b9: Pull <span class="nb">complete
-</span>2910811b6c42: Pull <span class="nb">complete
-</span>36505266dcc6: Pull <span class="nb">complete
-</span>15c38f93e1dd: Pull <span class="nb">complete
-</span>9e0786f6591b: Pull <span class="nb">complete
-</span>8b3540df5774: Pull <span class="nb">complete
-</span>32ac1b555e0d: Pull <span class="nb">complete
-</span>15f10b4062cf: Pull <span class="nb">complete
-</span>de41c89084c6: Pull <span class="nb">complete
-</span>b7f855bfd426: Pull <span class="nb">complete
-</span>3d2f86c64a6d: Pull <span class="nb">complete
-</span>Digest: sha256:14453bd6c8c0717053d5cb7fa232f11c83f49b8acd1aff59a9b3e25f79c4f652
-Status: Downloaded newer image <span class="k">for </span>rabbitmq:3.8.3-management
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags: list of feature flags found:
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags:   <span class="o">[</span> <span class="o">]</span> drop_unroutable_metric
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags:   <span class="o">[</span> <span class="o">]</span> empty_basic_get_metric
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags:   <span class="o">[</span> <span class="o">]</span> implicit_default_bindings
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags:   <span class="o">[</span> <span class="o">]</span> quorum_queue
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags:   <span class="o">[</span> <span class="o">]</span> virtual_host_metadata
-2020-05-02 20:45:37.770 <span class="o">[</span>info] &lt;0.9.0&gt; Feature flags: feature flag states written to disk: <span class="nb">yes
-</span>2020-05-02 20:45:37.803 <span class="o">[</span>info] &lt;0.269.0&gt; ra: meta data store initialised. 0 record<span class="o">(</span>s<span class="o">)</span> recovered
-2020-05-02 20:45:37.803 <span class="o">[</span>info] &lt;0.274.0&gt; WAL: recovering <span class="o">[]</span>
+</span>bc38caa0f5b9: Pull <span class="nb">complete</span>
+&lt;snip&gt;
 2020-05-02 20:45:37.812 <span class="o">[</span>info] &lt;0.278.0&gt;
  Starting RabbitMQ 3.8.3 on Erlang 22.3.3 <i class="conum" data-value="3"></i><b>(3)</b>
  Copyright <span class="o">(</span>c<span class="o">)</span> 2007-2020 Pivotal Software, Inc.
@@ -2758,7 +2749,7 @@ automatically.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>RabbitMQ tells you what version of Erlang it is using. Cluster requires
+<td>RabbitMQ tells you what version of Erlang it is using. Clustering requires
 nodes to run similar versions, so this can be an important bit of information.</td>
 </tr>
 <tr>
@@ -2784,7 +2775,7 @@ sign in. Take a moment to look around the interface. Queues are created
 automatically by applications so you won&#8217;t need to configure anything, but once
 you have components up and using RabbitMQ you can look here to see the queues
 they&#8217;ve created and to make sure that everything is working. When you are all
-done type Ctrl-C to detach from the <code>docker run command</code> and use <code>docker stop</code>
+done type Ctrl+C to detach from the <code>docker run command</code> and use <code>docker stop</code>
 to stop the container:</p>
 </div>
 <div class="listingblock">
@@ -2892,6 +2883,39 @@ part IDs:</p>
 </div>
 <div class="title">Figure 6. Tables in a Relational Database</div>
 </div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Entity Relationship (ER) Diagrams</div>
+<div class="paragraph">
+<p>ER diagrams in this text are based on the Information Entineering notation as
+supported by <a href="https://plantuml.com/ie-diagram">PlantUML</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>leading dots are used to represent mandatory (NOT NULL) attributes</p>
+</li>
+<li>
+<p>primary attributes are listed immediately under the entity name</p>
+</li>
+<li>
+<p>other attributes are listed following the primary attributes</p>
+</li>
+<li>
+<p>types (in SQL syntax) follow the <code>:</code> on the attribute line</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Lastly, crows feet are used to represent the arity of relations:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/arity.svg" alt="arity" width="194" height="158">
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Relational databases maintain the integrity of their relations at the cost of
 being rigid and requiring more setup. In our system we will employ a relational
@@ -2917,13 +2941,13 @@ This will provide a good learning opportunity later in the text.</p>
 container environment, it is very important to make the distinction between
 <em>ephemeral</em> and <em>persistent</em> storage. A container may have lots of information
 on its filesystem but if that container is stopped, that information is lost.
-All <em>stateful</em> information, that is information that needs to survive the
+All persistent information, that is information that needs to survive the
 container lifecycle, should be stored on a database which utilizes an external
-volume.</p>
+volume. Having persistent storage needs makes a container <em>stateful</em>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/volumes.svg" alt="volumes" width="331" height="113">
+<img src="images/volumes.svg" alt="volumes" width="296" height="142">
 </div>
 <div class="title">Figure 7. Containerized Database using a Volume</div>
 </div>
@@ -2952,7 +2976,7 @@ practical features that make it an excellent choice for any project.</p>
 <dd>
 <p>MariaDB is a RDMS that aims to be be feature and syntax compliant with MySQL.
 It was originally forked from MySQL and developed as a response to Oracle&#8217;s
-purchase of Sun Microsystems, who bought MySQL. It as actively developed and
+purchase of Sun Microsystems, who owned MySQL. It as actively developed and
 widely popular.</p>
 </dd>
 <dt class="hdlist1"><a href="https://www.postgresql.org/">PostgreSQL</a></dt>
@@ -3028,7 +3052,7 @@ SQL file shown below, and connect to it with the
 </div>
 </div>
 <div class="paragraph">
-<p>Be sure to check to <a href="https://hub.docker.com/_/mysql">documentation for the Docker
+<p>Be sure to check the <a href="https://hub.docker.com/_/mysql">documentation for the Docker
 image you are using</a> to see how to initialize a database and to learn about
 which environment variables you will need to use. In this case,
 we will bind mount the current directory to <code>/docker-entrypoint-initdb.d/</code> on
@@ -3056,31 +3080,8 @@ local               db-data
 2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
 2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.20-1debian10 started.
 2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Initializing database files
-2020-05-11T17:04:07.809871Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
-2020-05-11T17:04:07.809922Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.20) initializing of server in progress as process 42
-2020-05-11T17:04:07.814301Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-2020-05-11T17:04:08.700422Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-2020-05-11T17:04:10.397851Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switchi
-ng off the --initialize-insecure option.
-2020-05-11 17:04:14+00:00 [Note] [Entrypoint]: Database files initialized
-2020-05-11 17:04:14+00:00 [Note] [Entrypoint]: Starting temporary server
-2020-05-11T17:04:14.850337Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is t
-he default. Consider not using this option as it' is deprecated and will be removed in a future release.
-2020-05-11T17:04:14.850452Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.20) starting as process 89
-2020-05-11T17:04:14.874687Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-2020-05-11T17:04:15.108491Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-2020-05-11T17:04:15.217674Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock'
-2020-05-11T17:04:15.321264Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-2020-05-11T17:04:15.325886Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the p
-ath is accessible to all OS users. Consider choosing a different directory.
-2020-05-11T17:04:15.339834Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/r
-un/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.
-2020-05-11 17:04:15+00:00 [Note] [Entrypoint]: Temporary server started.
-Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
-Warning: Unable to load '/usr/share/zoneinfo/leap-seconds.list' as time zone. Skipping it.
-Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
-Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
-2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating database cars
+</span><span class="gp">&lt;snip&gt;</span><span class="w">
+</span><span class="go">2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating database cars
 2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating user car_user
 2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Giving user car_user access to schema cars
 
@@ -3088,20 +3089,8 @@ Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skippin
 
 
 2020-05-11 17:04:18+00:00 [Note] [Entrypoint]: Stopping temporary server
-2020-05-11T17:04:18.137760Z 15 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.0.20).
-2020-05-11T17:04:20.277911Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.20)  MySQL Community Server - GPL.
-2020-05-11 17:04:21+00:00 [Note] [Entrypoint]: Temporary server stopped
-
-2020-05-11 17:04:21+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.
-
-2020-05-11T17:04:21.372922Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
-2020-05-11T17:04:21.373012Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.20) starting as process 1
-2020-05-11T17:04:21.382956Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-2020-05-11T17:04:21.590667Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-2020-05-11T17:04:21.691458Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock' bind-address: '::' port: 33060
-2020-05-11T17:04:21.767017Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-2020-05-11T17:04:21.770819Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
-2020-05-11T17:04:21.787429Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.</span></code></pre>
+</span><span class="gp">&lt;snip&gt;</span><span class="w">
+</span><span class="go">2020-05-11T17:04:21.787429Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -3297,6 +3286,10 @@ volumes anymore!
 <div class="qlist qanda">
 <ol>
 <li>
+<p><em>What is the difference between persistent and ephemeral data?</em></p>
+<p></p>
+</li>
+<li>
 <p><em>What is a Docker volume and why should a containerized RDMS use it?</em></p>
 <p></p>
 </li>
@@ -3334,8 +3327,8 @@ volumes anymore!
 <div class="paragraph">
 <p>The purpose of a front end is to interact with the user. Web applications are
 applications that use a web server to present their front end. In our case, we
-will build a traditional web application that interacts with the user via a web
-server, but uses <strong>Messaging</strong> for any other communication:</p>
+will build a web application that interacts with the user via a web server, but
+uses <strong>Messaging</strong> for any other communication:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3428,7 +3421,7 @@ PHP
 </div>
 <div class="paragraph">
 <p>A <strong>Front End</strong> developer should be comfortable with HTML for the creation of
-views that the user will see and they should keep in mind that at some point
+views that the user will see and they should be mindful that at some point
 their code will need to be run on a production server. There are many options
 for production servers depending on what language <strong>Front End</strong> is using:</p>
 </div>
@@ -3448,7 +3441,7 @@ for which there are many options.</p>
 JavaScript
 </td>
 <td class="hdlist2">
-<p>Frameworks make use of Node and typically use a
+<p>Frameworks make use of Node and typically use
 <a href="https://deploybot.com/blog/guest-post-how-to-set-up-and-deploy-nodejs-express-application-for-production">
 managed node processes</a>.</p>
 </td>
@@ -3468,7 +3461,7 @@ PHP
 <h3 id="_example_3">7.2. Example</h3>
 <div class="paragraph">
 <p>As an example, we are going to set up a PHP application that presents a web
-interface <em>and</em> communicates with <strong>Messaging</strong>. We will be basing our code of of
+interface <em>and</em> communicates with <strong>Messaging</strong>. We will be basing our code off of
 the <a href="https://www.rabbitmq.com/tutorials/tutorial-six-php.html">RabbitMQ RPC
 tutorial for PHP</a> and using the <a href="https://hub.docker.com/_/php">official PHP Docker
 Hub image</a>.</p>
@@ -3499,6 +3492,20 @@ application&#8217;s requirements are:</p>
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The PHP extensions <code>bcmath</code> and <code>sockets</code> are both required by
+<code>php-emqplib</code>. We request them in the composer file, but will also install
+them in the <code>Dockerfile</code>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Now we need to use composer to download and install packages in the <code>vendor</code>
@@ -3577,9 +3584,10 @@ time. For that, we need to create a <code>docker-compose.yml</code> file:</p>
 </div>
 <div class="paragraph">
 <p>Notice how even though the <code>Dockerfile</code> copies the app files to <code>/var/www/html</code>
-the <code>docker-compose.yml</code> still creates a bind mount. This allows us to actively
-develop the PHP code while the container is running. When we are done
-developing we can comment out the bind mount.</p>
+the <code>docker-compose.yml</code> still creates a bind mount over top of them. This
+allows us to actively develop the PHP code while the container is running. When
+we are done developing we can comment out the bind mount and the container will
+use the copied files when the image is rebuilt and run.</p>
 </div>
 <div class="paragraph">
 <p>You may also notice that <code>docker-compose.yml</code> uses some environment variables.
@@ -3633,9 +3641,9 @@ something that both <strong>Front End</strong> and <strong>Back End</strong> can
 <div class="content">
 <pre class="rouge highlight"><code data-lang="php"><span class="cp">&lt;?php</span>
 
-<span class="k">require_once</span> <span class="k">__DIR__</span> <span class="o">.</span> <span class="s1">'/vendor/autoload.php'</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">PhpAmqpLib\Connection\AMQPStreamConnection</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">PhpAmqpLib\Message\AMQPMessage</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="k">__DIR__</span> <span class="mf">.</span> <span class="s1">'/vendor/autoload.php'</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">PhpAmqpLib\Connection\AMQPStreamConnection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">PhpAmqpLib\Message\AMQPMessage</span><span class="p">;</span>
 
 <span class="kd">class</span> <span class="nc">RpcClient</span>
 <span class="p">{</span>
@@ -3648,27 +3656,27 @@ something that both <strong>Front End</strong> and <strong>Back End</strong> can
     <span class="k">public</span> <span class="nv">$timeout</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
     <span class="k">public</span> <span class="nv">$hostname</span> <span class="o">=</span> <span class="s1">'messaging'</span><span class="p">;</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$user</span> <span class="o">=</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">'MSG_USER'</span><span class="p">];</span>
         <span class="nv">$pass</span> <span class="o">=</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">'MSG_PASS'</span><span class="p">];</span>
 
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">connection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AMQPStreamConnection</span><span class="p">(</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hostname</span><span class="p">,</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">connection</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AMQPStreamConnection</span><span class="p">(</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">hostname</span><span class="p">,</span>
             <span class="mi">5672</span><span class="p">,</span>
             <span class="nv">$user</span><span class="p">,</span>
             <span class="nv">$pass</span>
         <span class="p">);</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">channel</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">connection</span><span class="o">-&gt;</span><span class="na">channel</span><span class="p">();</span>
-        <span class="k">list</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">callback_queue</span><span class="p">,</span> <span class="p">,)</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">channel</span><span class="o">-&gt;</span><span class="na">queue_declare</span><span class="p">(</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">channel</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">connection</span><span class="o">-&gt;</span><span class="nf">channel</span><span class="p">();</span>
+        <span class="k">list</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">callback_queue</span><span class="p">,</span> <span class="p">,)</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">channel</span><span class="o">-&gt;</span><span class="nf">queue_declare</span><span class="p">(</span>
             <span class="s2">""</span><span class="p">,</span>
             <span class="kc">false</span><span class="p">,</span>
             <span class="kc">false</span><span class="p">,</span>
             <span class="kc">true</span><span class="p">,</span>
             <span class="kc">false</span>
         <span class="p">);</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">channel</span><span class="o">-&gt;</span><span class="na">basic_consume</span><span class="p">(</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">callback_queue</span><span class="p">,</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">channel</span><span class="o">-&gt;</span><span class="nf">basic_consume</span><span class="p">(</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">callback_queue</span><span class="p">,</span>
             <span class="s1">''</span><span class="p">,</span>
             <span class="kc">false</span><span class="p">,</span>
             <span class="kc">true</span><span class="p">,</span>
@@ -3681,31 +3689,31 @@ something that both <strong>Front End</strong> and <strong>Back End</strong> can
         <span class="p">);</span>
     <span class="p">}</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">onResponse</span><span class="p">(</span><span class="nv">$rep</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">onResponse</span><span class="p">(</span><span class="nv">$rep</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$rep</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'correlation_id'</span><span class="p">)</span> <span class="o">==</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">corr_id</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$rep</span><span class="o">-&gt;</span><span class="na">body</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$rep</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'correlation_id'</span><span class="p">)</span> <span class="o">==</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">corr_id</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">response</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$rep</span><span class="o">-&gt;</span><span class="n">body</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">send</span><span class="p">(</span><span class="nv">$action</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">send</span><span class="p">(</span><span class="nv">$action</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">corr_id</span> <span class="o">=</span> <span class="nb">uniqid</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">response</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">corr_id</span> <span class="o">=</span> <span class="nb">uniqid</span><span class="p">();</span>
         <span class="nv">$json</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'action'</span><span class="o">=&gt;</span><span class="nv">$action</span><span class="p">,</span> <span class="s1">'data'</span><span class="o">=&gt;</span><span class="nv">$data</span><span class="p">));</span>
 
-        <span class="nv">$msg</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AMQPMessage</span><span class="p">(</span>
+        <span class="nv">$msg</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AMQPMessage</span><span class="p">(</span>
             <span class="nv">$json</span><span class="p">,</span>
             <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'correlation_id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">corr_id</span><span class="p">,</span>
-                <span class="s1">'reply_to'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">callback_queue</span>
+                <span class="s1">'correlation_id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">corr_id</span><span class="p">,</span>
+                <span class="s1">'reply_to'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">callback_queue</span>
             <span class="p">)</span>
         <span class="p">);</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">channel</span><span class="o">-&gt;</span><span class="na">basic_publish</span><span class="p">(</span><span class="nv">$msg</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">'requests'</span><span class="p">);</span>
-        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">channel</span><span class="o">-&gt;</span><span class="na">wait</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">timeout</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">channel</span><span class="o">-&gt;</span><span class="nf">basic_publish</span><span class="p">(</span><span class="nv">$msg</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">'requests'</span><span class="p">);</span>
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">channel</span><span class="o">-&gt;</span><span class="nf">wait</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">timeout</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">response</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre>
 </div>
@@ -3726,11 +3734,11 @@ those parameters:</p>
 <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'data'</span><span class="p">];</span>
 
 <span class="k">echo</span> <span class="s2">"Establishing connection to messaging service... "</span><span class="p">;</span>
-<span class="nv">$rpc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RpcClient</span><span class="p">();</span>
+<span class="nv">$rpc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RpcClient</span><span class="p">();</span>
 <span class="k">echo</span> <span class="s2">"[SUCCESS]&lt;br&gt;"</span><span class="p">;</span>
 
 <span class="k">echo</span> <span class="s2">"Sending {action: </span><span class="se">\"</span><span class="nv">$action</span><span class="se">\"</span><span class="s2">, data: </span><span class="se">\"</span><span class="nv">$data</span><span class="se">\"</span><span class="s2">} to the send procedure and waiting for response..."</span><span class="p">;</span>
-<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$rpc</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="nv">$action</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$rpc</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="nv">$action</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
 <span class="k">echo</span> <span class="s2">"[SUCCESS]&lt;br&gt;"</span><span class="p">;</span>
 <span class="k">echo</span> <span class="s2">"Response: &lt;br&gt;"</span><span class="p">;</span>
 <span class="k">echo</span> <span class="s2">"&lt;pre&gt;"</span><span class="p">;</span>
@@ -3821,8 +3829,8 @@ you expect.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>If you test it, I used the ECHO action and the text "This is a test", you should
-see the following output after 10 seconds:</p>
+<p>If you test it, this example used the ECHO action and the text "This is a
+test", you should see the following output after 10 seconds:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3905,7 +3913,7 @@ Tutorial 6 - Remote Procedure Call</a></p>
 <div class="qlist qanda">
 <ol>
 <li>
-<p><em>Why are we using a messaging layer for communications to / from <strong>Front End</strong>?</em></p>
+<p><em>Why are we using a messaging layer for communications with <strong>Front End</strong>?</em></p>
 <p></p>
 </li>
 <li>
@@ -3934,7 +3942,7 @@ Tutorial 6 - Remote Procedure Call</a></p>
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/back-end.png" alt="back end" width="15%">
+<img src="images/back-end.png" alt="back end" width="10%">
 </div>
 </div>
 <div class="sect2">
@@ -7896,7 +7904,7 @@ see all queues. I chose <code>messaging-0</code> because it is easy to remember.
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/back-end.png" alt="back end" width="15%">
+<img src="images/back-end.png" alt="back end" width="10%">
 </div>
 </div>
 <div class="sect2">
@@ -8768,6 +8776,53 @@ and pulling images</a></p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_websockets">17. WebSockets</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/websocket.svg" alt="websocket" width="25%">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_introduction_12">17.1. Introduction</h3>
+<div class="paragraph">
+<p>As web apps continued to replace native apps the issues associated with
+building stateful applications on a platform that was designed to be
+stateless often plague developers. Frameworks like <a href="https://reactjs.org/">React</a>
+have sprung up to make creating interactive, single-page applications (SPA)
+easier.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.w3schools.com/xml/ajax_intro.asp">Asynchronous Javascript and XML
+(AJAX)</a> calls have traditionally been employed to support SPAs, but even with
+KEEPALIVE employed, these can still suffer from reconnection issues. Recall our
+primitive <strong>Front End</strong> PHP example which actually reconnects to <strong>Messaging</strong> every
+time a page is loaded.</p>
+</div>
+<div class="paragraph">
+<p>Fortunately a better solution has emerged:
+<a href="https://www.w3schools.com/xml/ajax_intro.asp">WebSockets.</a> WebSockets allow full
+duplex communication between a client and server over a single HTTP connection.
+By using WebSockets, we can build an SPA that connects to <strong>Messaging</strong> in
+the same way as our other <strong>Front End</strong> examples.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_architecture">17.2. Architecture</h3>
+<div class="paragraph">
+<p>This chapter will focus on the creation of a React <strong>Front End</strong> that utilizes
+WebSockets. Previously built components will be used for <strong>Messaging</strong>,
+<strong>Back End</strong>, and <strong>Database</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/react-front-end.svg" alt="react front end" width="942" height="492">
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes">
 <hr>
@@ -8789,7 +8844,7 @@ and pulling images</a></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-05-29 03:20:53 UTC
+Last updated 2020-09-30 15:41:51 UTC
 </div>
 </div>
 <style>

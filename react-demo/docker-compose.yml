@@ -1,0 +1,38 @@
+version: "3"
+services:
+  react-front-end:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - MSG_USER=${MSG_USER}
+      - MSG_PASS=${MSG_PASS}
+    #uncomment for development
+    volumes:
+      - ".:/app"
+  messaging:
+    image: rabbitmq:3.8.9-management
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${MSG_USER}
+      - RABBITMQ_DEFAULT_PASS=${MSG_PASS}
+  db:
+    image: mariadb:10.5.5
+    environment:
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_DATABASE}
+    volumes:
+      - "../db-demo:/docker-entrypoint-initdb.d"
+  back-end:
+    build: ../back-end-demo
+    environment:
+      - NODE_ENV=development
+      - MSG_USER=${MSG_USER}
+      - MSG_PASS=${MSG_PASS}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_DATABASE=${DB_DATABASE}

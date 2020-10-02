@@ -3,7 +3,6 @@ source 'https://rubygems.org' do
 gem 'asciidoctor'
 gem 'asciidoctor-diagram'
 gem 'asciidoctor-epub3'
-gem 'kindlegen'
 gem 'asciidoctor-pdf'
 gem 'rouge'
 

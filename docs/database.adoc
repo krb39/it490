@@ -53,6 +53,44 @@ car_part ||--|| part
 @enduml
 ....
 
+.Entity Relationship (ER) Diagrams
+****
+ER diagrams in this text are based on the Information Entineering notation as
+supported by https://plantuml.com/ie-diagram[PlantUML]:
+
+* leading dots are used to represent mandatory (NOT NULL) attributes
+* primary attributes are listed immediately under the entity name
+* other attributes are listed following the primary attributes
+* types (in SQL syntax) follow the `:` on the attribute line
+
+Lastly, crows feet are used to represent the arity of relations:
+
+[plantuml, arity, svg]
+....
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity one1 as "One"
+entity one2 as "One"
+entity one3 as "One"
+entity many1 as "Many"
+entity many2 as "Many"
+entity many3 as "Many"
+
+one1 ||--|| one2
+one3 ||--|{ many1
+many2 }|--|{ many3
+
+@enduml
+....
+
+****
+
 Relational databases maintain the integrity of their relations at the cost of
 being rigid and requiring more setup. In our system we will employ a relational
 database for multiple reasons:
@@ -67,20 +105,24 @@ A database will be used for the _persistent_ storage of information. In a
 container environment, it is very important to make the distinction between
 _ephemeral_ and _persistent_ storage. A container may have lots of information
 on its filesystem but if that container is stopped, that information is lost.
-All _stateful_ information, that is information that needs to survive the
+All persistent information, that is information that needs to survive the
 container lifecycle, should be stored on a database which utilizes an external
-volume.
+volume. Having persistent storage needs makes a container _stateful_.
 
 .Containerized Database using a Volume
 [plantuml, volumes, svg]
 ....
 @startuml
 
-storage volume as "Volume" {
-    file dbfiles as "Database Files"
+rectangle persistent as "Persistent" {
+    storage volume as "Volume" {
+        file dbfiles as "Database Files"
+    }
 }
-node container as "Container" {
-    database RDBMS
+rectangle ephemeral as "Ephemeral" {
+    rectangle container as "Container" {
+        database RDBMS
+    }
 }
 
 RDBMS <-> dbfiles
@@ -105,7 +147,7 @@ practical features that make it an excellent choice for any project.
 https://mariadb.org/[MariaDB]::
 MariaDB is a RDMS that aims to be be feature and syntax compliant with MySQL.
 It was originally forked from MySQL and developed as a response to Oracle's
-purchase of Sun Microsystems, who bought MySQL. It as actively developed and
+purchase of Sun Microsystems, who owned MySQL. It as actively developed and
 widely popular.
 https://www.postgresql.org/[PostgreSQL]::
 PostgreSQL is an _object_ relational database management system that aims to
@@ -128,7 +170,7 @@ https://dev.mysql.com/doc/refman/8.0/en/mysql.html[mysql client]. The
 include::{sourceroot}/{sourcedir}/setup.sql[]
 ----
 
-Be sure to check to https://hub.docker.com/_/mysql[documentation for the Docker
+Be sure to check the https://hub.docker.com/_/mysql[documentation for the Docker
 image you are using] to see how to initialize a database and to learn about
 which environment variables you will need to use. In this case,
 we will bind mount the current directory to `/docker-entrypoint-initdb.d/` on
@@ -155,30 +197,7 @@ PS db-demo> docker logs 32193c2a74a1 <5>
 2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
 2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.20-1debian10 started.
 2020-05-11 17:04:07+00:00 [Note] [Entrypoint]: Initializing database files
-2020-05-11T17:04:07.809871Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
-2020-05-11T17:04:07.809922Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.20) initializing of server in progress as process 42
-2020-05-11T17:04:07.814301Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-2020-05-11T17:04:08.700422Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-2020-05-11T17:04:10.397851Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switchi
-ng off the --initialize-insecure option.
-2020-05-11 17:04:14+00:00 [Note] [Entrypoint]: Database files initialized
-2020-05-11 17:04:14+00:00 [Note] [Entrypoint]: Starting temporary server
-2020-05-11T17:04:14.850337Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is t
-he default. Consider not using this option as it' is deprecated and will be removed in a future release.
-2020-05-11T17:04:14.850452Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.20) starting as process 89
-2020-05-11T17:04:14.874687Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-2020-05-11T17:04:15.108491Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-2020-05-11T17:04:15.217674Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock'
-2020-05-11T17:04:15.321264Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-2020-05-11T17:04:15.325886Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the p
-ath is accessible to all OS users. Consider choosing a different directory.
-2020-05-11T17:04:15.339834Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/r
-un/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.
-2020-05-11 17:04:15+00:00 [Note] [Entrypoint]: Temporary server started.
-Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
-Warning: Unable to load '/usr/share/zoneinfo/leap-seconds.list' as time zone. Skipping it.
-Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
-Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
+<snip>
 2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating database cars
 2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Creating user car_user
 2020-05-11 17:04:17+00:00 [Note] [Entrypoint]: Giving user car_user access to schema cars
@@ -187,19 +206,7 @@ Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skippin
 
 
 2020-05-11 17:04:18+00:00 [Note] [Entrypoint]: Stopping temporary server
-2020-05-11T17:04:18.137760Z 15 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.0.20).
-2020-05-11T17:04:20.277911Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.20)  MySQL Community Server - GPL.
-2020-05-11 17:04:21+00:00 [Note] [Entrypoint]: Temporary server stopped
-
-2020-05-11 17:04:21+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.
-
-2020-05-11T17:04:21.372922Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
-2020-05-11T17:04:21.373012Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.20) starting as process 1
-2020-05-11T17:04:21.382956Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-2020-05-11T17:04:21.590667Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-2020-05-11T17:04:21.691458Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock' bind-address: '::' port: 33060
-2020-05-11T17:04:21.767017Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-2020-05-11T17:04:21.770819Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+<snip>
 2020-05-11T17:04:21.787429Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.20'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
 ----
 <1> We create a volume named `db-data`
@@ -306,6 +313,8 @@ volumes anymore!
 == Questions
 
 [qanda]
+What is the difference between persistent and ephemeral data?::
+    {empty}
 What is a Docker volume and why should a containerized RDMS use it?::
     {empty}
 Pick one RDMS from the <<Popular RDMS, list above>>. What are the advantages of this particular RDMS over the others?::

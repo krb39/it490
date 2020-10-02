@@ -8,8 +8,8 @@ image::front-end.png[align=center, width=25%]
 
 The purpose of a front end is to interact with the user. Web applications are
 applications that use a web server to present their front end. In our case, we
-will build a traditional web application that interacts with the user via a web
-server, but uses *Messaging* for any other communication:
+will build a web application that interacts with the user via a web server, but
+uses *Messaging* for any other communication:
 
 [plantuml, front-end, svg]
 ----
@@ -55,14 +55,14 @@ amqp]
 PHP:: https://www.rabbitmq.com/tutorials/tutorial-one-php.html[php-amqplib]
 
 A *Front End* developer should be comfortable with HTML for the creation of
-views that the user will see and they should keep in mind that at some point
+views that the user will see and they should be mindful that at some point
 their code will need to be run on a production server. There are many options
 for production servers depending on what language *Front End* is using:
 
 [horizontal]
 Python:: Frameworks use https://www.fullstackpython.com/wsgi-servers.html[WSGI]
 for which there are many options.
-JavaScript:: Frameworks make use of Node and typically use a
+JavaScript:: Frameworks make use of Node and typically use
 https://deploybot.com/blog/guest-post-how-to-set-up-and-deploy-nodejs-express-application-for-production[
 managed node processes].
 PHP:: Usually served using CGI or a module for a standard web server.
@@ -70,7 +70,7 @@ PHP:: Usually served using CGI or a module for a standard web server.
 == Example
 
 As an example, we are going to set up a PHP application that presents a web
-interface _and_ communicates with *Messaging*. We will be basing our code of of
+interface _and_ communicates with *Messaging*. We will be basing our code off of
 the https://www.rabbitmq.com/tutorials/tutorial-six-php.html[RabbitMQ RPC
 tutorial for PHP] and using the https://hub.docker.com/_/php[official PHP Docker
 Hub image].
@@ -89,6 +89,10 @@ application's requirements are:
 ----
 include::{sourceroot}/{sourcedir}/app/composer.json[]
 ----
+
+NOTE: The PHP extensions `bcmath` and `sockets` are both required by
+`php-emqplib`. We request them in the composer file, but will also install
+them in the `Dockerfile`
 
 Now we need to use composer to download and install packages in the `vendor`
 directory of our application. Fortunately the official composer Docker image
@@ -137,9 +141,10 @@ include::{sourceroot}/{sourcedir}/docker-compose.yml[]
 ----
 
 Notice how even though the `Dockerfile` copies the app files to `/var/www/html`
-the `docker-compose.yml` still creates a bind mount. This allows us to actively
-develop the PHP code while the container is running. When we are done
-developing we can comment out the bind mount.
+the `docker-compose.yml` still creates a bind mount over top of them. This
+allows us to actively develop the PHP code while the container is running. When
+we are done developing we can comment out the bind mount and the container will
+use the copied files when the image is rebuilt and run.
 
 You may also notice that `docker-compose.yml` uses some environment variables.
 It sets them in the container, which we have seen before, _and_ it uses the
@@ -226,8 +231,8 @@ web_1        | 172.19.0.1 - - [14/May/2020:01:36:13 +0000] "POST /action.php HTT
 <4> Because of how logging is handled, you may not see log messages in the order
 you expect.
 
-If you test it, I used the ECHO action and the text "This is a test", you should
-see the following output after 10 seconds:
+If you test it, this example used the ECHO action and the text "This is a
+test", you should see the following output after 10 seconds:
 
 [source, plaintext]
 ----
@@ -266,7 +271,7 @@ Fatal error: Uncaught PhpAmqpLib\Exception\AMQPTimeoutException: The connection 
 == Questions
 
 [qanda]
-Why are we using a messaging layer for communications to / from *Front End*?::
+Why are we using a messaging layer for communications with *Front End*?::
     {empty}
 What does RPC stand for and what is it?::
     {empty}

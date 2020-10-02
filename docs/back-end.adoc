@@ -2,7 +2,7 @@
 :sourceroot: ..
 :sourcedir: back-end-demo
 
-image::back-end.png[align=center, width=15%]
+image::back-end.png[align=center, width=10%]
 
 == Introduction
 

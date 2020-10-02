@@ -15,7 +15,6 @@ image::containers.jpg[width=50%,align=center]
 
 [.text-center]
 eBook versions: link:systems-integration.epub[ePub] |
- link:systems-integration.mobi[mobi] |
  link:systems-integration.pdf[pdf]
 
 endif::backend-html5[]
@@ -63,3 +62,5 @@ include::front-end-in-kubernetes.adoc[]
 include::back-end-in-kubernetes.adoc[]
 
 include::google-kubernetes-engine.adoc[]
+
+include::websocket.adoc[]

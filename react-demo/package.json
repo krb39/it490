@@ -1,0 +1,15 @@
+{
+    "name": "react_demo",
+    "version": "1.0.0",
+    "description": "Using React with RabbitMQ",
+    "author": "Ryan Tolboom <ryan.tolboom@njit.edu>",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "ws": "^7.3.1",
+        "amqplib": "^0.6.0"
+    }
+}

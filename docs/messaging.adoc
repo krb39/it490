@@ -1,13 +1,14 @@
 = Messaging
 
-image::messaging.png[width=15%, align=center]
+image::messaging.png[width=10%, align=center]
 
 == Purpose
 
 Messaging allows multiple components to use a common medium to exchange
 information. The goal is to create a system that is more extensible,
-future proof, and scalable. By using a messaging framework you can focus on the
-interfaces between components and worry less about individual idiosyncrasies.
+resilient, and scalable. By using a messaging framework you can establish the
+interfaces between components and worry less about idiosyncrasies of
+communication.
 
 One of the easiest ways to understand the advantages of a messaging layer is to
 view it as a bus carrying information between components. While you may only
@@ -31,10 +32,13 @@ nwdiag {
 @enduml
 ....
 
-If the interfaces are well thought out, messaging frameworks can take advantage
-of caching. Examine the following scenario:
+It would be arduous to have to write unique code for eight components to
+facilitate communication. By using a messaging framework, this is taken care of.
 
-[plantuml, messaging-cache, svg]
+If the interfaces are well thought out, messaging frameworks can also take
+advantage of caching. Examine the following scenario:
+
+[plantuml, messaging-cache, svg, width=80%]
 ....
 @startuml
 "Front End" -> Messaging: GET Picture USER 42
@@ -48,10 +52,10 @@ Messaging -> "Front End": 1KB of Data (cached)
 @enduml
 ....
 
-For the second request, `GET Picture USER 42`, Messaging already knows the
-answer and can respond with a cached copy. A well-designed messaging framework
-will allow you to adjust cache parameters to achieve significant performance
-gains without serving stale data. Cache invalidation is a
+The second time a `GET Picture USER 42` request is received, *Messaging* already
+knows the answer and can respond with a cached copy. A well-designed messaging
+framework will allow you to adjust cache parameters to achieve significant
+performance gains without serving stale data. Cache invalidation is a
 https://martinfowler.com/bliki/TwoHardThings.html[famously difficult] problem,
 but at least with a messaging framework you are not trying to solve it by
 yourself.
@@ -65,8 +69,8 @@ any of the other components noticing? Use a messaging framework.
 That's not to say that all projects take advantage of a messaging layer. Often
 it's viewed as "just another thing to get in the way" or another possible
 bottleneck. Many projects attempt to shoe horn the messaging framework in later
-on, a difficult feat. We will avoid that here by mandating that a messaging
-framework be used from the start.
+on, a difficult feat. We will avoid that here by mandating that _a messaging
+framework must be used from the start._
 
 == Frameworks
 
@@ -97,12 +101,13 @@ data streams incredibly well.
 
 The https://hub.docker.com/_/rabbitmq[documentation for the official RabbitMQ
 Docker image] is quite good and covers many of the topics we will touch on in
-here in greater detail.
+here in greater detail. Please refer to it for further explanation.
 
 The stock RabbitMQ image uses different versions to specify if the management
 interface should be enabled. You will probably want to use the web-based
-management interface at first to see what is going on. You will also need to
-expose port `15672` on your container to your local machine.
+management interface at first to see what is going on. To do so you will need to
+run a management version and you will also need to expose port `15672` on your
+container to your local machine.
 
 RabbitMQ can also use a few different environment variables to store secrets:
 
@@ -125,27 +130,7 @@ Unable to find image 'rabbitmq:3.8.3-management' locally <2>
 3.8.3-management: Pulling from library/rabbitmq
 23884877105a: Pull complete
 bc38caa0f5b9: Pull complete
-2910811b6c42: Pull complete
-36505266dcc6: Pull complete
-15c38f93e1dd: Pull complete
-9e0786f6591b: Pull complete
-8b3540df5774: Pull complete
-32ac1b555e0d: Pull complete
-15f10b4062cf: Pull complete
-de41c89084c6: Pull complete
-b7f855bfd426: Pull complete
-3d2f86c64a6d: Pull complete
-Digest: sha256:14453bd6c8c0717053d5cb7fa232f11c83f49b8acd1aff59a9b3e25f79c4f652
-Status: Downloaded newer image for rabbitmq:3.8.3-management
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags: list of feature flags found:
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] drop_unroutable_metric
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] empty_basic_get_metric
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] implicit_default_bindings
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] quorum_queue
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags:   [ ] virtual_host_metadata
-2020-05-02 20:45:37.770 [info] <0.9.0> Feature flags: feature flag states written to disk: yes
-2020-05-02 20:45:37.803 [info] <0.269.0> ra: meta data store initialised. 0 record(s) recovered
-2020-05-02 20:45:37.803 [info] <0.274.0> WAL: recovering []
+<snip>
 2020-05-02 20:45:37.812 [info] <0.278.0>
  Starting RabbitMQ 3.8.3 on Erlang 22.3.3 <3>
  Copyright (c) 2007-2020 Pivotal Software, Inc.
@@ -185,7 +170,7 @@ Status: Downloaded newer image for rabbitmq:3.8.3-management
 local machine, and request the management image.
 <2> Since we don't have the image, it will be pulled from Docker Hub
 automatically.
-<3> RabbitMQ tells you what version of Erlang it is using. Cluster requires
+<3> RabbitMQ tells you what version of Erlang it is using. Clustering requires
 nodes to run similar versions, so this can be an important bit of information.
 <4> If you don't specify an Erlang cookie, one will be chose randomly. This is
 it, https://en.wikipedia.org/wiki/Base64[base64] encoded.
@@ -199,7 +184,7 @@ sign in. Take a moment to look around the interface. Queues are created
 automatically by applications so you won't need to configure anything, but once
 you have components up and using RabbitMQ you can look here to see the queues
 they've created and to make sure that everything is working. When you are all
-done type Ctrl-C to detach from the `docker run command` and use `docker stop`
+done type Ctrl+C to detach from the `docker run command` and use `docker stop`
 to stop the container:
 
 [source, shell]

@@ -1,0 +1,86 @@
+= WebSockets
+
+image::websocket.svg[width=25%,align=center]
+
+== Introduction
+
+As web apps continue to replace native apps the issues associated with
+building stateful applications on a platform designed to be stateless often
+plague developers. Frameworks like https://reactjs.org/[React] have sprung up
+to make creating interactive, single-page applications (SPA) easier. These
+applications tend to more closely mimic their native forebears.
+
+https://www.w3schools.com/xml/ajax_intro.asp[Asynchronous Javascript and XML
+(AJAX)] calls have traditionally been employed to support SPAs, but even with
+HTTP Keep-Alive employed, these can suffer from connection inefficiencies.
+Recall our primitive *Front End* PHP example which reconnects to *Messaging*
+_every_ time a page is loaded.
+
+Fortunately a better solution has emerged:
+https://www.w3schools.com/xml/ajax_intro.asp[WebSockets.] WebSockets allow full
+duplex communication between a client and server over a single HTTP connection.
+By using WebSockets, we can build an efficient SPA that connects to *Messaging*
+in the same way as our other *Front End* examples.
+
+== Architecture
+
+This chapter will focus on the creation of a React *Front End* that utilizes
+WebSockets. Previously built components will be used for *Messaging*,
+*Back End*, and *Database*:
+
+[plantuml, react-front-end, svg]
+....
+@startuml
+
+actor User
+rectangle front-end as "Front End" {
+  rectangle spa [
+    <b>Single Page App
+    ====
+    JavaScript using React
+  ]
+  rectangle server [
+    <b>Web Server
+    ====
+    Node with Express for static pages,
+    ws for websocket connections, and
+    amqplib for messaging.
+  ]
+}
+rectangle messaging as "Messaging" {
+  rectangle RabbitMQ as rabbit
+}
+rectangle back-end as "Back End" {
+  rectangle node [
+    <b>Node Script
+    ====
+    amqplib for messaging and mariadb for
+    database connectivity
+  ]
+}
+rectangle db as "Database" {
+  database MariaDB
+}
+
+User <-> spa: Web Browser
+spa <--> server: HTTP and WebSocket
+server <-> rabbit: AMQP
+rabbit <-> node: AMQP
+node <--> MariaDB: SQL
+
+@enduml
+....
+
+== Node Server
+
+== React Client
+
+NOTE: Why no https://reactjs.org/docs/introducing-jsx.html[JSX]? JSX is a very
+interesting tool for legibly putting HTML inside JS. Given how little HTML
+there actually is in this example, it was not used to keep things simple. If
+you are interested in using it, I would recommend learning more and giving it a
+try. As apps become increasingly complex it can greatly simplify the look of
+your code.
+
+== Docker Environment
+
