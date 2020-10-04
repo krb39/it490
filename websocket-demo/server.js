@@ -10,16 +10,26 @@ const messaging_url = `amqp://${messaging_user}:${messaging_pass}@${messaging_ho
 // use one connection for all AMPQ things
 var messaging_conn = amqp.connect(messaging_url);
 
-// Express / ws configuration
+// Express configuration
 const express = require('express');
-const ws = require('ws');
 const app = express();
-
+const port = 8080;
 // serve static files from the current dir
 app.use(express.static(__dirname))
+const server = app.listen(port);
 
-// Set up a WebSocket server that proxies our messages
+// ws configuration
+const ws = require('ws');
 const wsServer = new ws.Server({ noServer: true });
+
+// since we are sharing a server we pass off upgrade requests to ws
+server.on('upgrade', (request, socket, head) => {
+    wsServer.handleUpgrade(request, socket, head, socket => {
+        wsServer.emit('connection', socket, request);
+    });
+});
+
+// Set up a WebSocket AMPQ proxy
 wsServer.on('connection', function(socket) {
     console.log("WebSocket connection established");
     messaging_conn.then(function(conn) {
@@ -29,30 +39,19 @@ wsServer.on('connection', function(socket) {
             ch.assertQueue('', { exclusive: true }).then(function(ok) {
                 console.log("Creating callback for AMPQ response messages");
                 ch.consume(ok.queue, function(response) {
-                    var resp = response.content.toString();
-                    console.log(`Received ${resp} from AMQP response queue`);
-                    console.log(`Sending ${resp} to WebSocket`);
-                    socket.send(resp);
+                    console.log(`AMQP ${ok.queue} -> WebSocket`);
+                    socket.send(response.content.toString());
                 }, { noAck: true });
                 return ok;
             }).then(function(ok) {
                 console.log("Creating a callback for WebSocket messages");
                 socket.on('message', function(message) {
-                    console.log(`Recieved ${message} from WebSocket`);
-                    console.log(`Sending ${message} to AMPQ ${queue} queue`);
-                    ch.sendToQueue(queue, Buffer.from(message), { replyTo: ok.queue });
+                    console.log(`WebSocket -> AMQP ${queue}`);
+                    ch.sendToQueue(queue, Buffer.from(message),
+                        { replyTo: ok.queue });
                 });
             });
         });
-    });
-});
-
-const server = app.listen(8080);
-
-// since we are sharing a server we pass off upgrade requests to ws
-server.on('upgrade', (request, socket, head) => {
-    wsServer.handleUpgrade(request, socket, head, socket => {
-        wsServer.emit('connection', socket, request);
     });
 });
 

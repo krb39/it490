@@ -1,4 +1,6 @@
 = WebSockets
+:sourceroot: ..
+:sourcedir: websocket-demo
 
 image::websocket.svg[width=25%,align=center]
 
@@ -24,7 +26,7 @@ in the same way as our other *Front End* examples.
 
 == Architecture
 
-This chapter will focus on the creation of a React *Front End* that utilizes
+This Chapter will focus on the creation of a React *Front End* that utilizes
 WebSockets. Previously built components will be used for *Messaging*,
 *Back End*, and *Database*:
 
@@ -73,14 +75,227 @@ node <--> MariaDB: SQL
 
 == Node Server
 
+Our Node server needs to do two things: serve our React app (which is static
+JS) and proxy messages from a WebSocket connection to an AMQP connection with
+*Messaging*. We will use https://www.npmjs.com/package/amqplib[amqplib],
+https://expressjs.com/[Express], and https://www.npmjs.com/package/ws[ws] to
+make this possible:
+
+.{sourcedir}/packages.json
+[source,javascript]
+----
+include::{sourceroot}/{sourcedir}/package.json[]
+----
+
+Now let's take a look at the source code for our Node server:
+
+.{sourcedir}/server.js
+[source,javascript]
+----
+include::{sourceroot}/{sourcedir}/server.js[]
+----
+
+The ampqlib configuration has been covered already in <<Back End>>. The Express
+configuration is relatively simple, specifying a static directory to serve and
+a port to listen on. In this case we do not even need to define endpoints as we
+would in a Flask application.
+
+The ws configuration is where the bulk of our code is. First we have to specify
+that when a client signals that it wants to
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Protocol_upgrade_mechanism[
+upgrade an HTTP connection] Express passes control over to the wsServer we
+created. Secondly we have establish a method for routing messages from the
+WebSocket to *Messaging* and vice versa. The following actions are taken _when
+a WebSocket is established_:
+
+. A new AMPQ channel is opened over an existing connection to RabbitMQ. By
+  having a standing connection to *Messaging* we reduce the overhead.
+. A new, exclusive queue is created to receive messages from *Messaging*. Each
+  client has their own receive queue to make sure messages are not mixed up.
+. A callback is established to consume messages on the receive queue and
+  forward them to the WebSocket.
+. A callback is established to take messages from the WebSocket and forward them
+  to the requests queue.
+
+TIP: Callbacks/Promises/Await: You may notice that Express and ws rely
+heavily on the use of callbacks, but ampqlib looks slightly different with its
+`then()` chains. Another syntax you may see is the use of the `await` keyword
+in `async` functions, waiting for the resolution of Promises. Any way you slice
+it, you will be working with _asynchronous code_, namely situations where you
+don't want to be busy waiting for something to resolve when you could be
+working on something else. Get used to these situations and carefully read the
+documentation for the libraries you are using to make your code more efficient.
+
+NOTE: Why aren't we using https://www.typescriptlang.org/[TypeScript]?
+TypeScript is a great way to fix many of the problems the vanilla JS suffers
+from. The reason this example does not use TypeScript is to keep things as
+simple as possible. If you're working on a larger project
+https://basarat.gitbook.io/typescript/nodejs[TypeScript and Node go great
+together.]
+
+WARNING: Keep the security implications in mind when creating these types of
+tunnels. We have effectively given anyone direct access to *Messaging*. Is this
+something we are prepared for?
+
 == React Client
+
+Let's discuss the code that or Node server is actually serving. In the
+`{sourcedir}` directory you will find a very simple `index.html` that is
+presented as the default page when visiting http://localhost:8080:
+
+.{sourcedir}/index.html
+[source,html]
+----
+include::{sourceroot}/{sourcedir}/index.html[]
+----
+
+All this page does is load React, provide a `#root` div for our app, and load
+our React app (app.js):
+
+.{sourcedir}/app.js
+[source,javascript]
+----
+include::{sourceroot}/{sourcedir}/app.js[]
+----
+
+The React app is made up of two components: `Messages` and `Send`. `Messages`
+keeps a list of received messages, renders them as div elements, and provides
+a callback for adding new messages. `Send` renders a form with two text
+inputs, tracks their values, and creates a JSON message when the submit button
+is pressed.
+
+A WebSocket connection is created through the
+https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API[WebSocket API]
+in the constructor of our main component: `App`. This socket is passed to
+`Send` and `Messages` which use it to send and listen for messages
+respectively.
 
 NOTE: Why no https://reactjs.org/docs/introducing-jsx.html[JSX]? JSX is a very
 interesting tool for legibly putting HTML inside JS. Given how little HTML
 there actually is in this example, it was not used to keep things simple. If
-you are interested in using it, I would recommend learning more and giving it a
-try. As apps become increasingly complex it can greatly simplify the look of
-your code.
+you are interested in using it, I would recommend giving it a try. As apps
+become increasingly complex it can greatly simplify the look of your code.
 
 == Docker Environment
 
+Our environment variables should look familiar, we used them before in the
+previous demos. A user name and password for *Messaging* and *Database* as well
+as which database we would like to use:
+
+.{sourcedir}/.env
+[source,shell]
+----
+include::{sourceroot}/{sourcedir}/.env[]
+----
+
+We will be building off of the Docker Hub https://hub.docker.com/_/node[node]
+image, installing the packages we need, copying our app, and introducing a
+slight delay so that *Messaging* starts up before our container:
+
+.{sourcedir}/Dockerfile
+[source,dockerfile]
+----
+include::{sourceroot}/{sourcedir}/Dockerfile[]
+----
+
+Our `{sourcedir}/docker-compose.yml` file should look familiar as well, with
+the exception of the `react-front-end` service it is using the *Messaging*,
+*Back End*, and *Database* we developed earlier. The `react-front-end` service
+builds from the `Dockerfile` in the current directory, uses port `8080` (on the
+host _and_ the container), and adds the *Messaging* login information to the
+container environment:
+
+.{sourcedir}/docker-compose.yml
+[source,yaml]
+----
+include::{sourceroot}/{sourcedir}/docker-compose.yml[]
+----
+
+== Testing it Out
+
+Running `docker-compose up` in the `{sourcedir}` should bring everything up:
+
+[source,console]
+----
+PS C:\Users\rxt1077\IT490\websocket-demo> docker-compose up
+Starting websocket-demo_react-front-end_1 ... done
+Starting websocket-demo_db_1              ... done
+Starting websocket-demo_messaging_1       ... done
+Starting websocket-demo_back-end_1        ... done
+Attaching to websocket-demo_back-end_1, websocket-demo_react-front-end_1, websocket-demo_db_1, websocket-demo_messaging_1
+<snip>
+db_1               | 2020-10-03 14:50:57 0 [Note] mysqld: ready for connections.
+db_1               | Version: '10.5.5-MariaDB-1:10.5.5+maria~focal'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mari
+adb.org binary distribution
+<snip>
+messaging_1        | 2020-10-03 14:51:02.440 [info] <0.516.0> Server startup complete; 4 plugins started.
+messaging_1        |  * rabbitmq_prometheus
+messaging_1        |  * rabbitmq_management
+messaging_1        |  * rabbitmq_web_dispatch
+messaging_1        |  * rabbitmq_management_agent
+messaging_1        |  completed with 4 plugins.
+messaging_1        | 2020-10-03 14:51:02.440 [info] <0.516.0> Resetting node maintenance status
+back-end_1         |
+back-end_1         | > back-end@1.0.0 start /home/node/app
+back-end_1         | > node server.js
+back-end_1         |
+messaging_1        | 2020-10-03 14:51:05.496 [info] <0.824.0> accepting AMQP connection <0.824.0> (172.24.0.2:39522 -> 1
+72.24.0.5:5672)
+messaging_1        | 2020-10-03 14:51:05.555 [info] <0.824.0> connection <0.824.0> (172.24.0.2:39522 -> 172.24.0.5:5672)
+: user 'back-end-demo' authenticated and granted access to vhost '/'
+back-end_1         | Listening for requests...
+react-front-end_1  | Serving static files and listening for WebSocket connections...
+messaging_1        | 2020-10-03 14:51:08.086 [info] <0.839.0> accepting AMQP connection <0.839.0> (172.24.0.3:37848 -> 1
+72.24.0.5:5672)
+messaging_1        | 2020-10-03 14:51:08.135 [info] <0.839.0> connection <0.839.0> (172.24.0.3:37848 -> 172.24.0.5:5672)
+: user 'back-end-demo' authenticated and granted access to vhost '/'
+----
+
+Trimming down some of the massive startup messages (looking at you *Messaging*)
+you can see that everything started successfully. Now we can go to
+http://localhost:8080 and we should see our React client being served. You will
+notice in the logs that our `react-front-end` Node server builds its channel
+and callbacks once that WebSocket is established:
+
+[source,console]
+----
+react-front-end_1  | WebSocket connection established
+react-front-end_1  | Building AMQP channel
+react-front-end_1  | Creating AMPQ response queue
+react-front-end_1  | Creating callback for AMPQ response messages
+react-front-end_1  | Creating a callback for WebSocket messages
+----
+
+Finally, let's send an `ECHO` action with `Hello World` as our data and confirm
+that everything is working:
+
+[source,console]
+----
+react-front-end_1  | WebSocket -> AMQP requests
+back-end_1         | Received: {"action":"ECHO","data":"Hello World!"}
+back-end_1         | Echoing Hello World!
+react-front-end_1  | AMQP amq.gen-vg0n7kAPJSMi4j8NCnYXiA -> WebSocket
+----
+
+We also see the response displayed in the app as a new div element. Notice that
+our request was sent to the `requests` queue and the response was sent back to
+an exclusive queue we created (`amq.gen-vg0n7kAPJSMi4j8NCnYXiA` in this case).
+
+NOTE: Using WebSockets for an RPC client does not really leverage the full
+power of the connection. With WebSockets you can push messages to the connected
+clients to enable all sorts of interesting things: notifications, broadcast
+messages, etc. What's shown here is really just the tip of the iceberg.
+
+== Questions
+
+[qanda]
+What are the advantages of _this_ front end, as opposed to the front end demonstrated in <<Front End>>?::
+    {empty}
+What is a WebSocket and what does it allow you to do?::
+    {empty}
+What happens when a new WebSocket connection is made?::
+    {empty}
+What is meant by _upgrading_ a HTTP connection and why do we configure Express to hand off those upgrades to ws?::
+    {empty}
+Imagine you want the *Back End* to be able to broadcast messages to all connected clients. How would you implement that with _this_ system?::
+    {empty}

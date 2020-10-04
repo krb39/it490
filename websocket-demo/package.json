@@ -1,7 +1,7 @@
 {
-    "name": "react_demo",
+    "name": "websocket_demo",
     "version": "1.0.0",
-    "description": "Using React with RabbitMQ",
+    "description": "Using React with RabbitMQ via WebSockets",
     "author": "Ryan Tolboom <ryan.tolboom@njit.edu>",
     "main": "server.js",
     "scripts": {

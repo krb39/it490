@@ -47,6 +47,8 @@ include::front-end.adoc[]
 
 include::back-end.adoc[]
 
+include::websocket.adoc[]
+
 include::midterm-example.adoc[]
 
 include::replication.adoc[]
@@ -62,5 +64,3 @@ include::front-end-in-kubernetes.adoc[]
 include::back-end-in-kubernetes.adoc[]
 
 include::google-kubernetes-engine.adoc[]
-
-include::websocket.adoc[]

@@ -23,25 +23,35 @@ class Messages extends React.Component {
 class Send extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value: ''};
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {action: '', data: ''};
+        this.changeAction = this.changeAction.bind(this);
+        this.changeData = this.changeData.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    changeAction(event) {
+        this.setState({action: event.target.value, data: this.state.data});
+    }
+
+    changeData(event) {
+        this.setState({action: this.state.action, data: event.target.value});
     }
 
     handleSubmit(event) {
-        this.props.socket.send(this.state.value);
-        this.setState({value: ''});
+        this.props.socket.send(
+            JSON.stringify({action: this.state.action, data: this.state.data}));
+        this.setState({action: '', data: ''});
         event.preventDefault();
     }
 
     render() {
         return e("form", {onSubmit: this.handleSubmit},
-                e("input", {type: "text", value: this.state.value,
-                    onChange: this.handleChange}),
+                e("label", null, "Action:",
+                    e("input", {type: "text", value: this.state.action,
+                        onChange: this.changeAction})),
+                e("label", null, "Data:",
+                    e("input", {type: "text", value: this.state.data,
+                        onChange: this.changeData})),
                 e("input", {type: "submit", value: "Send"}));
     }
 }
