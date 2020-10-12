@@ -483,12 +483,27 @@ include::{sourceroot}/{sourcedir}/front_end/app.py[tags=login_required]
 
 [qanda]
 What is the advantage of using a `.env` file and referencing it from docker-compose.yml?::
-  {empty}
+    A `.env` file allows you to have a single source of information for things
+    that may be used by multiple services. This way you only have to make a
+    change in one file if you want to make an adjustment. This helps prevent
+    errors due to forgetting to change a variable in multiple places. It also
+    allows you to store your secrets in one file that you can then keep out of
+    your public repository.
 Why do we store password _hashes_ instead of just the passwords?::
-  {empty}
+    Hashes are more secure because they are a one-way function. You can convert
+    a password to its hash, but you _cannot_ convert a hash to its password. As
+    such, if your system is compromised an attacker would not get the passwords
+    of your users.
 Why is port `5000` the only port that needs to be forwarded to the local host?::
-  {empty}
+    All other communication in this system takes place inside the Docker
+    network that Docker Compose builds. The only interface a user needs to this
+    system is through port 5000 on *Front End*.
 What does the `adminer` image do?::
-  {empty}
+    Adminer provides a web-based interface to your database. This can be very
+    useful for looking at the data in your database and making sure everything
+    is working the way you expect it to.
 What role does *Messaging* play in this system?::
-  {empty}
+    Messaging brokers the communication between *Front End* and *Back End*. By
+    using a *Messaging* layer, we make our system more scalable. In the future
+    we may wish to run multiple *Front Ends* or *Back Ends*. With a *Messaging*
+    layer that transition should be simple.

@@ -246,12 +246,27 @@ working on different parts of the codebase, making the resolution simpler.
 
 [qanda]
 What are the advantages of using version control?::
-    {empty}
+    Version control allows you to keep track of _all_ changes to a set of
+    files. If something goes wrong and you need to get to a previous state,
+    you can. Likewise, if you want to see how you did something in the past
+    you can look through a history of changes. Finally, version control makes
+    it easier for teams to work together by helping resolve conflicts when
+    two authors change the same file.
 What does it mean that files are _staged_ for a _commit_?::
-    {empty}
+    These are files that have been marked to be included in the next commit.
+    Typically they have changes in them and they are part of a larger change
+    to the entire project. They aren't committed yet, but once you perform
+    the commit action and enter a commit message they will be.
 What are the two things that the `git add` command can do?::
-    {empty}
+    `git add` can tell git to begin tracking a file _and_ it can tell git to
+    _stage_ a file for the next commit.
 How do you create a new repository in a directory?::
-    {empty}
+    The `git init` command turn the working directory into a git repository.
+    Note that you need to be in the directory that you want to make into a
+    repository.
 What is a _remote_ and what does the `git push` command do?::
-    {empty}
+    A remote is a non-local server (typically external) that stores your git
+    repository. The `git push` command _pushes_ the current version of your
+    git repository to the remote server. It is usually used after you have
+    completed a commit so that the other members in your team have access to
+    the new version of the repository.

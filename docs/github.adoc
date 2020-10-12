@@ -136,12 +136,23 @@ book was written using AsciiDoc.]
 
 [qanda]
 What does GitHub provide for a project?::
-    {empty}
+    GitHub provides a remote repository and several project management tools
+    including an issue tracker. Both the repository and the tools have built-in
+    web interfaces.
 What is the difference between using git and GitHub?::
-    {empty}
+    git is the version control system and GitHub is a website that provides
+    additional project management tools and a web interface for a git
+    repository. git can be used independently of GitHub.
 A new member joins your team. As the maintainer of the repository on GitHub, what steps do you need to take so that they have commit access to the repository? What steps does the group member need to take to get set up?::
-    {empty}
+    The team member will need to set up a GitHub account and tell you what
+    their user name is. Once they have done that, you will need to add them
+    as a collaborator to the repository that you want to share with them.
 What is the purpose of issues in GitHub?::
-    {empty}
+    Issues allow you to keep track of bugs that need to be fixed, milestones
+    that need to be completed, or other general TODO items. It also gives you
+    a place to have a dialog about the project you are working on.
 Why might a team want to use pull requests instead of adding all contributers as collaborators to a project?::
-    {empty}
+    Even though all changes in a git repository can be rolled back if needed,
+    it can be time consuming and annoying for a large project to have to keep
+    reverting changes. By having contributers submit PRs, an integration team
+    can review the changes and only commit code that meets their standards.

@@ -1386,23 +1386,38 @@ for learning to use git.</p>
 <ol>
 <li>
 <p><em>What are the advantages of using version control?</em></p>
-<p></p>
+<p>Version control allows you to keep track of <em>all</em> changes to a set of
+files. If something goes wrong and you need to get to a previous state,
+you can. Likewise, if you want to see how you did something in the past
+you can look through a history of changes. Finally, version control makes
+it easier for teams to work together by helping resolve conflicts when
+two authors change the same file.</p>
 </li>
 <li>
 <p><em>What does it mean that files are <em>staged</em> for a <em>commit</em>?</em></p>
-<p></p>
+<p>These are files that have been marked to be included in the next commit.
+Typically they have changes in them and they are part of a larger change
+to the entire project. They aren&#8217;t committed yet, but once you perform
+the commit action and enter a commit message they will be.</p>
 </li>
 <li>
 <p><em>What are the two things that the <code>git add</code> command can do?</em></p>
-<p></p>
+<p><code>git add</code> can tell git to begin tracking a file <em>and</em> it can tell git to
+<em>stage</em> a file for the next commit.</p>
 </li>
 <li>
 <p><em>How do you create a new repository in a directory?</em></p>
-<p></p>
+<p>The <code>git init</code> command turn the working directory into a git repository.
+Note that you need to be in the directory that you want to make into a
+repository.</p>
 </li>
 <li>
 <p><em>What is a <em>remote</em> and what does the <code>git push</code> command do?</em></p>
-<p></p>
+<p>A remote is a non-local server (typically external) that stores your git
+repository. The <code>git push</code> command <em>pushes</em> the current version of your
+git repository to the remote server. It is usually used after you have
+completed a commit so that the other members in your team have access to
+the new version of the repository.</p>
 </li>
 </ol>
 </div>
@@ -1572,23 +1587,34 @@ About Pull Requests</a></p>
 <ol>
 <li>
 <p><em>What does GitHub provide for a project?</em></p>
-<p></p>
+<p>GitHub provides a remote repository and several project management tools
+including an issue tracker. Both the repository and the tools have built-in
+web interfaces.</p>
 </li>
 <li>
 <p><em>What is the difference between using git and GitHub?</em></p>
-<p></p>
+<p>git is the version control system and GitHub is a website that provides
+additional project management tools and a web interface for a git
+repository. git can be used independently of GitHub.</p>
 </li>
 <li>
 <p><em>A new member joins your team. As the maintainer of the repository on GitHub, what steps do you need to take so that they have commit access to the repository? What steps does the group member need to take to get set up?</em></p>
-<p></p>
+<p>The team member will need to set up a GitHub account and tell you what
+their user name is. Once they have done that, you will need to add them
+as a collaborator to the repository that you want to share with them.</p>
 </li>
 <li>
 <p><em>What is the purpose of issues in GitHub?</em></p>
-<p></p>
+<p>Issues allow you to keep track of bugs that need to be fixed, milestones
+that need to be completed, or other general TODO items. It also gives you
+a place to have a dialog about the project you are working on.</p>
 </li>
 <li>
 <p><em>Why might a team want to use pull requests instead of adding all contributers as collaborators to a project?</em></p>
-<p></p>
+<p>Even though all changes in a git repository can be rolled back if needed,
+it can be time consuming and annoying for a large project to have to keep
+reverting changes. By having contributers submit PRs, an integration team
+can review the changes and only commit code that meets their standards.</p>
 </li>
 </ol>
 </div>
@@ -5641,23 +5667,38 @@ well. The <code>@login_required</code> decorator does exactly that:</p>
 <ol>
 <li>
 <p><em>What is the advantage of using a <code>.env</code> file and referencing it from docker-compose.yml?</em></p>
-<p></p>
+<p>A <code>.env</code> file allows you to have a single source of information for things
+that may be used by multiple services. This way you only have to make a
+change in one file if you want to make an adjustment. This helps prevent
+errors due to forgetting to change a variable in multiple places. It also
+allows you to store your secrets in one file that you can then keep out of
+your public repository.</p>
 </li>
 <li>
 <p><em>Why do we store password <em>hashes</em> instead of just the passwords?</em></p>
-<p></p>
+<p>Hashes are more secure because they are a one-way function. You can convert
+a password to its hash, but you <em>cannot</em> convert a hash to its password. As
+such, if your system is compromised an attacker would not get the passwords
+of your users.</p>
 </li>
 <li>
 <p><em>Why is port <code>5000</code> the only port that needs to be forwarded to the local host?</em></p>
-<p></p>
+<p>All other communication in this system takes place inside the Docker
+network that Docker Compose builds. The only interface a user needs to this
+system is through port 5000 on <strong>Front End</strong>.</p>
 </li>
 <li>
 <p><em>What does the <code>adminer</code> image do?</em></p>
-<p></p>
+<p>Adminer provides a web-based interface to your database. This can be very
+useful for looking at the data in your database and making sure everything
+is working the way you expect it to.</p>
 </li>
 <li>
 <p><em>What role does <strong>Messaging</strong> play in this system?</em></p>
-<p></p>
+<p>Messaging brokers the communication between <strong>Front End</strong> and <strong>Back End</strong>. By
+using a <strong>Messaging</strong> layer, we make our system more scalable. In the future
+we may wish to run multiple <strong>Front Ends</strong> or <strong>Back Ends</strong>. With a <strong>Messaging</strong>
+layer that transition should be simple.</p>
 </li>
 </ol>
 </div>
