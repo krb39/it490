@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 2.0.12">
 <meta name="author" content="Ryan Tolboom">
 <title>Systems Integration: A Project Based Approach</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -48,7 +48,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -63,10 +63,8 @@ img{-ms-interpolation-mode:bicubic}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
-.center{margin-left:auto;margin-right:auto}
-.stretch{width:100%}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
-div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
 a{color:#2156a5;text-decoration:underline;line-height:inherit}
 a:hover,a:focus{color:#1d4b8f}
 a img{border:0}
@@ -106,19 +104,22 @@ h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
 h4{font-size:1.4375em}}
-table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede;word-wrap:normal}
 table thead,table tfoot{background:#f7f8f7}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt{background:#f8f8f7}
-table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
 .clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
 .clearfix::after,.float-group::after{clear:both}
-:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
-:not(pre)>code.nobreak{word-wrap:normal}
-:not(pre)>code.nowrap{white-space:nowrap}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
 pre>code{display:block}
@@ -183,7 +184,7 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
 #content #toc>:first-child{margin-top:0}
 #content #toc>:last-child{margin-bottom:0}
-#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
 #content{margin-bottom:.625em}
 .sect1{padding-bottom:.625em}
@@ -206,7 +207,7 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .admonitionblock>table td.icon{text-align:center;width:80px}
 .admonitionblock>table td.icon img{max-width:none}
 .admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
-.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
 .exampleblock>.content>:first-child{margin-top:0}
@@ -216,7 +217,7 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
 .exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
-.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
@@ -262,21 +263,20 @@ pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
 .quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
 .quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
-table.tableblock{max-width:100%;border-collapse:separate}
 p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
 td.tableblock>.content>:last-child{margin-bottom:-1.25em}
-td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
-table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
-table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
-table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
-table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
-table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
-table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
-table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
 table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
 table.frame-sides{border-width:0 1px}
-table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
 table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
 th.halign-left,td.halign-left{text-align:left}
 th.halign-right,td.halign-right{text-align:right}
@@ -285,7 +285,7 @@ th.valign-top,td.valign-top{vertical-align:top}
 th.valign-bottom,td.valign-bottom{vertical-align:bottom}
 th.valign-middle,td.valign-middle{vertical-align:middle}
 table thead th,table tfoot th{font-weight:bold}
-tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th{background:#f7f8f7}
 tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
 p.tableblock>code:only-child{background:none;padding:0}
 p.tableblock{font-size:1em}
@@ -314,6 +314,7 @@ ol.lowergreek{list-style-type:lower-greek}
 .hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
 td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
 td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
 .colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
 .colist td:not([class]):first-child img{max-width:none}
@@ -386,7 +387,7 @@ a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
 .admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
 .admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
-.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:50%;border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
 .conum[data-value] *{color:#fff!important}
 .conum[data-value]+b{display:none}
 .conum[data-value]::after{content:attr(data-value)}
@@ -413,6 +414,7 @@ thead{display:table-header-group}
 svg{max-width:100%}
 p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
 #toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
 body.book #header{text-align:center}
@@ -437,6 +439,221 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge .cm {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cp {
+  color: #999999;
+  font-weight: bold;
+}
+pre.rouge .c1 {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cs {
+  color: #999999;
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+pre.rouge .gd {
+  color: #000000;
+  background-color: #ffdddd;
+}
+pre.rouge .ge {
+  color: #000000;
+  font-style: italic;
+}
+pre.rouge .gr {
+  color: #aa0000;
+}
+pre.rouge .gh {
+  color: #999999;
+}
+pre.rouge .gi {
+  color: #000000;
+  background-color: #ddffdd;
+}
+pre.rouge .go {
+  color: #888888;
+}
+pre.rouge .gp {
+  color: #555555;
+}
+pre.rouge .gs {
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #aaaaaa;
+}
+pre.rouge .gt {
+  color: #aa0000;
+}
+pre.rouge .kc {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kd {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kn {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kp {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kr {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kt {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .k, pre.rouge .kv {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .mf {
+  color: #009999;
+}
+pre.rouge .mh {
+  color: #009999;
+}
+pre.rouge .il {
+  color: #009999;
+}
+pre.rouge .mi {
+  color: #009999;
+}
+pre.rouge .mo {
+  color: #009999;
+}
+pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
+  color: #009999;
+}
+pre.rouge .sa {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .sb {
+  color: #d14;
+}
+pre.rouge .sc {
+  color: #d14;
+}
+pre.rouge .sd {
+  color: #d14;
+}
+pre.rouge .s2 {
+  color: #d14;
+}
+pre.rouge .se {
+  color: #d14;
+}
+pre.rouge .sh {
+  color: #d14;
+}
+pre.rouge .si {
+  color: #d14;
+}
+pre.rouge .sx {
+  color: #d14;
+}
+pre.rouge .sr {
+  color: #009926;
+}
+pre.rouge .s1 {
+  color: #d14;
+}
+pre.rouge .ss {
+  color: #990073;
+}
+pre.rouge .s, pre.rouge .dl {
+  color: #d14;
+}
+pre.rouge .na {
+  color: #008080;
+}
+pre.rouge .bp {
+  color: #999999;
+}
+pre.rouge .nb {
+  color: #0086B3;
+}
+pre.rouge .nc {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .no {
+  color: #008080;
+}
+pre.rouge .nd {
+  color: #3c5d5d;
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #800080;
+}
+pre.rouge .ne {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nn {
+  color: #555555;
+}
+pre.rouge .nt {
+  color: #000080;
+}
+pre.rouge .vc {
+  color: #008080;
+}
+pre.rouge .vg {
+  color: #008080;
+}
+pre.rouge .vi {
+  color: #008080;
+}
+pre.rouge .nv, pre.rouge .vm {
+  color: #008080;
+}
+pre.rouge .ow {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .o {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .w {
+  color: #bbbbbb;
+}
+pre.rouge {
+  background-color: #f8f8f8;
+}
+</style>
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -580,7 +797,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_deployments">13.4. Deployments</a></li>
 <li><a href="#_running_the_example">13.5. Running the Example</a></li>
 <li><a href="#_conclusion_2">13.6. Conclusion</a></li>
-<li><a href="#_questions_13">13.7. Questions</a></li>
+<li><a href="#_resources_9">13.7. Resources</a></li>
+<li><a href="#_questions_13">13.8. Questions</a></li>
 </ul>
 </li>
 <li><a href="#_messaging_in_kubernetes">14. Messaging in Kubernetes</a>
@@ -589,7 +807,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_rabbitmq">14.2. RabbitMQ</a></li>
 <li><a href="#_kubernetes_2">14.3. Kubernetes</a></li>
 <li><a href="#_example_5">14.4. Example</a></li>
-<li><a href="#_resources_9">14.5. Resources</a></li>
+<li><a href="#_resources_10">14.5. Resources</a></li>
 <li><a href="#_questions_14">14.6. Questions</a></li>
 </ul>
 </li>
@@ -615,7 +833,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_pushing_images">17.3. Pushing Images</a></li>
 <li><a href="#_creating_objects">17.4. Creating Objects</a></li>
 <li><a href="#_cleaning_up">17.5. Cleaning Up</a></li>
-<li><a href="#_resources_10">17.6. Resources</a></li>
+<li><a href="#_resources_11">17.6. Resources</a></li>
 <li><a href="#_questions_17">17.7. Questions</a></li>
 </ul>
 </li>
@@ -1610,10 +1828,10 @@ that need to be completed, or other general TODO items. It also gives you
 a place to have a dialog about the project you are working on.</p>
 </li>
 <li>
-<p><em>Why might a team want to use pull requests instead of adding all contributers as collaborators to a project?</em></p>
+<p><em>Why might a team want to use pull requests instead of adding all contributors as collaborators to a project?</em></p>
 <p>Even though all changes in a git repository can be rolled back if needed,
 it can be time consuming and annoying for a large project to have to keep
-reverting changes. By having contributers submit PRs, an integration team
+reverting changes. By having contributors submit PRs, an integration team
 can review the changes and only commit code that meets their standards.</p>
 </li>
 </ol>
@@ -1868,6 +2086,9 @@ need as you progress.</p>
 <li>
 <p><a href="https://yaml-multiline.info/">YAML Multiline Strings</a></p>
 </li>
+<li>
+<p><a href="https://learnxinyminutes.com/docs/yaml/">Learn X in Y minutes Where X=yaml</a></p>
+</li>
 </ul>
 </div>
 </div>
@@ -1877,23 +2098,45 @@ need as you progress.</p>
 <ol>
 <li>
 <p><em>How does YAML signify different blocks?</em></p>
-<p></p>
+<p>Blocks are signified through indentation in YAML. This is similar to how
+Python delineates blocks.</p>
 </li>
 <li>
 <p><em>Are nested structures possible in YAML? Give an example.</em></p>
-<p></p>
+<p>Yes.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">level-1</span><span class="pi">:</span>
+    <span class="na">level-1A</span><span class="pi">:</span>
+    <span class="na">level-1B</span><span class="pi">:</span>
+    <span class="na">level-1C</span><span class="pi">:</span>
+<span class="na">level-2</span><span class="pi">:</span>
+    <span class="na">level-2A</span><span class="pi">:</span>
+    <span class="na">level-2B</span><span class="pi">:</span>
+    <span class="na">level-2C</span><span class="pi">:</span></code></pre>
+</div>
+</div>
 </li>
 <li>
-<p><em>What are the two components of a YAML mapping?</em></p>
-<p></p>
+<p><em>What are the two components of a YAML mapping? Give an example to illustrate your point.</em></p>
+<p>A key (or a keyword) and a value.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">key</span><span class="pi">:</span> <span class="s">value</span></code></pre>
+</div>
+</div>
 </li>
 <li>
 <p><em>How would you comment out a line in a YAML file?</em></p>
-<p></p>
+<p>The <code>#</code> character at the beginning of a line comments out the whole line.</p>
 </li>
 <li>
 <p><em>What does the expandtab or "replace by spaces" option do in a text editor and why is it important to use when working with YAML?</em></p>
-<p></p>
+<p>This option inserts a series of spaces every time the tab key is pressed. \
+This is important because YAML uses indentation to define blocks and the \
+characters used to indent need to be consistent. With this option you can \
+use the tab key and not have to worry about whether you are inserting a \
+tab or a space.</p>
 </li>
 </ol>
 </div>
@@ -2434,7 +2677,7 @@ learn about it is to see it in action, so let&#8217;s start by looking at an exa
 <div class="title">docker-demo/docker-compose.yml</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yml"><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3'</span>
-
+    
 <span class="na">services</span><span class="pi">:</span>
   <span class="na">web</span><span class="pi">:</span>
     <span class="na">build</span><span class="pi">:</span> <span class="s">.</span>
@@ -3670,7 +3913,7 @@ something that both <strong>Front End</strong> and <strong>Back End</strong> can
 <div class="listingblock">
 <div class="title">front-end-demo/app/rpc_client.php</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="php"><span class="cp">&lt;?php</span>
+<pre class="rouge highlight"><code data-lang="php"><span class="o">&lt;?</span><span class="n">php</span>
 
 <span class="k">require_once</span> <span class="k">__DIR__</span> <span class="mf">.</span> <span class="s1">'/vendor/autoload.php'</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nc">PhpAmqpLib\Connection\AMQPStreamConnection</span><span class="p">;</span>
@@ -3757,7 +4000,7 @@ those parameters:</p>
 <div class="listingblock">
 <div class="title">front-end-demo/app/action.php</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="php"><span class="cp">&lt;?php</span>
+<pre class="rouge highlight"><code data-lang="php"><span class="o">&lt;?</span><span class="n">php</span>
 
 <span class="k">require</span><span class="p">(</span><span class="s1">'rpc_client.php'</span><span class="p">);</span>
 
@@ -5274,7 +5517,7 @@ seen here:</p>
         <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s">'GETHASH'</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span>
             <span class="n">email</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'email'</span><span class="p">]</span>
-            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">f"GETHASH request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
+            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"GETHASH request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
             <span class="n">curr</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">'SELECT hash FROM users WHERE email=%s;'</span><span class="p">,</span> <span class="p">(</span><span class="n">email</span><span class="p">,))</span>
             <span class="n">row</span> <span class="o">=</span>  <span class="n">curr</span><span class="p">.</span><span class="n">fetchone</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -5285,7 +5528,7 @@ seen here:</p>
             <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span>
             <span class="n">email</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'email'</span><span class="p">]</span>
             <span class="n">hashed</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'hash'</span><span class="p">]</span>
-            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">f"REGISTER request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
+            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"REGISTER request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
             <span class="n">curr</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">'SELECT * FROM users WHERE email=%s;'</span><span class="p">,</span> <span class="p">(</span><span class="n">email</span><span class="p">,))</span>
             <span class="k">if</span> <span class="n">curr</span><span class="p">.</span><span class="n">fetchone</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">'success'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'message'</span><span class="p">:</span> <span class="s">'User already exists'</span><span class="p">}</span>
@@ -5457,7 +5700,7 @@ replies are returned via an exclusive reply queue.</p>
         Sends an action and data to the request queue in JSON. Sets the
         reply_to property to the custom result queue.
         """</span>
-        <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">f"Messaging: send(action=</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s">, data=</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">)"</span><span class="p">)</span>
+        <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"Messaging: send(action=</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s">, data=</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">)"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="p">.</span><span class="n">channel</span><span class="p">.</span><span class="n">basic_publish</span><span class="p">(</span>
             <span class="n">exchange</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
@@ -5479,11 +5722,11 @@ replies are returned via an exclusive reply queue.</p>
                 <span class="bp">self</span><span class="p">.</span><span class="n">result_queue</span><span class="p">,</span> <span class="n">auto_ack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">method_frame</span><span class="p">:</span>
                 <span class="n">received</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
-                <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">f"Messaging: received=</span><span class="si">{</span><span class="n">received</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+                <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"Messaging: received=</span><span class="si">{</span><span class="n">received</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">received</span>
             <span class="k">elif</span> <span class="n">attempts</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-                <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Messaging: receive did not get message"</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">None</span>
+                <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Messaging: receive did not get message"</span><span class="p">)</span> 
+                <span class="k">return</span> <span class="bp">None</span> 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
                 <span class="n">attempts</span> <span class="o">+=</span> <span class="mi">1</span></code></pre>
@@ -5538,7 +5781,7 @@ and <strong>Back End</strong>:</p>
             <span class="n">session</span><span class="p">[</span><span class="s">'email'</span><span class="p">]</span> <span class="o">=</span> <span class="n">email</span>
             <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">f"</span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="s">'message'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="s">'message'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">'register.html'</span><span class="p">)</span></code></pre>
 </div>
 </div>
@@ -5964,7 +6207,7 @@ initialized.</p>
     pg_basebackup <span class="nt">-h</span> <span class="nv">$PRIMARY</span> <span class="nt">-D</span> <span class="nv">$PGDATA</span> <span class="nt">-U</span> repuser <span class="nt">-v</span> <span class="nt">-P</span> <span class="nt">-X</span> stream
     <span class="nb">chmod</span> <span class="nt">-R</span> 700 <span class="nv">$PGDATA</span>
 
-    <span class="c"># Add connection info</span>
+    <span class="c"># Add connection info </span>
     <span class="nb">cat</span> <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh"> &gt;&gt; </span><span class="nv">$PGDATA</span><span class="sh">/postgresql.conf
         primary_conninfo = 'host=</span><span class="nv">$PRIMARY</span><span class="sh"> port=5432 user=repuser password=</span><span class="nv">$POSTGRES_REPLICA_PASSWORD</span><span class="sh">'
 </span><span class="no">EOF
@@ -6478,8 +6721,8 @@ should print some output to standard out:</p>
 <div class="listingblock">
 <div class="title">minikube-demo/Dockerfile</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="Dockerfile">FROM alpine
-ENTRYPOINT ["/bin/sh", "-c", "echo 'Hello from a Kubernetes log!'; sleep 30"]</code></pre>
+<pre class="rouge highlight"><code data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> alpine</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["/bin/sh", "-c", "echo 'Hello from a Kubernetes log!'; sleep 30"]</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -7097,7 +7340,7 @@ spec:
               chmod -R 700 /var/lib/postgresql/data
               su -c "pg_basebackup -h db-rw -D /var/lib/postgresql/data -U repuser -w -v -P -X stream" postgres
 
-              # Add connection info
+              # Add connection info 
               cat &lt;&lt; EOF &gt;&gt; /var/lib/postgresql/data/postgresql.conf
                 primary_conninfo = 'host=db-rw port=5432 user=repuser password=$POSTGRES_REPLICA_PASSWORD'
               EOF
@@ -7395,7 +7638,18 @@ about it you should be able to revisit and improve this implementation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_questions_13">13.7. Questions</h3>
+<h3 id="_resources_9">13.7. Resources</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application">
+Run a Replicated Stateful Application</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_questions_13">13.8. Questions</h3>
 <div class="qlist qanda">
 <ol>
 <li>
@@ -7973,7 +8227,7 @@ interface connections.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_resources_9">14.5. Resources</h3>
+<h3 id="_resources_10">14.5. Resources</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -8612,7 +8866,7 @@ connection depending on the action:</p>
         <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s">'GETHASH'</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span>
             <span class="n">email</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'email'</span><span class="p">]</span>
-            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">f"GETHASH request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
+            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"GETHASH request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
             <span class="n">curr_r</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">'SELECT hash FROM users WHERE email=%s;'</span><span class="p">,</span> <span class="p">(</span><span class="n">email</span><span class="p">,))</span>
             <span class="n">row</span> <span class="o">=</span>  <span class="n">curr_r</span><span class="p">.</span><span class="n">fetchone</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -8623,7 +8877,7 @@ connection depending on the action:</p>
             <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span>
             <span class="n">email</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'email'</span><span class="p">]</span>
             <span class="n">hashed</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'hash'</span><span class="p">]</span>
-            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">f"REGISTER request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
+            <span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"REGISTER request for </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s"> received"</span><span class="p">)</span>
             <span class="n">curr_r</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">'SELECT * FROM users WHERE email=%s;'</span><span class="p">,</span> <span class="p">(</span><span class="n">email</span><span class="p">,))</span>
             <span class="k">if</span> <span class="n">curr_r</span><span class="p">.</span><span class="n">fetchone</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">'success'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'message'</span><span class="p">:</span> <span class="s">'User already exists'</span><span class="p">}</span>
@@ -9342,7 +9596,7 @@ See https://cloud.google.com/resource-manager/docs/creating-managing-projects fo
 </div>
 </div>
 <div class="sect2">
-<h3 id="_resources_10">17.6. Resources</h3>
+<h3 id="_resources_11">17.6. Resources</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -9417,216 +9671,5 @@ and pulling images</a></p>
 Last updated 2020-10-03 01:45:28 UTC
 </div>
 </div>
-<style>
-pre.rouge table td { padding: 5px; }
-pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cp {
-  color: #999999;
-  font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
-}
-pre.rouge .gr {
-  color: #aa0000;
-}
-pre.rouge .gh {
-  color: #999999;
-}
-pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
-}
-pre.rouge .go {
-  color: #888888;
-}
-pre.rouge .gp {
-  color: #555555;
-}
-pre.rouge .gs {
-  font-weight: bold;
-}
-pre.rouge .gu {
-  color: #aaaaaa;
-}
-pre.rouge .gt {
-  color: #aa0000;
-}
-pre.rouge .kc {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kd {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kn {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kp {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kr {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .no {
-  color: #008080;
-}
-pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nl {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .o {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .w {
-  color: #bbbbbb;
-}
-pre.rouge {
-  background-color: #f8f8f8;
-}
-</style>
 </body>
 </html>

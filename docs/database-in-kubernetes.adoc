@@ -363,6 +363,11 @@ Using Kubernetes we were able to quickly build a HA PostgreSQL cluster. This is
 just the tip of the iceberg for what Kubernetes supports and as you learn more
 about it you should be able to revisit and improve this implementation.
 
+== Resources
+
+* https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application[
+Run a Replicated Stateful Application]
+
 == Questions
 
 [qanda]

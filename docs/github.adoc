@@ -151,8 +151,8 @@ What is the purpose of issues in GitHub?::
     Issues allow you to keep track of bugs that need to be fixed, milestones
     that need to be completed, or other general TODO items. It also gives you
     a place to have a dialog about the project you are working on.
-Why might a team want to use pull requests instead of adding all contributers as collaborators to a project?::
+Why might a team want to use pull requests instead of adding all contributors as collaborators to a project?::
     Even though all changes in a git repository can be rolled back if needed,
     it can be time consuming and annoying for a large project to have to keep
-    reverting changes. By having contributers submit PRs, an integration team
+    reverting changes. By having contributors submit PRs, an integration team
     can review the changes and only commit code that meets their standards.

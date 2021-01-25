@@ -147,16 +147,35 @@ need as you progress.
 
 * https://yaml.org/[The Official YAML Web Site]
 * https://yaml-multiline.info/[YAML Multiline Strings]
+* https://learnxinyminutes.com/docs/yaml/[Learn X in Y minutes Where X=yaml]
 
 == Questions
 [qanda]
 How does YAML signify different blocks?::
-    {empty}
+    Blocks are signified through indentation in YAML. This is similar to how
+    Python delineates blocks.
 Are nested structures possible in YAML? Give an example.::
-    {empty}
-What are the two components of a YAML mapping?::
-    {empty}
+    Yes.
++
+[source, yaml]
+----
+level-1:
+    level-1A:
+    level-1B:
+    level-1C:
+level-2:
+    level-2A:
+    level-2B:
+    level-2C:
+----
+What are the two components of a YAML mapping? Give an example to illustrate your point.::
+    A key (or a keyword) and a value.
++
+[source, yaml]
+----
+key: value
+----
 How would you comment out a line in a YAML file?::
-    {empty}
+    The `#` character at the beginning of a line comments out the whole line.
 What does the expandtab or "replace by spaces" option do in a text editor and why is it important to use when working with YAML?::
-    {empty}
+    This option inserts a series of spaces every time the tab key is pressed. This is important because YAML uses indentation to define blocks and the characters used to indent need to be consistent. With this option you can use the tab key and not have to worry about whether you are inserting a tab or a space.
