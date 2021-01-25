@@ -2132,11 +2132,7 @@ Python delineates blocks.</p>
 </li>
 <li>
 <p><em>What does the expandtab or "replace by spaces" option do in a text editor and why is it important to use when working with YAML?</em></p>
-<p>This option inserts a series of spaces every time the tab key is pressed. \
-This is important because YAML uses indentation to define blocks and the \
-characters used to indent need to be consistent. With this option you can \
-use the tab key and not have to worry about whether you are inserting a \
-tab or a space.</p>
+<p>This option inserts a series of spaces every time the tab key is pressed. This is important because YAML uses indentation to define blocks and the characters used to indent need to be consistent. With this option you can use the tab key and not have to worry about whether you are inserting a tab or a space.</p>
 </li>
 </ol>
 </div>
@@ -2192,9 +2188,9 @@ multiple VMs, you end up with a system that looks like this:</p>
 <div class="title">Figure 3. VM Server Architecture</div>
 </div>
 <div class="paragraph">
-<p>Every VM having to run its own OS creates and emulate a unique machine creates a
-lot of overhead. Containers allow for similar isolation as VMs, but at a reduced
-resource cost since. As opposed to VMs which emulate a physical machine,
+<p>Every VM having to run its own OS and emulate a unique machine creates a lot of
+overhead. Containers allow for similar isolation as VMs, but at a reduced
+resource cost since ass opposed to VMs which emulate a physical machine,
 containers use
 <a href="https://en.wikipedia.org/wiki/Cgroups">control groups</a>,
 <a href="https://en.wikipedia.org/wiki/Linux_namespaces">namespaces</a>, and
@@ -2232,19 +2228,9 @@ operating system and hardware that you use:</p>
 <ul>
 <li>
 <p><a href="https://hub.docker.com/?overlay=onboarding">Docker Desktop</a> should run fine
-on any Windows system that has Hyper-V (a virtualization feature) available.</p>
-</li>
-<li>
-<p>Windows 10 Home <em>does not</em> have Hyper-V available, but you can easily
-<a href="https://answers.microsoft.com/en-us/windows/forum/windows_10-update/how-to-convert-windows-10-home-to-education/5a6e42b0-51fc-4e53-9497-454c3adc671c?auth=1">
-Upgrade to Windows 10 Education</a> (typically this is provided by your
-University) and then instal it. This should be your first step if
-Docker Desktop does not work out-of-the-box.</p>
-</li>
-<li>
-<p><a href="https://docs.docker.com/toolbox/">Docker Toolbox</a> is an older version of
-Docker, running under a VM in VirtualBox. It can be difficult to work with
-and Docker Desktop is preferred.</p>
+on any Windows system that supports
+<a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem
+for Linux 2 (WSL2)</a>.</p>
 </li>
 </ul>
 </div>
@@ -2368,7 +2354,7 @@ run.</p>
 </td>
 <td class="content">
 It is easy to forget that the build command takes an option as that
-option is sometimes the current directory: <code>.</code>. Don&#8217;t forget the period at the
+option is sometimes the current directory. Don&#8217;t forget the period at the
 end of a <code>docker build .</code> command.
 </td>
 </tr>
@@ -2783,6 +2769,9 @@ are all done we can close things down with by typing Ctrl+C in the terminal.</p>
 <div class="ulist">
 <ul>
 <li>
+<p><a href="https://docs.docker.com/engine/install/">Install Docker Engine</a></p>
+</li>
+<li>
 <p><a href="https://docs.docker.com/get-started/overview/">Docker overview</a></p>
 </li>
 <li>
@@ -2807,23 +2796,23 @@ Best practices for writing Dockerfiles</a></p>
 <ol>
 <li>
 <p><em>What is the difference between a VM and a container?</em></p>
-<p></p>
+<p>A VM emulates an entire machine including the operating system kernel while a container runs <em>within</em> the current operating system kernel. This makes containers <em>less</em> resource intensive than VMs.</p>
 </li>
 <li>
 <p><em>What is the difference between a Docker image and a Docker container?</em></p>
-<p></p>
+<p>A Docker image is a filesystem snapshot, but a Docker container is an actual up and running instance of a container. When you run the <code>docker ps</code> command it will show you what <em>containers</em> are <em>running</em>. When you run the <code>docker images</code> command it will show you what <em>images</em> and <em>available</em>.</p>
 </li>
 <li>
 <p><em>How would you run a shell on an already running container?</em></p>
-<p></p>
+<p><code>docker run -it &lt;container-id&gt; bash</code></p>
 </li>
 <li>
 <p><em>What does the <code>-d</code> option do when passed to the <code>docker run</code> command? When may you want to use it? When may you <em>not</em> want to use it?</em></p>
-<p></p>
+<p>It runs the container in the background. You may want to use it if you have a long running container answering requests, such as a database container. You may <em>not</em> want to use it if you are debugging something and you want to quickly see the container output as the container is running.</p>
 </li>
 <li>
 <p><em>What does Docker Compose do and how it is different from the <code>docker</code> command?</em></p>
-<p></p>
+<p>Docker Compose allows you to use a YAML to start up multiple containers with various options. This lets you build a multi-container system easily. The <code>docker</code> command is used to build/run individual containers.</p>
 </li>
 </ol>
 </div>

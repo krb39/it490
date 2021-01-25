@@ -70,9 +70,9 @@ os3 --> app3
 @enduml
 ----
 
-Every VM having to run its own OS creates and emulate a unique machine creates a
-lot of overhead. Containers allow for similar isolation as VMs, but at a reduced
-resource cost since. As opposed to VMs which emulate a physical machine,
+Every VM having to run its own OS and emulate a unique machine creates a lot of
+overhead. Containers allow for similar isolation as VMs, but at a reduced
+resource cost since ass opposed to VMs which emulate a physical machine,
 containers use
 https://en.wikipedia.org/wiki/Cgroups[control groups],
 https://en.wikipedia.org/wiki/Linux_namespaces[namespaces], and
@@ -127,15 +127,9 @@ operating system and hardware that you use:
 
 Windows::
 * https://hub.docker.com/?overlay=onboarding[Docker Desktop] should run fine
-  on any Windows system that has Hyper-V (a virtualization feature) available.
-* Windows 10 Home _does not_ have Hyper-V available, but you can easily
-  https://answers.microsoft.com/en-us/windows/forum/windows_10-update/how-to-convert-windows-10-home-to-education/5a6e42b0-51fc-4e53-9497-454c3adc671c?auth=1[
-  Upgrade to Windows 10 Education] (typically this is provided by your
-  University) and then instal it. This should be your first step if
-  Docker Desktop does not work out-of-the-box.
-* https://docs.docker.com/toolbox/[Docker Toolbox] is an older version of
-  Docker, running under a VM in VirtualBox. It can be difficult to work with
-  and Docker Desktop is preferred.
+  on any Windows system that supports
+  https://docs.microsoft.com/en-us/windows/wsl/install-win10[Windows Subsystem
+  for Linux 2 (WSL2)].
 Mac::
 * https://hub.docker.com/?overlay=onboarding>[Docker Desktop] should run fine
   on most Macs. We will be running it from the terminal so do not be alarmed if
@@ -229,7 +223,7 @@ build::
 Builds the Dockerfile in the directory specified into an image.
 
 WARNING: It is easy to forget that the build command takes an option as that
-option is sometimes the current directory: `.`. Don't forget the period at the
+option is sometimes the current directory. Don't forget the period at the
 end of a `docker build .` command.
 
 NOTE: Both the `run` and `exec` commands need to be passed the `-it` option if
@@ -489,6 +483,7 @@ are all done we can close things down with by typing Ctrl+C in the terminal.
 
 == Resources
 
+* https://docs.docker.com/engine/install/[Install Docker Engine]
 * https://docs.docker.com/get-started/overview/[Docker overview]
 * https://docs.docker.com/get-started/[Docker Quickstart]
 * https://docs.docker.com/develop/develop-images/dockerfile_best-practices/[
@@ -500,12 +495,12 @@ Best practices for writing Dockerfiles]
 
 [qanda]
 What is the difference between a VM and a container?::
-    {empty}
+    A VM emulates an entire machine including the operating system kernel while a container runs _within_ the current operating system kernel. This makes containers _less_ resource intensive than VMs.
 What is the difference between a Docker image and a Docker container?::
-    {empty}
+    A Docker image is a filesystem snapshot, but a Docker container is an actual up and running instance of a container. When you run the `docker ps` command it will show you what _containers_ are _running_. When you run the `docker images` command it will show you what _images_ and _available_.
 How would you run a shell on an already running container?::
-    {empty}
+    `docker run -it <container-id> bash`
 What does the `-d` option do when passed to the `docker run` command? When may you want to use it? When may you _not_ want to use it?::
-    {empty}
+    It runs the container in the background. You may want to use it if you have a long running container answering requests, such as a database container. You may _not_ want to use it if you are debugging something and you want to quickly see the container output as the container is running. 
 What does Docker Compose do and how it is different from the `docker` command?::
-    {empty}
+    Docker Compose allows you to use a YAML to start up multiple containers with various options. This lets you build a multi-container system easily. The `docker` command is used to build/run individual containers.
