@@ -31,7 +31,7 @@ available. Use the following questions to guide your proposal:
 * Why would people be willing to pay money for your service?
 * Who would be willing to pay money for your service?
 
-Here is an example that you can _not_ use:
+Here are a couple of examples that you can _not_ use:
 
 .Project Proposal
 ====
@@ -44,6 +44,18 @@ demographic is busy professionals who are comfortable using technology. Since
 they already use services like Google Calendar for keeping track of their
 events, why not try using a service that will suggest upcoming events? The time
 they save planning would easily be worth the cost of the service.
+====
+
+.Project Proposal
+====
+A wealth of 18th century recipes can be found at
+https://savoringthepast.net/category/18th-century-cooking/[Savoring the Past].
+My group will create a web application that lets you put in your ingredients,
+your cooking technique (open fire, dutch oven, brink oven, etc.) and see what
+recipes you could cook. This app would be useful to historical enthusiasts who
+may not have time to look through all of the recipes, but still wish to use a
+an old time recipe. Currently it is very difficult to search through all the
+information and this can be intimidating for a new chef.
 ====
 
 == Milestones

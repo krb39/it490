@@ -990,7 +990,7 @@ available. Use the following questions to guide your proposal:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Here is an example that you can <em>not</em> use:</p>
+<p>Here are a couple of examples that you can <em>not</em> use:</p>
 </div>
 <div class="exampleblock">
 <div class="title">Example 1. Project Proposal</div>
@@ -1005,6 +1005,21 @@ demographic is busy professionals who are comfortable using technology. Since
 they already use services like Google Calendar for keeping track of their
 events, why not try using a service that will suggest upcoming events? The time
 they save planning would easily be worth the cost of the service.</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Project Proposal</div>
+<div class="content">
+<div class="paragraph">
+<p>A wealth of 18th century recipes can be found at
+<a href="https://savoringthepast.net/category/18th-century-cooking/">Savoring the Past</a>.
+My group will create a web application that lets you put in your ingredients,
+your cooking technique (open fire, dutch oven, brink oven, etc.) and see what
+recipes you could cook. This app would be useful to historical enthusiasts who
+may not have time to look through all of the recipes, but still wish to use a
+an old time recipe. Currently it is very difficult to search through all the
+information and this can be intimidating for a new chef.</p>
 </div>
 </div>
 </div>
@@ -1262,7 +1277,7 @@ change a group of files and revert to a previous state if needed.</p>
 consider a few examples:</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 2. Programming Project</div>
+<div class="title">Example 3. Programming Project</div>
 <div class="content">
 <div class="paragraph">
 <p>You are working on a project for your CS101 class and you need to write a
@@ -1280,7 +1295,7 @@ What do you do now?</p>
 you changed and even roll-back your changes.</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 3. Working with a Team</div>
+<div class="title">Example 4. Working with a Team</div>
 <div class="content">
 <div class="paragraph">
 <p>You are working working with a team of people to build a complex system that
@@ -2156,7 +2171,7 @@ applications can run. This allows the application to have a completely custom
 environment and ultimately makes it easier to deploy.</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 4. Maintaining a Legacy Application</div>
+<div class="title">Example 5. Maintaining a Legacy Application</div>
 <div class="content">
 <div class="paragraph">
 <p>Prithi is in charge of maintaining a payroll system that uses Perl, a web
@@ -3094,29 +3109,41 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <ol>
 <li>
 <p><em>Why would a project choose to use a messaging framework?</em></p>
-<p></p>
+<p>A messaging framework allows you to build components and not have to worry about the minutiae of how they will interface with other components. Messaging libraries are available for most languages and are easy to integrate. Using a messaging framework also allows you to perform auditing to better analyze your application.</p>
 </li>
 <li>
 <p><em>What is caching and what are its benefits?</em></p>
-<p></p>
+<p>Caching stores a known result for a particular input. This allows you to quickly return a result without having to do the back end work that may typically be required. It can provide greater responsiveness for common client message flows.</p>
 </li>
 <li>
 <p><em>What is AMQP?</em></p>
-<p></p>
+<p>AMQP is a standard and open messaging protocol used by many messaging frameworks and client libraries.</p>
 </li>
 <li>
 <p><em>How can you specify that you want to enable the management interface in the official RabbitMQ Docker image?</em></p>
-<p></p>
+<p>You need to use the management image as specified in the version name: <code>rabbitmq:3.8</code> vs <code>rabbitmq:3.8-management</code>.</p>
 </li>
 <li>
 <p><em>Why should you change the RabbitMQ default password and how do you change it?</em></p>
-<p></p>
+<p>Even though your internal Docker network will not be exposed to the outside world, it is still a good practice to set a RabbitMQ password that is different from the default. This can be done by changing the <code>RABBITMQ_DEFAULT_PASS</code> environment variable on the <strong>Messaging</strong> container.</p>
 </li>
 <li>
 <p><em>How would you start up a RabbitMQ instance in Docker Compose, with the same options we used in the example?</em></p>
-<p></p>
 </li>
 </ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml">  <span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3'</span>
+  <span class="na">services</span><span class="pi">:</span>
+    <span class="na">messaging</span><span class="pi">:</span>
+      <span class="na">image</span><span class="pi">:</span> <span class="s1">'</span><span class="s">rabbitmq:3-management'</span>
+      <span class="na">environment</span><span class="pi">:</span>
+        <span class="na">RABBITMQ_DEFAULT_USER</span><span class="pi">:</span> <span class="s">example</span>
+        <span class="na">RABBITMQ_DEFAULT_PASS</span><span class="pi">:</span> <span class="s">example</span>
+      <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">15672:15672</span></code></pre>
+</div>
 </div>
 </div>
 </div>

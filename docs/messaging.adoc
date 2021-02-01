@@ -212,14 +212,25 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 [qanda]
 Why would a project choose to use a messaging framework?::
-    {empty}
+  A messaging framework allows you to build components and not have to worry about the minutiae of how they will interface with other components. Messaging libraries are available for most languages and are easy to integrate. Using a messaging framework also allows you to perform auditing to better analyze your application.
 What is caching and what are its benefits?::
-    {empty}
+  Caching stores a known result for a particular input. This allows you to quickly return a result without having to do the back end work that may typically be required. It can provide greater responsiveness for common client message flows.
 What is AMQP?::
-    {empty}
+  AMQP is a standard and open messaging protocol used by many messaging frameworks and client libraries.
 How can you specify that you want to enable the management interface in the official RabbitMQ Docker image?::
-    {empty}
+  You need to use the management image as specified in the version name: `rabbitmq:3.8` vs `rabbitmq:3.8-management`.
 Why should you change the RabbitMQ default password and how do you change it?::
-    {empty}
+  Even though your internal Docker network will not be exposed to the outside world, it is still a good practice to set a RabbitMQ password that is different from the default. This can be done by changing the `RABBITMQ_DEFAULT_PASS` environment variable on the *Messaging* container.
 How would you start up a RabbitMQ instance in Docker Compose, with the same options we used in the example?::
-    {empty}
+[source, yaml]
+----
+  version: '3'
+  services:
+    messaging:
+      image: 'rabbitmq:3-management'
+      environment:
+        RABBITMQ_DEFAULT_USER: example
+        RABBITMQ_DEFAULT_PASS: example
+      ports:
+        - 15672:15672
+----
