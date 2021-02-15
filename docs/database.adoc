@@ -314,7 +314,7 @@ volumes anymore!
 
 [qanda]
 What is the difference between persistent and ephemeral data?::
-    {empty}
+    Persistent data is data that is stored for a long time, it survices container restarts. Ephemeral data is data that only lasts for the life of the container.
 What is a Docker volume and why should a containerized RDMS use it?::
     {empty}
 Pick one RDMS from the <<Popular RDMS, list above>>. What are the advantages of this particular RDMS over the others?::
